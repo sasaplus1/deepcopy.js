@@ -1,0 +1,22 @@
+{
+  "name": "deepcopy",
+  "version": "0.1.0",
+  "author": "sasa+1 <sasaplus1@gmail.com>",
+  "description": "deep copy module for node.js",
+  "main": "./index.js",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sasaplus1/deepcopy.git"
+  },
+  "scripts": {
+    "lint": "gjslint --strict --nojsdoc -r ./lib",
+    "test": "NODE_ENV=test ./node_modules/.bin/mocha"
+  },
+  "devDependencies": {
+    "chai": "~1.4",
+    "mocha": "~1.8",
+    "sinon": "~1.5"
+  }
+}

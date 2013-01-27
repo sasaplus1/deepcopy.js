@@ -1,5 +1,4 @@
-var assert = require('chai').assert,
-    sinon = require('sinon'),
+var assert = require('assert'),
     deepcopy = require('../');
 
 suite('deepcopyのテスト', function() {
@@ -108,7 +107,7 @@ suite('deepcopyのテスト', function() {
     });
 
     test('循環参照でRangeErrorが投げられること', function() {
-      assert.throw(function() {
+      assert.throws(function() {
         var a = {},
             b = {};
 
@@ -116,7 +115,7 @@ suite('deepcopyのテスト', function() {
         b.to = a;
 
         return deepcopy(a);
-      }, RangeError, 'Maximum call stack size exceeded');
+      }, RangeError);
     });
 
   });

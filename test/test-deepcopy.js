@@ -64,7 +64,7 @@ suite('deepcopyのテスト', function() {
       assert.notStrictEqual(copiedObj, obj,
           'copied value (Object) is not equal instance of target.');
       assert.deepEqual(copiedObj, obj,
-          'deepcopy(Object) should be return RegExp');
+          'deepcopy(Object) should be return Object');
     });
 
     test('Arrayのコピーができること', function() {
@@ -82,7 +82,7 @@ suite('deepcopyのテスト', function() {
       assert.notStrictEqual(copiedArr, arr,
           'copied value (Array) is not equal instance of target.');
       assert.deepEqual(copiedArr, arr,
-          'deepcopy(Array) should be return RegExp');
+          'deepcopy(Array) should be return Array');
     });
 
     test('ObjectとArrayがコピーできること', function() {
@@ -103,7 +103,7 @@ suite('deepcopyのテスト', function() {
       assert.notStrictEqual(copiedObj, obj,
           'copied value (Object) is not equal instance of target.');
       assert.deepEqual(copiedObj, obj,
-          'deepcopy(Object) should be return RegExp');
+          'deepcopy(Object) should be return Object');
     });
 
     test('循環参照でRangeErrorが投げられること', function() {

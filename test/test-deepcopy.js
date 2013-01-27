@@ -1,5 +1,4 @@
-var assert = require('chai').assert,
-    sinon = require('sinon'),
+var assert = require('assert'),
     deepcopy = require('../');
 
 suite('deepcopyのテスト', function() {
@@ -65,7 +64,7 @@ suite('deepcopyのテスト', function() {
       assert.notStrictEqual(copiedObj, obj,
           'copied value (Object) is not equal instance of target.');
       assert.deepEqual(copiedObj, obj,
-          'deepcopy(Object) should be return RegExp');
+          'deepcopy(Object) should be return Object');
     });
 
     test('Arrayのコピーができること', function() {
@@ -83,7 +82,7 @@ suite('deepcopyのテスト', function() {
       assert.notStrictEqual(copiedArr, arr,
           'copied value (Array) is not equal instance of target.');
       assert.deepEqual(copiedArr, arr,
-          'deepcopy(Array) should be return RegExp');
+          'deepcopy(Array) should be return Array');
     });
 
     test('ObjectとArrayがコピーできること', function() {
@@ -104,11 +103,11 @@ suite('deepcopyのテスト', function() {
       assert.notStrictEqual(copiedObj, obj,
           'copied value (Object) is not equal instance of target.');
       assert.deepEqual(copiedObj, obj,
-          'deepcopy(Object) should be return RegExp');
+          'deepcopy(Object) should be return Object');
     });
 
     test('循環参照でRangeErrorが投げられること', function() {
-      assert.throw(function() {
+      assert.throws(function() {
         var a = {},
             b = {};
 
@@ -116,7 +115,7 @@ suite('deepcopyのテスト', function() {
         b.to = a;
 
         return deepcopy(a);
-      }, RangeError, 'Maximum call stack size exceeded');
+      }, RangeError);
     });
 
   });

@@ -11,67 +11,65 @@ $ npm install deepcopy
 ## Usage
 
 ```js
-var util = require('util'),
-    deepcopy = require('deepcopy');
+var deepcopy = require('deepcopy');
 
-var copied,
-    obj = {
-      num: 123,
-      str: 'a',
-      bool: false,
-      nil: null,
-      undef: undefined,
-      now: new Date,
-      reg: /node/ig,
-      arr: [
-        true, false, null
-      ],
-      obj: {
-        aaa: 1,
-        bbb: 2,
-        ccc: 3
-      }
-    };
+var source = {
+  data: {
+    num: 123,
+    str: 'a',
+    now: new Date,
+    reg: /node/ig,
+    arr: [ true, false, null, undefined ],
+    obj: { aaa: 1, bbb: 2, ccc: 3 }
+  }
+};
 
-copied = deepcopy(obj);
+var shallow = source,
+    deep = deepcopy(source);
 
-obj.num = 555;
-obj.str = 'A';
-obj.bool = true;
+delete source.data;
 
-console.log(copied === obj);  // false
+console.dir(source);
+// {}
+console.dir(shallow);
+// {}
+console.dir(deep);
+// { data:
+//    { num: 123,
+//      str: 'a',
+//      now: Sun Jan 27 2013 23:31:12 GMT+0900 (JST),
+//      reg: /node/gi,
+//      arr: [ true, false, null, undefined ],
+//      obj: { aaa: 1, bbb: 2, ccc: 3 } } }
+```
 
-console.log(util.inspect(obj, false, null, true));
-// { num: 555,
-//   str: 'A',
-//   bool: true,
-//   nil: null,
-//   undef: undefined,
-//   now: Sat Jan 26 2013 00:21:37 GMT+0900 (JST),
-//   reg: /node/gi,
-//   arr: [ true, false, null ],
-//   obj: { aaa: 1, bbb: 2, ccc: 3 } }
+```js
+var deepcopy = require('deepcopy');
 
-console.log(util.inspect(copied, false, null, true));
-// { num: 123,
-//   str: 'a',
-//   bool: false,
-//   nil: null,
-//   undef: undefined,
-//   now: Sat Jan 26 2013 00:21:37 GMT+0900 (JST),
-//   reg: /node/gi,
-//   arr: [ true, false, null ],
-//   obj: { aaa: 1, bbb: 2, ccc: 3 } }
+var a = {},
+    b = {};
+
+a.to = b;
+b.to = a;
+
+try {
+  deepcopy(a);
+} catch (e) {
+  console.error(e);  // [RangeError: Maximum call stack size exceeded]
+}
 ```
 
 ## Functions
 
 ### deepcopy(targetObject)
 
-  * `targetObject` any types - deep copy target
-  * `return` `targetObject` types - copied object
+  * `targetObject` any types - copy target
+  * `return` targetObject types - copied value
 
-return deep copied object from targetObject.
+return deep copy if `targetObject` is Date, RegExp or primitive types.
+return shallow copy if `targetObject` is function.
+
+this function throws RangeError if targetObject has circular reference.
 
 ## Test
 

@@ -1,3 +1,7 @@
+# 0.1.2 / 2013-03-29
+
+  - added support for node.js 0.10
+
 # 0.1.1 / 2013-01-28
 
   - deleted chai and sinon

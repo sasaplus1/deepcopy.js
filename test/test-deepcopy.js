@@ -1,123 +1,167 @@
 var assert = require('assert'),
     deepcopy = require('../');
 
-suite('deepcopyのテスト', function() {
+suite('deepcopy', function() {
 
-  test('プリミティブ型と関数はそのまま返すこと', function() {
-    assert.strictEqual(deepcopy(1234), 1234,
-        'deepcopy(1234) should be return 1234');
-    assert.strictEqual(deepcopy('aa'), 'aa',
-        'deepcopy("aa") should be return "aa"');
-    assert.strictEqual(deepcopy(true), true,
-        'deepcopy(true) should be return true');
-    assert.strictEqual(deepcopy(null), null,
-        'deepcopy(null) should be return null');
-    assert.strictEqual(deepcopy(void 0), void 0,
-        'deepcopy(undefined) should be return undefined');
-    assert.strictEqual(deepcopy(func), func,
-        'deepcopy(function) should be return function');
-
-    function func() {}
-  });
-
-  test('DateとRegExpはディープコピーをして返すこと', function() {
-    var date = new Date,
-        regexp = /regexp/ig,
-        deepCopiedDate = deepcopy(date),
-        deepCopiedRegExp = deepcopy(regexp);
-
-    assert.notStrictEqual(deepCopiedDate, date,
-        'copied value (Date) is not equal instance of target.');
-    assert.notStrictEqual(deepCopiedRegExp, regexp,
-        'copied value (RegExp) is not equal instance of target.');
-    assert.deepEqual(deepCopiedDate, date,
-        'deepcopy(Date) should be return Date');
-    assert.deepEqual(deepCopiedRegExp, regexp,
-        'deepcopy(RegExp) should be return RegExp');
-  });
-
-  test('RegExpが正常に生成できていること', function() {
-    assert.deepEqual(new RegExp('', ''), deepcopy(new RegExp('', ''),
-        'deepcopy(RegExp) should be return RegExp'));
-    assert.deepEqual(new RegExp('a', ''), deepcopy(new RegExp('a', ''),
-        'deepcopy(RegExp) should be return RegExp'));
-    assert.deepEqual(new RegExp('', 'i'), deepcopy(new RegExp('', 'i'),
-        'deepcopy(RegExp) should be return RegExp'));
-    assert.deepEqual(new RegExp('!', 'ig'), deepcopy(new RegExp('!', 'ig'),
-        'deepcopy(RegExp) should be return RegExp'));
-  });
-
-  suite('ObjectとArrayのディープコピーに関するテスト', function() {
-
-    test('Objectのコピーができること', function() {
-      var obj = {
-        num: 123,
-        str: 'a',
-        bool: true,
-        nil: null,
-        undef: void 0,
-        now: new Date,
-        reg: /node/ig
-      },
-          copiedObj = deepcopy(obj);
-
-      assert.notStrictEqual(copiedObj, obj,
-          'copied value (Object) is not equal instance of target.');
-      assert.deepEqual(copiedObj, obj,
-          'deepcopy(Object) should be return Object');
-    });
-
-    test('Arrayのコピーができること', function() {
-      var arr = [
-        321,
-        'b',
-        false,
+  test('return copy of parameter if parameter is primitive types', function() {
+    assert.strictEqual(
+        deepcopy(12345),
+        12345,
+        'deepcopy(12345) should be returned 12345');
+    assert.strictEqual(
+        deepcopy('abc'),
+        'abc',
+        'deepcopy("abc") should be returned "abc"');
+    assert.strictEqual(
+        deepcopy(true),
+        true,
+        'deepcopy(true) should be returned true');
+    assert.strictEqual(
+        deepcopy(null),
         null,
+        'deepcopy(null) should be returned null');
+    assert.strictEqual(
+        deepcopy(void 0),
         void 0,
-        new Date,
-        /node/ig
+        'deepcopy(undefined) should be returned undefined');
+  });
+
+  test('return reference if parameter is Function', function() {
+    var copied = deepcopy(f);
+
+    function f() {}
+
+    assert.isTrue(
+        copied instanceof Function,
+        'instance should be Function');
+    assert.strictEqual(
+        copied,
+        f,
+        'deepcopy(function() {}) should be returned function() {} reference');
+  });
+
+  test('return deep copy of Date if parameter is Date', function() {
+    var date = new Date,
+        copied = deepcopy(date);
+
+    assert.isTrue(
+        copied instanceof Date,
+        'instance should be Date');
+    assert.notStrictEqual(
+        copied,
+        date,
+        'deepcopy(date) should not be return date reference');
+    assert.deepEqual(
+        copied,
+        date,
+        'deepcopy(date) should be return deep copied date');
+  });
+
+  test('return deep copy of RegExp if parameter is RegExp', function() {
+    var regexp = /\x00/gi,
+        copied = deepcopy(regexp);
+
+    assert.isTrue(
+        copied instanceof RegExp,
+        'instance should be RegExp');
+    assert.notStrictEqual(
+        copied,
+        regexp,
+        'deepcopy(regexp) should not be return regexp reference');
+    assert.deepEqual(
+        copied,
+        regexp,
+        'deepcopy(regexp) should be return deep copied regexp');
+  });
+
+  test('return deep copy of Array if parameter is Array', function() {
+    var array = [
+      12345,
+      'abc',
+      false,
+      null,
+      void 0,
+      function() {},
+      new Date,
+      /\x00/ig,
+      [1, 'a', true, null, void 0, function() {}, new Date, /\x00/ig],
+      {
+        array: [
+          1, 'a', true, null, void 0, function() {}, new Date, /\x00/ig
+        ]
+      }
+    ],
+        copied = deepcopy(array);
+
+    assert.isTrue(
+        copied instanceof Array,
+        'instance should be Array');
+    assert.notStrictEqual(
+        copied,
+        array,
+        'deepcopy(array) should not be return array reference');
+    assert.deepEqual(
+        copied,
+        array,
+        'deepcopy(array) should be return deep copied array');
+  });
+
+  test('return deep copy of Object if parameter is Object', function() {
+    var object = {
+      number: 12345,
+      string: 'abc',
+      boolean: false,
+      nil: null,
+      undef: void 0,
+      func: function() {},
+      date: new Date,
+      regexp: /\x00/ig,
+      array: [
+        1, 'a', true, null, void 0, function() {}, new Date, /\x00/ig
       ],
-          copiedArr = deepcopy(arr);
+      object: {
+        a: 1, b: 'a', c: true, d: null, e: void 0, f: function() {}
+      }
+    },
+        copied = deepcopy(object);
 
-      assert.notStrictEqual(copiedArr, arr,
-          'copied value (Array) is not equal instance of target.');
-      assert.deepEqual(copiedArr, arr,
-          'deepcopy(Array) should be return Array');
-    });
+    assert.isTrue(
+        copied instanceof Object,
+        'instance should be Object');
+    assert.notStrictEqual(
+        copied,
+        object,
+        'deepcopy(object) should not be return object reference');
+    assert.deepEqual(
+        copied,
+        object,
+        'deepcopy(object) should be return deep copied object');
+  });
 
-    test('ObjectとArrayがコピーできること', function() {
-      var obj = {
-        arr: [
-          {a: [1, 2, 3], b: ['a', 'b', 'c'], c: [true, false, null, void 0]},
-          {a: [1, 2, 3], b: ['a', 'b', 'c'], c: [true, false, null, void 0]},
-          {a: [1, 2, 3], b: ['a', 'b', 'c'], c: [true, false, null, void 0]}
-        ],
-        obj: {
-          a: [{a: 573}, {b: 'b'}, {c: false}],
-          b: [{a: 573}, {b: 'b'}, {c: false}],
-          c: [{a: 573}, {b: 'b'}, {c: false}]
-        }
-      },
-          copiedObj = deepcopy(obj);
+  test('return object if parameter has circular reference', function() {
+    assert.doesNotThrow(
+        function() {
+          var object = { value: 1 },
+              copied;
 
-      assert.notStrictEqual(copiedObj, obj,
-          'copied value (Object) is not equal instance of target.');
-      assert.deepEqual(copiedObj, obj,
-          'deepcopy(Object) should be return Object');
-    });
+          object.to = object;
+          copied = deepcopy(object);
 
-    test('循環参照でRangeErrorが投げられること', function() {
-      assert.throws(function() {
-        var a = {},
-            b = {};
-
-        a.to = b;
-        b.to = a;
-
-        return deepcopy(a);
-      }, RangeError);
-    });
-
+          assert.notStrictEqual(
+              copied,
+              object,
+              'deepcopy should not be return object reference');
+          assert.strictEqual(
+              copied,
+              copied.to,
+              'deepcopy should be assigned copied.to to copied');
+          assert.deepEqual(
+              copied,
+              object,
+              'deepcopy should be return deep copied object');
+        },
+        'deepcopy should not be threw error if parameter has circular ' +
+            'reference');
   });
 
 });

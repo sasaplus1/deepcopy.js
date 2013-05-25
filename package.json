@@ -16,6 +16,7 @@
     "test": "NODE_ENV=test ./node_modules/.bin/mocha"
   },
   "devDependencies": {
+    "chai": "~1.6",
     "mocha": "~1.10"
   }
 }

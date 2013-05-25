@@ -1,4 +1,4 @@
-var assert = require('assert'),
+var assert = require('chai').assert,
     deepcopy = require('../');
 
 suite('deepcopy', function() {
@@ -138,6 +138,8 @@ suite('deepcopy', function() {
         'deepcopy(object) should be return deep copied object');
   });
 
+  // built-in assert module is cannot test object if object has circular
+  // reference. chai has support for circular reference.
   test('return object if parameter has circular reference', function() {
     assert.doesNotThrow(
         function() {

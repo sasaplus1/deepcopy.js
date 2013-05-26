@@ -15,14 +15,26 @@ var deepcopy = require('deepcopy');
 
 var source = {
   data: {
-    num: 123,
-    str: 'a',
-    now: new Date,
-    reg: /node/ig,
-    arr: [ true, false, null, undefined ],
-    obj: { aaa: 1, bbb: 2, ccc: 3 }
+    number: 123,
+    string: 'a',
+    boolean: true,
+    null: null,
+    undefined: undefined,
+    date: new Date,
+    regexp: /regexp/ig,
+    array: [
+      [ 123, 'abc', false ],
+      [ new Date, /node/i ],
+      { array: [] }
+    ],
+    object: {
+      number: 123, string: 'abc', boolean: false
+    },
+    to: undefined
   }
 };
+
+source.data.to = source;
 
 var shallow = source,
     deep = deepcopy(source);
@@ -33,43 +45,35 @@ console.dir(source);
 // {}
 console.dir(shallow);
 // {}
-console.dir(deep);
+console.log(
+    require('util').inspect(deep, {depth: null}));
 // { data:
-//    { num: 123,
-//      str: 'a',
-//      now: Sun Jan 27 2013 23:31:12 GMT+0900 (JST),
-//      reg: /node/gi,
-//      arr: [ true, false, null, undefined ],
-//      obj: { aaa: 1, bbb: 2, ccc: 3 } } }
-```
-
-```js
-var deepcopy = require('deepcopy');
-
-var a = {},
-    b = {};
-
-a.to = b;
-b.to = a;
-
-try {
-  deepcopy(a);
-} catch (e) {
-  console.error(e);  // [RangeError: Maximum call stack size exceeded]
-}
+//    { number: 123,
+//      string: 'a',
+//      boolean: true,
+//      null: null,
+//      undefined: undefined,
+//      date: Sun May 26 2013 16:16:32 GMT+0900 (JST),
+//      regexp: /regexp/gi,
+//      array:
+//       [ [ 123, 'abc', false ],
+//         [ Sun May 26 2013 16:16:32 GMT+0900 (JST), /node/i ],
+//         { array: [] } ],
+//      object: { number: 123, string: 'abc', boolean: false },
+//      to: [Circular] } }
 ```
 
 ## Functions
 
-### deepcopy(targetObject)
+### deepcopy(target)
 
-  * `targetObject` any types - copy target
-  * `return` targetObject types - copied value
+get deep copy of target.
 
-return deep copy if `targetObject` is Date, RegExp or primitive types.
-return shallow copy if `targetObject` is function.
+return deep copy if target is Date, RegExp or primitive types.
+return shallow copy if target is function.
 
-this function throws RangeError if targetObject has circular reference.
+do recursive copy if target is Array or Object.
+also can copy if target has circular reference.
 
 ## Test
 

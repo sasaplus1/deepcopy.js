@@ -1,6 +1,6 @@
 {
   "name": "deepcopy",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "author": "sasa+1 <sasaplus1@gmail.com>",
   "description": "deep copy module for node.js",
   "main": "./index.js",
@@ -11,10 +11,12 @@
     "url": "https://github.com/sasaplus1/deepcopy.git"
   },
   "scripts": {
+    "fix": "fixjsstyle --strict --nojsdoc -r ./lib -r ./test",
     "lint": "gjslint --strict --nojsdoc -r ./lib -r ./test",
     "test": "NODE_ENV=test ./node_modules/.bin/mocha"
   },
   "devDependencies": {
-    "mocha": "~1.8"
+    "chai": "~1.6",
+    "mocha": "~1.10"
   }
 }

@@ -11,8 +11,8 @@
     "url": "https://github.com/sasaplus1/deepcopy.git"
   },
   "scripts": {
-    "fix": "fixjsstyle --strict --nojsdoc -r ./lib -r ./test",
-    "lint": "gjslint --strict --nojsdoc -r ./lib -r ./test",
+    "fix": "fixjsstyle --strict --nojsdoc -r ./lib -r ./test ./inedx.js",
+    "lint": "gjslint --strict --nojsdoc -r ./lib -r ./test ./index.js",
     "test": "NODE_ENV=test ./node_modules/.bin/mocha"
   },
   "devDependencies": {

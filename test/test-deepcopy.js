@@ -1,5 +1,12 @@
-var assert = require('chai').assert,
-    deepcopy = require('../');
+var assert, deepcopy;
+
+if (typeof module !== 'undefined') {
+  assert = require('chai').assert;
+  deepcopy = require('../');
+} else {
+  assert = chai.assert;
+  deepcopy = window.deepcopy;
+}
 
 suite('deepcopy', function() {
 

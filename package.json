@@ -2,7 +2,7 @@
   "name": "deepcopy",
   "version": "0.2.0",
   "author": "sasa+1 <sasaplus1@gmail.com>",
-  "description": "deep copy module for node.js",
+  "description": "library of deep copy",
   "main": "./index.js",
   "license": "MIT",
   "readmeFilename": "README.md",

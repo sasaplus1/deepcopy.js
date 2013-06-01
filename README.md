@@ -1,12 +1,16 @@
-# deepcopy [![Build Status](https://travis-ci.org/sasaplus1/deepcopy.png)](https://travis-ci.org/sasaplus1/deepcopy)
+# deepcopy.js [![Build Status](https://travis-ci.org/sasaplus1/deepcopy.js.png)](https://travis-ci.org/sasaplus1/deepcopy.js)
 
-deep copy module for node.js
+library of deep copy
 
 ## Installation
 
-```sh
-$ npm install deepcopy
-```
+### npm
+
+    $ npm install deepcopy
+
+### bower
+
+    $ bower install deepcopy
 
 ## Usage
 
@@ -67,6 +71,9 @@ console.log(
 
 ### deepcopy(target)
 
+* `target` any types - target of copy
+* `return` any types - copied object from target
+
 get deep copy of target.
 
 return deep copy if target is Date, RegExp or primitive types.
@@ -77,10 +84,17 @@ also can copy if target has circular reference.
 
 ## Test
 
-```sh
-$ npm install
-$ npm test
-```
+### test for node.js
+
+    $ npm install
+    $ npm test
+
+### test for browser
+
+    $ npm install
+    $ npm run-script mini
+    $ npm run-script bower
+    $ npm run-script testem
 
 ## License
 

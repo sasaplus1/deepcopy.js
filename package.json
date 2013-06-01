@@ -1,22 +1,28 @@
 {
   "name": "deepcopy",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": "sasa+1 <sasaplus1@gmail.com>",
-  "description": "deep copy module for node.js",
+  "description": "library of deep copy",
   "main": "./index.js",
   "license": "MIT",
   "readmeFilename": "README.md",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sasaplus1/deepcopy.git"
+    "url": "https://github.com/sasaplus1/deepcopy.js.git"
   },
   "scripts": {
-    "fix": "fixjsstyle --strict --nojsdoc -r ./lib -r ./test",
-    "lint": "gjslint --strict --nojsdoc -r ./lib -r ./test",
-    "test": "NODE_ENV=test ./node_modules/.bin/mocha"
+    "bower": "./node_modules/.bin/bower install",
+    "fix": "fixjsstyle --strict --nojsdoc -r ./lib -r ./test ./inedx.js",
+    "lint": "gjslint --strict --nojsdoc -r ./lib -r ./test ./index.js",
+    "mini": "./node_modules/.bin/uglifyjs ./lib/deepcopy.js --comments -cmr deepcopy -o ./deepcopy.min.js",
+    "test": "./node_modules/.bin/mocha",
+    "testem": "./node_modules/.bin/testem ci"
   },
   "devDependencies": {
+    "bower": "~0.9",
     "chai": "~1.6",
-    "mocha": "~1.10"
+    "mocha": "~1.10",
+    "testem": "~0.2",
+    "uglify-js": "~2.3"
   }
 }

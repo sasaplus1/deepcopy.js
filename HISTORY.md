@@ -1,3 +1,8 @@
+# 0.3.0 / 2013-06-01
+
+  - added support for browser
+  - changed repository name to deepcopy.js from deepcopy
+
 # 0.2.0 / 2013-05-26
 
   - added support for circular reference

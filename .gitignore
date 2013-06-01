@@ -1,4 +1,5 @@
 npm-debug.log
 .DS_Store
 .*.swp
+components/
 node_modules/

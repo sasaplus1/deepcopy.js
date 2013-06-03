@@ -92,7 +92,6 @@ also can copy if target has circular reference.
 ### test for browser
 
     $ npm install
-    $ npm run-script mini
     $ npm run-script bower
     $ npm run-script testem
 

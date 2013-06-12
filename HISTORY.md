@@ -1,3 +1,7 @@
+# 0.3.1 / 2013-06-12
+
+  - changed from Array#indexOf to indexOfArray
+
 # 0.3.0 / 2013-06-01
 
   - added support for browser

@@ -1,3 +1,7 @@
 {
-  "test_page": "./test/test-deepcopy.html"
+  "test_page": "./test/test-deepcopy.html",
+  "launch_in_ci": [
+    "Firefox",
+    "PhantomJS"
+  ]
 }

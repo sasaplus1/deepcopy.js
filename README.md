@@ -1,4 +1,7 @@
-# deepcopy.js [![Build Status](https://travis-ci.org/sasaplus1/deepcopy.js.png)](https://travis-ci.org/sasaplus1/deepcopy.js)
+# deepcopy.js
+
+[![Build Status](https://travis-ci.org/sasaplus1/deepcopy.js.png)](https://travis-ci.org/sasaplus1/deepcopy.js)
+[![Dependency Status](https://gemnasium.com/sasaplus1/deepcopy.js.png)](https://gemnasium.com/sasaplus1/deepcopy.js)
 
 library of deep copy
 
@@ -92,7 +95,6 @@ also can copy if target has circular reference.
 ### test for browser
 
     $ npm install
-    $ npm run-script mini
     $ npm run-script bower
     $ npm run-script testem
 

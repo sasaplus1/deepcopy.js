@@ -4,4 +4,6 @@
  * Released under the MIT License.
  */
 
+
+/** export deepcopy function. */
 module.exports = require('./lib/deepcopy');

@@ -146,7 +146,7 @@ suite('deepcopy', function() {
   });
 
   // built-in assert module is cannot test object if object has circular
-  // reference. chai has support for circular reference.
+  // reference. chai supporting circular reference.
   test('return object if parameter has circular reference', function() {
     assert.doesNotThrow(
         function() {

@@ -10,6 +10,6 @@
   "devDependencies": {
     "chai": "~1.6",
     "jquery": "~2.0",
-    "mocha": "~1.9"
+    "mocha": "~1.11"
   }
 }

@@ -21,7 +21,7 @@
   "devDependencies": {
     "bower": "~0.9",
     "chai": "~1.6",
-    "mocha": "~1.10",
+    "mocha": "~1.11",
     "testem": "~0.2",
     "uglify-js": "~2.3"
   }

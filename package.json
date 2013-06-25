@@ -11,12 +11,12 @@
     "url": "https://github.com/sasaplus1/deepcopy.js.git"
   },
   "scripts": {
-    "bower": "./node_modules/.bin/bower install",
+    "bower": "bower install",
     "fix": "fixjsstyle --strict --nojsdoc -r ./lib -r ./test ./inedx.js",
     "lint": "gjslint --strict --nojsdoc -r ./lib -r ./test ./index.js",
-    "mini": "./node_modules/.bin/uglifyjs ./lib/deepcopy.js --comments -cmr deepcopy -o ./deepcopy.min.js",
-    "test": "./node_modules/.bin/mocha",
-    "testem": "./node_modules/.bin/testem ci"
+    "mini": "uglifyjs ./lib/deepcopy.js --comments -cmr deepcopy -o ./deepcopy.min.js",
+    "test": "mocha",
+    "testem": "testem ci"
   },
   "devDependencies": {
     "bower": "~0.9",

@@ -1,15 +1,14 @@
 {
   "name": "deepcopy",
-  "version": "0.3.0",
+  "version": "0.3.2",
   "main": "./deepcopy.min.js",
   "ignore": [
-    ".gitignore",
-    ".npmignore",
-    ".travis.yml"
+    "**/.*",
+    "node_modules",
+    "bower_components"
   ],
   "devDependencies": {
-    "chai": "~1.6",
-    "jquery": "~2.0",
-    "mocha": "~1.9"
+    "expect": "~0.2",
+    "mocha": "~1.12"
   }
 }

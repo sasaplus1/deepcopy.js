@@ -11,4 +11,4 @@ before_script:
 script:
   - npm run-script bower
   - npm test
-  - npm run-script testem
+  - npm run-script travis

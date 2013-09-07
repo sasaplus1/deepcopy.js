@@ -1,3 +1,8 @@
+# 0.3.2 / 2013-09-08
+
+  - more compressed deepcopy.min.js
+  - changed from chai to expect.js
+
 # 0.3.1 / 2013-06-12
 
   - changed from Array#indexOf to indexOfArray

@@ -3,17 +3,21 @@
 [![Build Status](https://travis-ci.org/sasaplus1/deepcopy.js.png)](https://travis-ci.org/sasaplus1/deepcopy.js)
 [![Dependency Status](https://gemnasium.com/sasaplus1/deepcopy.js.png)](https://gemnasium.com/sasaplus1/deepcopy.js)
 
-library of deep copy
+deep copy for any data
 
 ## Installation
 
 ### npm
 
-    $ npm install deepcopy
+```sh
+$ npm install deepcopy
+```
 
 ### bower
 
-    $ bower install deepcopy
+```sh
+$ bower install deepcopy
+```
 
 ## Usage
 
@@ -89,14 +93,22 @@ also can copy if target has circular reference.
 
 ### test for node.js
 
-    $ npm install
-    $ npm test
+```sh
+$ npm install
+$ npm test
+```
 
 ### test for browser
 
-    $ npm install
-    $ npm run-script bower
-    $ npm run-script testem
+```sh
+$ npm install
+$ npm run-script bower
+$ npm run-script testem
+```
+
+## Contributors
+
+* [kjirou](https://github.com/kjirou)
 
 ## License
 

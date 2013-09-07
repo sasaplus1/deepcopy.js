@@ -78,7 +78,7 @@ describe('deepcopy', function() {
     expect(deepcopy(object)).to.eql(object);
   });
 
-  it('should return object if object has circular reference', function() {
+  it('should return deep copy if parameter has circular reference', function() {
     var circular, copy;
 
     expect(function() {

@@ -5,7 +5,7 @@
   "contributors": [
     "kjirou <kjirou.web@gmail.com>"
   ],
-  "description": "library of deep copy",
+  "description": "deep copy for any data",
   "main": "./index.js",
   "license": "MIT",
   "readmeFilename": "README.md",

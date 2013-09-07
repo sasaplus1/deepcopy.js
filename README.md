@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/sasaplus1/deepcopy.js.png)](https://travis-ci.org/sasaplus1/deepcopy.js)
 [![Dependency Status](https://gemnasium.com/sasaplus1/deepcopy.js.png)](https://gemnasium.com/sasaplus1/deepcopy.js)
 
-library of deep copy
+deep copy for any data
 
 ## Installation
 

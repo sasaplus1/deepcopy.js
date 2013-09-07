@@ -19,7 +19,8 @@
     "lint": "gjslint --strict --nojsdoc -r ./lib -r ./test ./index.js",
     "mini": "uglifyjs ./lib/deepcopy.js --comments -cm -r deepcopy -o ./deepcopy.min.js",
     "test": "mocha",
-    "testem": "testem ci"
+    "testem": "testem ci",
+    "travis": "testem ci --launch Firefox,PhantomJS"
   },
   "devDependencies": {
     "bower": "~1.2",

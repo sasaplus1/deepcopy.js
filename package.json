@@ -18,8 +18,8 @@
     "fix": "fixjsstyle --strict --nojsdoc -r ./lib -r ./test ./inedx.js",
     "lint": "gjslint --strict --nojsdoc -r ./lib -r ./test ./index.js",
     "mini": "uglifyjs ./lib/deepcopy.js --comments -cmr deepcopy -o ./deepcopy.min.js",
-    "test": "mocha",
-    "testem": "testem ci"
+    "test": "node_modules/mocha/bin/mocha",
+    "testem": "node_modules/testem/testem.js ci"
   },
   "devDependencies": {
     "bower": "~1.2",

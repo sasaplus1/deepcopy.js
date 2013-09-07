@@ -42,7 +42,7 @@ describe('deepcopy', function() {
         12345, 'abc', true, null, void 0, function() {}, new Date, /\x00/gi
       ], {
         array: [
-          12345, 'abc', true, null, void 0, function() {}, new Date, /\x00/gi,
+          12345, 'abc', true, null, void 0, function() {}, new Date, /\x00/gi
         ]
       }
     ];

@@ -15,14 +15,14 @@
     "fix": "fixjsstyle --strict --nojsdoc -r ./lib -r ./test ./inedx.js",
     "lint": "gjslint --strict --nojsdoc -r ./lib -r ./test ./index.js",
     "mini": "uglifyjs ./lib/deepcopy.js --comments -cmr deepcopy -o ./deepcopy.min.js",
-    "test": "mocha",
-    "testem": "testem ci"
+    "test": "node_modules/mocha/bin/mocha",
+    "testem": "node_modules/testem/testem.js ci"
   },
   "devDependencies": {
-    "bower": "~0.9",
-    "chai": "~1.6",
+    "bower": "~1.2",
+    "chai": "~1.7",
     "mocha": "~1.11",
-    "testem": "~0.2",
+    "testem": "~0.3",
     "uglify-js": "~2.3"
   }
 }

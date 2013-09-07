@@ -98,6 +98,10 @@ also can copy if target has circular reference.
     $ npm run-script bower
     $ npm run-script testem
 
+## Contributors
+
+* [kjirou](https://github.com/kjirou)
+
 ## License
 
 The MIT License. Please see LICENSE file.

@@ -9,11 +9,15 @@ library of deep copy
 
 ### npm
 
-    $ npm install deepcopy
+```sh
+$ npm install deepcopy
+```
 
 ### bower
 
-    $ bower install deepcopy
+```sh
+$ bower install deepcopy
+```
 
 ## Usage
 
@@ -89,14 +93,18 @@ also can copy if target has circular reference.
 
 ### test for node.js
 
-    $ npm install
-    $ npm test
+```sh
+$ npm install
+$ npm test
+```
 
 ### test for browser
 
-    $ npm install
-    $ npm run-script bower
-    $ npm run-script testem
+```sh
+$ npm install
+$ npm run-script bower
+$ npm run-script testem
+```
 
 ## Contributors
 

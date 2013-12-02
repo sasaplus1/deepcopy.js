@@ -90,4 +90,21 @@ describe('deepcopy', function() {
     expect(copy.to).to.be(copy);
   });
 
+  it('should return deep copy if parameter has copied functions in the same object', function() {
+    var func = function(){};
+    var object = {
+      a: func,
+      b: func
+    };
+    var cloned = deepcopy(object);
+    expect(cloned.a).to.be(cloned.b);
+  });
+
+  it('should return deep copy if parameter has copied functions in the same array', function() {
+    var func = function(){};
+    var array = [func, func];
+    var cloned = deepcopy(array);
+    expect(cloned[0]).to.be(cloned[1]);
+  });
+
 });

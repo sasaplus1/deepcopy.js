@@ -1,6 +1,6 @@
 {
   "name": "deepcopy",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "author": "sasa+1 <sasaplus1@gmail.com>",
   "contributors": [
     "kjirou <kjirou.web@gmail.com>"
@@ -25,8 +25,8 @@
   "devDependencies": {
     "bower": "~1.2",
     "expect.js": "~0.2",
-    "mocha": "~1.12",
-    "testem": "~0.4",
+    "mocha": "~1.15",
+    "testem": "~0.5",
     "uglify-js": "~2.4"
   }
 }

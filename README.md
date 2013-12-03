@@ -21,9 +21,19 @@ $ bower install deepcopy
 
 ## Usage
 
+### node.js
+
 ```js
 var deepcopy = require('deepcopy');
+```
 
+### browser
+
+```html
+<script src="deepcopy.min.js"></script>
+```
+
+```js
 var source = {
   data: {
     number: 123,

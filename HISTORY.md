@@ -1,3 +1,8 @@
+# 0.3.3 / 2013-12-03
+
+  - bugfix
+    - thanks to @kjirou
+
 # 0.3.2 / 2013-09-08
 
   - more compressed deepcopy.min.js

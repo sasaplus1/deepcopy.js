@@ -1,7 +1,7 @@
 # deepcopy.js
 
-[![Build Status](https://travis-ci.org/sasaplus1/deepcopy.js.png)](https://travis-ci.org/sasaplus1/deepcopy.js)
-[![Dependency Status](https://gemnasium.com/sasaplus1/deepcopy.js.png)](https://gemnasium.com/sasaplus1/deepcopy.js)
+[![Build Status](https://travis-ci.org/sasaplus1/deepcopy.js.svg)](https://travis-ci.org/sasaplus1/deepcopy.js)
+[![Dependency Status](https://gemnasium.com/sasaplus1/deepcopy.js.svg)](https://gemnasium.com/sasaplus1/deepcopy.js)
 
 deep copy for any data
 

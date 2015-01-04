@@ -15,8 +15,8 @@
   },
   "scripts": {
     "bower": "bower install",
-    "fix": "fixjsstyle --strict --nojsdoc -r ./lib -r ./test ./inedx.js",
-    "lint": "gjslint --strict --nojsdoc -r ./lib -r ./test ./index.js",
+    "fix": "fixjsstyle --flagfile .closurelinter -r .",
+    "lint": "gjslint --flagfile .closurelinter -r .",
     "mini": "uglifyjs ./lib/deepcopy.js --comments -cm -d 'module=void 0' -r deepcopy -o ./deepcopy.min.js",
     "test": "mocha",
     "testem": "testem ci",

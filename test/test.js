@@ -102,9 +102,9 @@
 
     });
 
-    describe('check for duplicate item', function() {
+    describe('check for duplicate function', function() {
 
-      it('should return array, it has duplicate item', function() {
+      it('should return array, it has duplicate function', function() {
         var array = [fn, fn],
             copy = deepcopy(array);
 
@@ -113,7 +113,7 @@
         assert(copy[0] === copy[1]);
       });
 
-      it('should return object, it has duplicate item', function() {
+      it('should return object, it has duplicate function', function() {
         var object = { a: fn, b: fn },
             copy = deepcopy(object);
 

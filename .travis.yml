@@ -9,6 +9,6 @@ before_script:
   - sh -e /etc/init.d/xvfb start
   - sleep 5
 script:
-  - npm run-script bower
-  - npm test
-  - npm run-script travis
+  - npm run bower
+  - npm run test
+  - npm run travis

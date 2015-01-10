@@ -1,3 +1,10 @@
+# 0.4.0 / 2015-01-10
+
+  - refactored
+  - bugfix for Firefox
+  - supported for Buffer (node.js only)
+  - changed to use power-assert from expect.js
+
 # 0.3.3 / 2013-12-03
 
   - bugfix

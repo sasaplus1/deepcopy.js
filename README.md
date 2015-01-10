@@ -2,8 +2,8 @@
 
 [![Build Status](https://travis-ci.org/sasaplus1/deepcopy.js.svg)](https://travis-ci.org/sasaplus1/deepcopy.js)
 [![Dependency Status](https://gemnasium.com/sasaplus1/deepcopy.js.svg)](https://gemnasium.com/sasaplus1/deepcopy.js)
-[![NPM version](https://badge.fury.io/js/deepcopy.js.svg)](http://badge.fury.io/js/deepcopy.js)
-[![Bower version](https://badge.fury.io/bo/deepcopy.js.svg)](http://badge.fury.io/bo/deepcopy.js)
+[![NPM version](https://badge.fury.io/js/deepcopy.svg)](http://badge.fury.io/js/deepcopy)
+[![Bower version](https://badge.fury.io/bo/deepcopy.svg)](http://badge.fury.io/bo/deepcopy)
 
 deep copy for any data
 

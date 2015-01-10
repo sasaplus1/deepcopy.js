@@ -1,114 +1,129 @@
-var expect, deepcopy;
+(function() {
 
-if (typeof module !== 'undefined') {
-  expect = require('expect.js');
-  deepcopy = require('../');
-} else {
-  expect = this.expect;
-  deepcopy = this.deepcopy;
-}
+  'use strict';
 
-describe('deepcopy', function() {
+  var assert, deepcopy;
 
-  it('should return deep copy if parameter is primitive type', function() {
-    expect(deepcopy(12345)).to.be(12345);
-    expect(deepcopy('abc')).to.be('abc');
-    expect(deepcopy(true)).to.be(true);
-    expect(deepcopy(null)).to.be(null);
-    expect(deepcopy(void 0)).to.be(void 0);
-  });
+  if (typeof exports === 'object') {
+    assert = require('power-assert');
+    deepcopy = require('../deepcopy');
+  } else {
+    assert = this.assert;
+    deepcopy = this.deepcopy;
+  }
 
-  it('should return reference if parameter is Function', function() {
-    function f() {}
+  describe('deepcopy()', function() {
 
-    expect(deepcopy(f)).to.be(f);
-  });
+    describe('check for some types', function() {
 
-  it('should return deep copy if parameter is Date', function() {
-    var date = new Date;
+      it('should return primitive types', function() {
+        assert(deepcopy(1) === 1);
+        assert(deepcopy('A') === 'A');
+        assert(deepcopy(true) === true);
+        assert(deepcopy(null) === null);
+        assert(deepcopy(undefined) === undefined);
+        assert(deepcopy(Infinity) === Infinity);
+        assert(deepcopy(-Infinity) === -Infinity);
+        assert(isNaN(deepcopy(NaN)));
+      });
 
-    expect(deepcopy(date)).to.eql(date);
-  });
+      it('should return Function', function() {
+        function fn() {}
 
-  it('should return deep copy if parameter is RegExp', function() {
-    var regexp = /\x00/gi;
+        assert(deepcopy(fn) === fn);
+      });
 
-    expect(deepcopy(regexp)).to.eql(regexp);
-  });
+      it('should return Date', function() {
+        var date = new Date;
 
-  it('should return deep copy if parameter is Array', function() {
-    var array = [
-      12345, 'abc', true, null, void 0, function() {}, new Date, /\x00/gi, [
-        12345, 'abc', true, null, void 0, function() {}, new Date, /\x00/gi
-      ], {
-        array: [
-          12345, 'abc', true, null, void 0, function() {}, new Date, /\x00/gi
-        ]
-      }
-    ];
+        assert(+deepcopy(date) === +date);
+      });
 
-    expect(deepcopy(array)).to.eql(array);
-  });
+      it('should return RegExp', function() {
+        var regexp = new RegExp;
 
-  it('should return deep copy if parameter is Object', function() {
-    var object = {
-      num: 12345,
-      str: 'abc',
-      bool: true,
-      null: null,
-      undefined: void 0,
-      fn: function() {},
-      date: new Date,
-      regexp: /\x00/gi,
-      array: [
-        1, 'a', false, null, void 0, function() {}, new Date, /\x00/gi
-      ],
-      object: {
-        num: 1,
-        str: 'a',
-        bool: false,
-        null: null,
-        undefined: void 0,
-        fn: function() {},
-        date: new Date,
-        regexp: /\x00/gi
-      }
-    };
+        assert(String(deepcopy(regexp)) === String(regexp));
+      });
 
-    expect(deepcopy(object)).to.eql(object);
-  });
+      it('should return Array', function() {
+        var array = [];
 
-  it('should return deep copy if parameter has circular reference', function() {
-    var circular, copy;
+        assert.deepEqual(deepcopy(array), array);
+      });
 
-    expect(function() {
-      circular = {};
-      circular.to = circular;
-      copy = deepcopy(circular);
-    }).to.not.throwException();
+      it('should return Object', function() {
+        var object = {};
 
-    expect(copy.to).to.be(copy);
-  });
+        assert.deepEqual(deepcopy(object), object);
+      });
 
-  it('should return deep copy if parameter has copied functions in the same' +
-      ' object', function() {
-        var func = function() {};
+      it('should return Buffer', (typeof Buffer === 'function') ? function() {
+        var buffer = new Buffer(0);
+
+        assert.deepEqual(deepcopy(buffer), buffer);
+      } : undefined);
+
+    });
+
+    describe('check for recursive copy', function() {
+
+      it('should return recursive copy for array', function() {
+        var array = [
+          [[1], [2], [3]],
+          [[4], [5], [6]],
+          [[7], [8], [9]]
+        ];
+
+        assert.deepEqual(deepcopy(array), array);
+      });
+
+      it('should return recursive copy for object', function() {
         var object = {
-          a: func,
-          b: func
+          a: { a: { a: true }, b: { b: false }, c: { c: null } },
+          b: { a: { a: true }, b: { b: false }, c: { c: null } },
+          c: { a: { a: true }, b: { b: false }, c: { c: null } }
         };
-        var cloned = deepcopy(object);
 
-        expect(cloned.a).to.be(cloned.b);
+        assert.deepEqual(deepcopy(object), object);
       });
 
-  it('should return deep copy if parameter has copied functions in the same' +
-      ' array', function() {
-        var func = function() {};
-        var array = [func, func];
-        var cloned = deepcopy(array);
+      it('should return object, it has circular reference', function() {
+        var object, copy;
 
-        expect(cloned[0]).to.be(cloned[1]);
+        assert.doesNotThrow(function() {
+          object = {};
+          object.to = object;
+          copy = deepcopy(object);
+        });
+
+        assert(copy === copy.to);
+        assert(copy.to === copy);
       });
 
-});
+    });
+
+    describe('check for duplicate item', function() {
+
+      it('should return array, it has duplicate item', function() {
+        var array = [fn, fn],
+            copy = deepcopy(array);
+
+        function fn() {}
+
+        assert(copy[0] === copy[1]);
+      });
+
+      it('should return object, it has duplicate item', function() {
+        var object = { a: fn, b: fn },
+            copy = deepcopy(object);
+
+        function fn() {}
+
+        assert(copy.a === copy.b);
+      });
+
+    });
+
+  });
+
+}).call(this);

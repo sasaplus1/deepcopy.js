@@ -7,7 +7,7 @@
     "bower_components"
   ],
   "devDependencies": {
-    "expect": "~0.3",
-    "mocha": "~2.1"
+    "mocha": "~2.1",
+    "power-assert": "~0.10"
   }
 }

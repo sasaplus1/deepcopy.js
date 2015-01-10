@@ -4,18 +4,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../bower_components/mocha/mocha.css">
-    <title>deepcopy.min.js</title>
+    <title>deepcopy.js</title>
   </head>
   <body>
     <div id="mocha"></div>
-    <script src="../bower_components/expect/expect.js"></script>
+    <script src="../bower_components/power-assert/build/power-assert.js"></script>
     <script src="../bower_components/mocha/mocha.js"></script>
     <script src="/testem.js"></script>
     <script>
       mocha.setup('bdd');
     </script>
     <script src="../deepcopy.min.js"></script>
-    <script src="./test-deepcopy.js"></script>
+    <script src="./test.pwr.js"></script>
     <script>
       mocha.checkLeaks();
       mocha.run();

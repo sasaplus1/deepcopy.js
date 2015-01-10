@@ -1,6 +1,5 @@
 {
   "name": "deepcopy",
-  "version": "0.3.2",
   "main": "./deepcopy.min.js",
   "ignore": [
     "**/.*",

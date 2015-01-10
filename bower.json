@@ -1,6 +1,5 @@
 {
   "name": "deepcopy",
-  "version": "0.3.2",
   "main": "./deepcopy.min.js",
   "ignore": [
     "**/.*",
@@ -8,7 +7,7 @@
     "bower_components"
   ],
   "devDependencies": {
-    "expect": "~0.2",
-    "mocha": "~1.13"
+    "mocha": "~2.1",
+    "power-assert": "~0.10"
   }
 }

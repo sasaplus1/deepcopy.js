@@ -1,7 +1,9 @@
 # deepcopy.js
 
-[![Build Status](https://travis-ci.org/sasaplus1/deepcopy.js.png)](https://travis-ci.org/sasaplus1/deepcopy.js)
-[![Dependency Status](https://gemnasium.com/sasaplus1/deepcopy.js.png)](https://gemnasium.com/sasaplus1/deepcopy.js)
+[![Build Status](https://travis-ci.org/sasaplus1/deepcopy.js.svg)](https://travis-ci.org/sasaplus1/deepcopy.js)
+[![Dependency Status](https://gemnasium.com/sasaplus1/deepcopy.js.svg)](https://gemnasium.com/sasaplus1/deepcopy.js)
+[![NPM version](https://badge.fury.io/js/deepcopy.js.svg)](http://badge.fury.io/js/deepcopy.js)
+[![Bower version](https://badge.fury.io/bo/deepcopy.js.svg)](http://badge.fury.io/bo/deepcopy.js)
 
 deep copy for any data
 
@@ -33,87 +35,99 @@ var deepcopy = require('deepcopy');
 <script src="deepcopy.min.js"></script>
 ```
 
+define `deepcopy` by `define()` if using AMD loader.
+
+otherwise `deepcopy` export to global.
+
+### Example
+
 ```js
-var source = {
-  data: {
-    number: 123,
-    string: 'a',
-    boolean: true,
-    null: null,
-    undefined: undefined,
-    date: new Date,
-    regexp: /regexp/ig,
+var data, shallow, deep;
+
+data = {
+  objects: {
     array: [
-      [ 123, 'abc', false ],
-      [ new Date, /node/i ],
-      { array: [] }
+      null, undefined, new Date, /deepcopy/ig
     ],
     object: {
-      number: 123, string: 'abc', boolean: false
+      number: NaN,
+      string: 'A',
+      boolean: true
     },
-    to: undefined
+    to: null
   }
 };
 
-source.data.to = source;
+// circular reference
+data.objects.to = data;
 
-var shallow = source,
-    deep = deepcopy(source);
+// shallow copy and deep copy
+shallow = data;
+deep = deepcopy(data);
 
-delete source.data;
+// remove entry
+delete data.objects;
 
-console.dir(source);
+// results
+console.log(data);
 // {}
-console.dir(shallow);
+console.log(shallow);
 // {}
-console.log(
-    require('util').inspect(deep, {depth: null}));
-// { data:
-//    { number: 123,
-//      string: 'a',
-//      boolean: true,
-//      null: null,
-//      undefined: undefined,
-//      date: Sun May 26 2013 16:16:32 GMT+0900 (JST),
-//      regexp: /regexp/gi,
-//      array:
-//       [ [ 123, 'abc', false ],
-//         [ Sun May 26 2013 16:16:32 GMT+0900 (JST), /node/i ],
-//         { array: [] } ],
-//      object: { number: 123, string: 'abc', boolean: false },
+console.log(require('util').inspect(deep, { depth: null }));
+// { objects:
+//    { array:
+//       [ null,
+//         undefined,
+//         Sat Jan 10 2015 03:18:32 GMT+0900 (JST),
+//         /deepcopy/gi ],
+//      object: { number: NaN, string: 'A', boolean: true },
 //      to: [Circular] } }
 ```
 
 ## Functions
 
-### deepcopy(target)
+### deepcopy(value)
 
-* `target` any types - target of copy
-* `return` any types - copied object from target
+* `value`
+  * `*` - copy target value
+* `return`
+  * `*` - deep copied value
 
-get deep copy of target.
+return deep copied value.
 
-return deep copy if target is Date, RegExp or primitive types.
-return shallow copy if target is function.
+supported types are below:
 
-do recursive copy if target is Array or Object.
-also can copy if target has circular reference.
+* Number
+* String
+* Boolean
+* Null
+* Undefined
+* Function (shallow copy)
+* Date
+* RegExp
+* Array
+  * recursive copy
+  * also can copy if it has circular reference
+* Object
+  * recursive copy
+  * also can copy if it has circular reference
+* Buffer (node.js only)
 
 ## Test
 
-### test for node.js
+### node.js
 
 ```sh
 $ npm install
 $ npm test
 ```
 
-### test for browser
+### browser
 
 ```sh
 $ npm install
-$ npm run-script bower
-$ npm run-script testem
+$ npm run bower
+$ npm run testem
 ```
 
 ## Contributors
@@ -122,4 +136,4 @@ $ npm run-script testem
 
 ## License
 
-The MIT License. Please see LICENSE file.
+The MIT license. Please see LICENSE file.

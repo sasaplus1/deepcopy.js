@@ -1,0 +1,4 @@
+--strict
+--nojsdoc
+-e node_modules,bower_components
+-x deepcopy.min.js

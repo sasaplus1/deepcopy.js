@@ -1,5 +1,4 @@
 npm-debug.log
-.DS_Store
-.*.swp
+test/test.pwr.js
 bower_components/
 node_modules/

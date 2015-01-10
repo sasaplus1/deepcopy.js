@@ -1,163 +1,195 @@
 /*!
  * @license deepcopy.js Copyright(c) 2013 sasa+1
  * https://github.com/sasaplus1/deepcopy.js
- * Released under the MIT License.
+ * Released under the MIT license.
  */
 
-(function() {
 
-  // fallback for util methods.
-  var util = (typeof module !== 'undefined') ? require('util') : (function() {
+/**
+ * export to AMD/CommonJS/global.
+ *
+ * @param {Object} global global object.
+ * @param {Function} factory factory method.
+ */
+(function(global, factory) {
+  'use strict';
 
-    var to = Object.prototype.toString;
+  if (typeof define === 'function' && !!define.amd) {
+    define(factory);
+  } else if (typeof exports === 'object') {
+    module.exports = factory();
+  } else {
+    global.deepcopy = factory();
+  }
+}(this, function() {
+  'use strict';
 
+  var util, isBuffer, getKeys, indexOfArray;
+
+  // fallback util module for browser.
+  util = (typeof exports === 'object') ? require('util') : (function() {
     function isArray(value) {
-      return (
-          typeof value === 'object' &&
-          to.call(value) === '[object Array]');
+      return (typeof value === 'object' &&
+          Object.prototype.toString.call(value) === '[object Array]');
     }
 
     function isDate(value) {
-      return (
-          typeof value === 'object' &&
-          to.call(value) === '[object Date]');
+      return (typeof value === 'object' &&
+          Object.prototype.toString.call(value) === '[object Date]');
     }
 
     function isRegExp(value) {
-      return (
-          typeof value === 'object' &&
-          to.call(value) === '[object RegExp]');
+      return (typeof value === 'object' &&
+          Object.prototype.toString.call(value) === '[object RegExp]');
     }
 
     return {
-      // use Array.isArray if implemented.
-      isArray: Array.isArray || isArray,
+      isArray: (typeof Array.isArray === 'function') ?
+          function(obj) {
+            return Array.isArray(obj);
+          } : isArray,
       isDate: isDate,
       isRegExp: isRegExp
     };
-
   }());
 
-  // fallback for Object.keys.
-  var getKeys = Object.keys || function(object) {
-    var keys = [],
-        key;
+  // fallback Buffer.isBuffer
+  isBuffer = (typeof exports === 'object' && typeof Buffer === 'function') ?
+      function(obj) {
+        return Buffer.isBuffer(obj);
+      } :
+      function() {
+        // if browser, always return false
+        return false;
+      };
 
-    if (object === null || typeof object !== 'object') {
-      throw new TypeError('parameter type is not an Object');
-    }
+  // fallback Object.keys for old browsers.
+  getKeys = (typeof Object.keys === 'function') ?
+      function(obj) {
+        return Object.keys(obj);
+      } :
+      function(obj) {
+        var keys = [],
+            key;
 
-    for (key in object) {
-      object.hasOwnProperty(key) && keys.push(key);
-    }
+        if (obj === null || typeof obj !== 'object') {
+          throw new TypeError('obj is not an Object');
+        }
 
-    return keys;
-  };
+        for (key in obj) {
+          obj.hasOwnProperty(key) && keys.push(key);
+        }
 
-  /**
-   * get element index from array.
-   *
-   * @private
-   * @param {Array} array target array.
-   * @param {*} searchElement find element.
-   * @throws {TypeError} when parameter array is not an array.
-   * @return {Number} return index of array. return -1 if element not found.
-   */
-  function indexOfArray(array, searchElement) {
-    var i, len;
+        return keys;
+      };
 
-    if (!util.isArray(array)) {
-      throw new TypeError('parameter type is not an Array');
-    }
+  // fallback Array#indexOf for old browsers.
+  indexOfArray = (typeof Array.prototype.indexOf === 'function') ?
+      function(array, searchElement) {
+        return array.indexOf(searchElement);
+      } :
+      function(array, searchElement) {
+        var i, len;
 
-    for (i = 0, len = array.length; i < len; ++i) {
-      if (array[i] === searchElement) {
-        return i;
-      }
-    }
+        if (!util.isArray(array)) {
+          throw new TypeError('array is not an Array');
+        }
 
-    return -1;
-  }
-
-  /**
-   * get deep copy of target.
-   *
-   * return deep copy if target is Date, RegExp or primitive types.
-   * return shallow copy if target is function.
-   *
-   * do recursive copy if target is Array or Object.
-   * also can copy if target has circular reference.
-   *
-   * @param {*} target target of deep copy.
-   * @return {*} deep copy value.
-   */
-  function deepcopy(target) {
-    var clone = (util.isArray(target)) ? [] : {},
-        visited = [target],
-        ref = [clone];
-
-    /**
-     * get deep copy of target.
-     *
-     * @private
-     * @param {*} target target of deep copy.
-     * @param {Object|Array} clone reference of deep copy value.
-     * @param {Object[]} visited copied references.
-     * @param {Object[]} ref reference of own.
-     * @return {*} deep copy value.
-     */
-    function deepcopy_(target, clone, visited, ref) {
-      var keys, i, len, key, value, index, object, reference;
-
-      // number, string, boolean, null, undefined and function.
-      if (target === null || typeof target !== 'object') {
-        return target;
-      }
-
-      if (util.isDate(target)) {
-        return new Date(Number(target));
-      }
-
-      if (util.isRegExp(target)) {
-        return new RegExp(
-            target.source,
-            String(target).slice(target.source.length + 2));
-      }
-
-      keys = getKeys(target);
-
-      for (i = 0, len = keys.length; i < len; ++i) {
-        key = keys[i];
-        value = target[key];
-
-        if (value !== null && typeof value === 'object') {
-          index = indexOfArray(visited, value);
-          if (index === -1) {
-            object = (util.isArray(value)) ? [] : {};
-            visited.push(value);
-            ref.push(object);
-          } else {
-            reference = ref[index];
+        for (i = 0, len = array.length; i < len; ++i) {
+          if (array[i] === searchElement) {
+            return i;
           }
         }
 
-        // value is not reference type if object is undefined.
-        // not used object variable if target is not reference type.
-        clone[key] = reference || deepcopy_(value, object, visited, ref);
-        index = object = reference = null;
-      }
+        return -1;
+      };
 
-      return clone;
+  /**
+   * recursive deep copy for value.
+   *
+   * @private
+   * @param {*} value copy target.
+   * @param {*} clone
+   * @param {Array} visited
+   * @param {Array} reference
+   * @return {*} copied value.
+   */
+  function copyValue_(value, clone, visited, reference) {
+    var str, pos, buf, keys, i, len, key, val, idx, obj, ref;
+
+    // number, string, boolean, null, undefined and function.
+    if (value === null || typeof value !== 'object') {
+      return value;
     }
 
-    return deepcopy_(target, clone, visited, ref);
+    // Date.
+    if (util.isDate(value)) {
+      // Firefox need to convert to Number
+      return new Date(+value);
+    }
+
+    // RegExp.
+    if (util.isRegExp(value)) {
+      // Chrome, Safari:
+      //   (new RegExp).source => "(?:)"
+      // Firefox:
+      //   (new RegExp).source => ""
+      // Chrome, Safari, Firefox
+      //   String(new RegExp) => "/(?:)/"
+      str = String(value);
+      pos = str.lastIndexOf('/');
+
+      return new RegExp(str.slice(1, pos), str.slice(pos + 1));
+    }
+
+    // Buffer, node.js only.
+    if (isBuffer(value)) {
+      buf = new Buffer(value.length);
+      value.copy(buf);
+
+      return buf;
+    }
+
+    // Object or Array.
+    keys = getKeys(value);
+
+    for (i = 0, len = keys.length; i < len; ++i) {
+      key = keys[i];
+      val = value[key];
+
+      if (val !== null && typeof val === 'object') {
+        idx = indexOfArray(visited, val);
+
+        if (idx === -1) {
+          // not circular reference
+          obj = (util.isArray(val)) ? [] : {};
+
+          visited.push(val);
+          reference.push(obj);
+        } else {
+          // circular reference
+          ref = reference[idx];
+        }
+      }
+
+      clone[key] = ref || copyValue_(val, obj, visited, reference);
+    }
+
+    return clone;
   }
 
-  // export function.
-  if (typeof module !== 'undefined') {
-    module.exports = deepcopy;
-  } else {
-    this.deepcopy = deepcopy;
+  /**
+   * deep copy for value.
+   *
+   * @param {*} value copy target.
+   */
+  function deepcopy(value) {
+    var clone = (util.isArray(value)) ? [] : {},
+        visited = [value],
+        reference = [clone];
+
+    return copyValue_(value, clone, visited, reference);
   }
 
-}());
+  return deepcopy;
+}));

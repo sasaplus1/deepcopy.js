@@ -137,6 +137,17 @@
     // Date.
     if (util.isDate(value)) {
       // Firefox need to convert to Number
+      //
+      // Firefox:
+      //   var date = new Date;
+      //   +date;            // 1420909365967
+      //   +new Date(date);  // 1420909365000
+      //   +new Date(+date); // 1420909365967
+      // Chrome:
+      //   var date = new Date;
+      //   +date;            // 1420909757913
+      //   +new Date(date);  // 1420909757913
+      //   +new Date(+date); // 1420909757913
       return new Date(+value);
     }
 

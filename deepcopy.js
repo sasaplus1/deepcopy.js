@@ -24,7 +24,7 @@
 }(this, function() {
   'use strict';
 
-  var isNode, util, isBuffer, getKeys, indexOfArray;
+  var isNode, util, isBuffer, isSymbol, getKeys, indexOfArray;
 
   // is node.js/io.js?
   isNode = (typeof process !== 'undefined' && typeof require !== 'undefined');
@@ -63,6 +63,15 @@
       } :
       function() {
         // if browser, always return false
+        return false;
+      };
+
+  isSymbol = (typeof Symbol === 'function' && typeof Symbol() === 'symbol') ?
+      function(obj) {
+        return typeof obj === 'symbol';
+      } :
+      function() {
+        // always return false when Symbol is not supported.
         return false;
       };
 

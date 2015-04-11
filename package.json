@@ -23,7 +23,7 @@
     "minify": "uglifyjs ./deepcopy.js --comments '@license' -cm -r deepcopy -o ./deepcopy.min.js",
     "power": "espower ./test/test.js > ./test/test.pwr.js",
     "test": "mocha",
-    "testem": "testem ci",
+    "testem": "testem",
     "travis": "testem ci --launch Firefox,PhantomJS"
   },
   "devDependencies": {

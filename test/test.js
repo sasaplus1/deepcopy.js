@@ -63,6 +63,12 @@
         assert.deepEqual(deepcopy(buffer), buffer);
       } : undefined);
 
+      it('should return Symbol', (typeof Symbol === 'function') ? function() {
+        var symbol = Symbol();
+
+        assert(deepcopy(symbol) === symbol);
+      } : undefined);
+
     });
 
     describe('check for recursive copy', function() {
@@ -99,6 +105,21 @@
         assert(copy === copy.to);
       });
 
+      it('should return object, it has symbol', (typeof Symbol === 'function') ?
+          function() {
+            var object = {},
+                a = Symbol.for('a'),
+                b = Symbol.for('b'),
+                c = Symbol.for('c');
+
+            object[a] = 1;
+            object[b] = 2;
+            object[c] = 3;
+
+            assert.deepEqual(deepcopy(object), object);
+          } : undefined
+      );
+
     });
 
     describe('check for duplicate function', function() {
@@ -120,6 +141,24 @@
 
         assert(copy.a === copy.b);
       });
+
+      it('should return object, it has symbol', (typeof Symbol === 'function') ?
+          function() {
+            var object = {},
+                a = Symbol.for('a'),
+                b = Symbol.for('b'),
+                copy;
+
+            function fn() {}
+
+            object[a] = fn;
+            object[b] = fn;
+
+            copy = deepcopy(object);
+
+            assert(copy[a] === copy[b]);
+          } : undefined
+      );
 
     });
 

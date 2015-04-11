@@ -24,7 +24,7 @@
 }(this, function() {
   'use strict';
 
-  var isNode, util, isBuffer, isSymbol, getKeys, indexOfArray;
+  var isNode, util, isBuffer, getKeys, indexOfArray;
 
   // is node.js/io.js?
   isNode = (typeof process !== 'undefined' && typeof require !== 'undefined');
@@ -46,13 +46,23 @@
           Object.prototype.toString.call(value) === '[object RegExp]');
     }
 
+    function isSymbol(value) {
+      return (typeof value === 'symbol');
+    }
+
     return {
       isArray: (typeof Array.isArray === 'function') ?
           function(obj) {
             return Array.isArray(obj);
           } : isArray,
       isDate: isDate,
-      isRegExp: isRegExp
+      isRegExp: isRegExp,
+      isSymbol: (typeof Symbol === 'function' && typeof Symbol() === 'symbol') ?
+          isSymbol :
+          function() {
+            // always return false when Symbol is not supported.
+            return false;
+          }
     };
   }());
 
@@ -63,15 +73,6 @@
       } :
       function() {
         // if browser, always return false
-        return false;
-      };
-
-  isSymbol = (typeof Symbol === 'function' && typeof Symbol() === 'symbol') ?
-      function(obj) {
-        return typeof obj === 'symbol';
-      } :
-      function() {
-        // always return false when Symbol is not supported.
         return false;
       };
 

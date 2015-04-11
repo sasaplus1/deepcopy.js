@@ -97,7 +97,6 @@
         });
 
         assert(copy === copy.to);
-        assert(copy.to === copy);
       });
 
     });

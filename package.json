@@ -1,6 +1,6 @@
 {
   "name": "deepcopy",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "author": "sasa+1 <sasaplus1@gmail.com>",
   "contributors": [
     "kjirou <kjirou.web@gmail.com>"
@@ -20,19 +20,19 @@
     "bower": "bower install",
     "fix": "fixjsstyle --flagfile .closurelinter -r .",
     "lint": "gjslint --flagfile .closurelinter -r .",
-    "minify": "uglifyjs ./deepcopy.js --comments -cm -r deepcopy -o ./deepcopy.min.js",
+    "minify": "uglifyjs ./deepcopy.js --comments '@license' -cm -r deepcopy -o ./deepcopy.min.js",
     "power": "espower ./test/test.js > ./test/test.pwr.js",
-    "test": "mocha",
-    "testem": "testem ci",
+    "test": "mocha ./test/test.js",
+    "testem": "testem",
     "travis": "testem ci --launch Firefox,PhantomJS"
   },
   "devDependencies": {
-    "bower": "~1.3",
-    "espower-cli": "^0.2",
-    "intelli-espower-loader": "~0.5",
-    "mocha": "~2.1",
+    "bower": "~1.4",
+    "espower-cli": "~0.2",
+    "intelli-espower-loader": "~0.6",
+    "mocha": "~2.2",
     "power-assert": "~0.10",
-    "testem": "~0.6",
+    "testem": "~0.7",
     "uglify-js": "~2.4"
   }
 }

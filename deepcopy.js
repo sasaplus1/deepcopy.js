@@ -24,10 +24,13 @@
 }(this, function() {
   'use strict';
 
-  var util, isBuffer, getKeys, indexOfArray;
+  var isNode, util, isBuffer, getKeys, getSymbols, indexOfArray;
+
+  // is node.js/io.js?
+  isNode = (typeof process !== 'undefined' && typeof require !== 'undefined');
 
   // fallback util module for browser.
-  util = (typeof exports === 'object') ? require('util') : (function() {
+  util = (isNode) ? require('util') : (function() {
     function isArray(value) {
       return (typeof value === 'object' &&
           Object.prototype.toString.call(value) === '[object Array]');
@@ -43,18 +46,28 @@
           Object.prototype.toString.call(value) === '[object RegExp]');
     }
 
+    function isSymbol(value) {
+      return (typeof value === 'symbol');
+    }
+
     return {
       isArray: (typeof Array.isArray === 'function') ?
           function(obj) {
             return Array.isArray(obj);
           } : isArray,
       isDate: isDate,
-      isRegExp: isRegExp
+      isRegExp: isRegExp,
+      isSymbol: (typeof Symbol === 'function') ?
+          isSymbol :
+          function() {
+            // always return false when Symbol is not supported.
+            return false;
+          }
     };
   }());
 
   // fallback Buffer.isBuffer
-  isBuffer = (typeof exports === 'object' && typeof Buffer === 'function') ?
+  isBuffer = (isNode) ?
       function(obj) {
         return Buffer.isBuffer(obj);
       } :
@@ -81,6 +94,16 @@
         }
 
         return keys;
+      };
+
+  // get symbols in object.
+  getSymbols = (typeof Symbol === 'function') ?
+      function(obj) {
+        return Object.getOwnPropertySymbols(obj);
+      } :
+      function() {
+        // always return empty array when Symbol is not supported.
+        return [];
       };
 
   // fallback Array#indexOf for old browsers.
@@ -117,7 +140,7 @@
   function copyValue_(value, clone, visited, reference) {
     var str, pos, buf, keys, i, len, key, val, idx, obj, ref;
 
-    // number, string, boolean, null, undefined and function.
+    // number, string, boolean, null, undefined, function and symbol.
     if (value === null || typeof value !== 'object') {
       return value;
     }
@@ -125,6 +148,17 @@
     // Date.
     if (util.isDate(value)) {
       // Firefox need to convert to Number
+      //
+      // Firefox:
+      //   var date = new Date;
+      //   +date;            // 1420909365967
+      //   +new Date(date);  // 1420909365000
+      //   +new Date(+date); // 1420909365967
+      // Chrome:
+      //   var date = new Date;
+      //   +date;            // 1420909757913
+      //   +new Date(date);  // 1420909757913
+      //   +new Date(+date); // 1420909757913
       return new Date(+value);
     }
 
@@ -151,7 +185,7 @@
     }
 
     // Object or Array.
-    keys = getKeys(value);
+    keys = getKeys(value).concat(getSymbols(value));
 
     for (i = 0, len = keys.length; i < len; ++i) {
       key = keys[i];

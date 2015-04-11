@@ -7,6 +7,7 @@
     "bower_components"
   ],
   "devDependencies": {
+    "es5-shim": "~4.0",
     "mocha": "~2.1",
     "power-assert": "~0.10"
   }

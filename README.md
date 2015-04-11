@@ -2,8 +2,8 @@
 
 [![Build Status](https://travis-ci.org/sasaplus1/deepcopy.js.svg)](https://travis-ci.org/sasaplus1/deepcopy.js)
 [![Dependency Status](https://gemnasium.com/sasaplus1/deepcopy.js.svg)](https://gemnasium.com/sasaplus1/deepcopy.js)
-[![NPM version](https://badge.fury.io/js/deepcopy.js.svg)](http://badge.fury.io/js/deepcopy.js)
-[![Bower version](https://badge.fury.io/bo/deepcopy.js.svg)](http://badge.fury.io/bo/deepcopy.js)
+[![NPM version](https://badge.fury.io/js/deepcopy.svg)](http://badge.fury.io/js/deepcopy)
+[![Bower version](https://badge.fury.io/bo/deepcopy.svg)](http://badge.fury.io/bo/deepcopy)
 
 deep copy for any data
 
@@ -84,6 +84,22 @@ console.log(require('util').inspect(deep, { depth: null }));
 //      to: [Circular] } }
 ```
 
+```js
+var data, deep;
+
+data = { object: {} };
+data.object[Symbol.for('sym')] = 123;
+
+deep = deepcopy(data);
+
+delete data.object;
+
+console.log(data.object);
+// undefined
+console.log(deep.object[Symbol.for('sym')]);
+// 123
+```
+
 ## Functions
 
 ### deepcopy(value)
@@ -112,6 +128,7 @@ supported types are below:
   * recursive copy
   * also can copy if it has circular reference
 * Buffer (node.js only)
+* Symbol
 
 ## Test
 

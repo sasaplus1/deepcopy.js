@@ -22,7 +22,7 @@
     "lint": "gjslint --flagfile .closurelinter -r .",
     "minify": "uglifyjs ./deepcopy.js --comments '@license' -cm -r deepcopy -o ./deepcopy.min.js",
     "power": "espower ./test/test.js > ./test/test.pwr.js",
-    "test": "mocha",
+    "test": "mocha ./test/test.js",
     "testem": "testem",
     "travis": "testem ci --launch Firefox,PhantomJS"
   },

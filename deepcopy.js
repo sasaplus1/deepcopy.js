@@ -24,7 +24,7 @@
 }(this, function() {
   'use strict';
 
-  var isNode, util, isBuffer, getKeys, indexOfArray;
+  var isNode, util, isBuffer, getKeys, getSymbols, indexOfArray;
 
   // is node.js/io.js?
   isNode = (typeof process !== 'undefined' && typeof require !== 'undefined');
@@ -57,7 +57,7 @@
           } : isArray,
       isDate: isDate,
       isRegExp: isRegExp,
-      isSymbol: (typeof Symbol === 'function' && typeof Symbol() === 'symbol') ?
+      isSymbol: (typeof Symbol === 'function') ?
           isSymbol :
           function() {
             // always return false when Symbol is not supported.
@@ -96,6 +96,16 @@
         return keys;
       };
 
+  // get symbols in object.
+  getSymbols = (typeof Symbol === 'function') ?
+      function(obj) {
+        return Object.getOwnPropertySymbols(obj);
+      } :
+      function() {
+        // always return empty array when Symbol is not supported.
+        return [];
+      };
+
   // fallback Array#indexOf for old browsers.
   indexOfArray = (typeof Array.prototype.indexOf === 'function') ?
       function(array, searchElement) {
@@ -130,7 +140,7 @@
   function copyValue_(value, clone, visited, reference) {
     var str, pos, buf, keys, i, len, key, val, idx, obj, ref;
 
-    // number, string, boolean, null, undefined and function.
+    // number, string, boolean, null, undefined, function and symbol.
     if (value === null || typeof value !== 'object') {
       return value;
     }
@@ -175,7 +185,7 @@
     }
 
     // Object or Array.
-    keys = getKeys(value);
+    keys = getKeys(value).concat(getSymbols(value));
 
     for (i = 0, len = keys.length; i < len; ++i) {
       key = keys[i];

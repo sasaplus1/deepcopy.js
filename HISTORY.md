@@ -1,3 +1,7 @@
+# 0.5.0 / 2015-04-11
+
+  - supported for Symbol
+
 # 0.4.0 / 2015-01-10
 
   - refactored

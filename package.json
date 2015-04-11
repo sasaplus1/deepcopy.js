@@ -20,7 +20,7 @@
     "bower": "bower install",
     "fix": "fixjsstyle --flagfile .closurelinter -r .",
     "lint": "gjslint --flagfile .closurelinter -r .",
-    "minify": "uglifyjs ./deepcopy.js --comments -cm -r deepcopy -o ./deepcopy.min.js",
+    "minify": "uglifyjs ./deepcopy.js --comments '@license' -cm -r deepcopy -o ./deepcopy.min.js",
     "power": "espower ./test/test.js > ./test/test.pwr.js",
     "test": "mocha",
     "testem": "testem ci",

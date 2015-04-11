@@ -110,13 +110,18 @@
             var object = {},
                 a = Symbol.for('a'),
                 b = Symbol.for('b'),
-                c = Symbol.for('c');
+                c = Symbol.for('c'),
+                copy;
 
             object[a] = 1;
             object[b] = 2;
             object[c] = 3;
 
-            assert.deepEqual(deepcopy(object), object);
+            copy = deepcopy(object);
+
+            assert(copy[a] === object[a]);
+            assert(copy[b] === object[b]);
+            assert(copy[c] === object[c]);
           } : undefined
       );
 

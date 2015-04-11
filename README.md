@@ -84,6 +84,22 @@ console.log(require('util').inspect(deep, { depth: null }));
 //      to: [Circular] } }
 ```
 
+```js
+var data, deep;
+
+data = { object: {} };
+data.object[Symbol.for('sym')] = 123;
+
+deep = deepcopy(data);
+
+delete data.object;
+
+console.log(data.object);
+// undefined
+console.log(deep.object[Symbol.for('sym')]);
+// 123
+```
+
 ## Functions
 
 ### deepcopy(value)
@@ -112,6 +128,7 @@ supported types are below:
   * recursive copy
   * also can copy if it has circular reference
 * Buffer (node.js only)
+* Symbol
 
 ## Test
 

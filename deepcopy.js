@@ -24,10 +24,13 @@
 }(this, function() {
   'use strict';
 
-  var util, isBuffer, getKeys, indexOfArray;
+  var isNode, util, isBuffer, getKeys, indexOfArray;
+
+  // is node.js/io.js?
+  isNode = (typeof process !== 'undefined' && typeof require !== 'undefined');
 
   // fallback util module for browser.
-  util = (typeof exports === 'object') ? require('util') : (function() {
+  util = (isNode) ? require('util') : (function() {
     function isArray(value) {
       return (typeof value === 'object' &&
           Object.prototype.toString.call(value) === '[object Array]');
@@ -54,7 +57,7 @@
   }());
 
   // fallback Buffer.isBuffer
-  isBuffer = (typeof exports === 'object' && typeof Buffer === 'function') ?
+  isBuffer = (isNode) ?
       function(obj) {
         return Buffer.isBuffer(obj);
       } :

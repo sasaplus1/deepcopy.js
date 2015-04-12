@@ -97,7 +97,7 @@
       };
 
   // get symbols in object.
-  getSymbols = (typeof Symbol === 'function') ?
+  getSymbols = (typeof Object.getOwnPropertySymbols === 'function') ?
       function(obj) {
         return Object.getOwnPropertySymbols(obj);
       } :

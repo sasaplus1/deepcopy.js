@@ -1,172 +1,112 @@
-(function() {
+import assert from 'power-assert';
+import deepcopy from '../';
 
-  'use strict';
+describe('deepcopy', function() {
 
-  var assert, deepcopy;
+  const hasSymbol = (typeof Symbol === 'function');
 
-  if (typeof exports === 'object') {
-    assert = require('power-assert');
-    deepcopy = require('../deepcopy');
-  } else {
-    assert = this.assert;
-    deepcopy = this.deepcopy;
-  }
+  it('can copy some basic primitive types', function() {
+    // string
+    assert(deepcopy('') === '');
+    assert(deepcopy('string') === 'string');
 
-  describe('deepcopy()', function() {
+    // number
+    assert(deepcopy(0) === 0);
+    assert(deepcopy(192455631) === 192455631);
+    assert(deepcopy(Infinity) === Infinity);
+    assert(deepcopy(-Infinity) === -Infinity);
+    assert(isNaN(deepcopy(NaN)));
 
-    describe('check for some types', function() {
+    // boolean
+    assert(deepcopy(true) === true);
+    assert(deepcopy(false) === false);
 
-      it('should return primitive types', function() {
-        assert(deepcopy(1) === 1);
-        assert(deepcopy('A') === 'A');
-        assert(deepcopy(true) === true);
-        assert(deepcopy(null) === null);
-        assert(deepcopy(undefined) === undefined);
-        assert(deepcopy(Infinity) === Infinity);
-        assert(deepcopy(-Infinity) === -Infinity);
-        assert(isNaN(deepcopy(NaN)));
-      });
+    // null
+    assert(deepcopy(null) === null);
 
-      it('should return Function', function() {
-        function fn() {}
-
-        assert(deepcopy(fn) === fn);
-      });
-
-      it('should return Date', function() {
-        var date = new Date;
-
-        assert(+deepcopy(date) === +date);
-      });
-
-      it('should return RegExp', function() {
-        var regexp = new RegExp;
-
-        assert(String(deepcopy(regexp)) === String(regexp));
-      });
-
-      it('should return Array', function() {
-        var array = [];
-
-        assert.deepEqual(deepcopy(array), array);
-      });
-
-      it('should return Object', function() {
-        var object = {};
-
-        assert.deepEqual(deepcopy(object), object);
-      });
-
-      it('should return Buffer', (typeof Buffer === 'function') ? function() {
-        var buffer = new Buffer(0);
-
-        assert.deepEqual(deepcopy(buffer), buffer);
-      } : undefined);
-
-      it('should return Symbol', (typeof Symbol === 'function') ? function() {
-        var symbol = Symbol();
-
-        assert(deepcopy(symbol) === symbol);
-      } : undefined);
-
-    });
-
-    describe('check for recursive copy', function() {
-
-      it('should return recursive copy for array', function() {
-        var array = [
-          [[1], [2], [3]],
-          [[4], [5], [6]],
-          [[7], [8], [9]]
-        ];
-
-        assert.deepEqual(deepcopy(array), array);
-      });
-
-      it('should return recursive copy for object', function() {
-        var object = {
-          a: { a: { a: true }, b: { b: false }, c: { c: null } },
-          b: { a: { a: true }, b: { b: false }, c: { c: null } },
-          c: { a: { a: true }, b: { b: false }, c: { c: null } }
-        };
-
-        assert.deepEqual(deepcopy(object), object);
-      });
-
-      it('should return object, it has circular reference', function() {
-        var object, copy;
-
-        assert.doesNotThrow(function() {
-          object = {};
-          object.to = object;
-          copy = deepcopy(object);
-        });
-
-        assert(copy === copy.to);
-      });
-
-      it('should return object, it has symbol', (typeof Symbol === 'function') ?
-          function() {
-            var object = {},
-                a = Symbol.for('a'),
-                b = Symbol.for('b'),
-                c = Symbol.for('c'),
-                copy;
-
-            object[a] = 1;
-            object[b] = 2;
-            object[c] = 3;
-
-            copy = deepcopy(object);
-
-            assert(copy[a] === object[a]);
-            assert(copy[b] === object[b]);
-            assert(copy[c] === object[c]);
-          } : undefined
-      );
-
-    });
-
-    describe('check for duplicate function', function() {
-
-      it('should return array, it has duplicate function', function() {
-        var array = [fn, fn],
-            copy = deepcopy(array);
-
-        function fn() {}
-
-        assert(copy[0] === copy[1]);
-      });
-
-      it('should return object, it has duplicate function', function() {
-        var object = { a: fn, b: fn },
-            copy = deepcopy(object);
-
-        function fn() {}
-
-        assert(copy.a === copy.b);
-      });
-
-      it('should return object, it has symbol', (typeof Symbol === 'function') ?
-          function() {
-            var object = {},
-                a = Symbol.for('a'),
-                b = Symbol.for('b'),
-                copy;
-
-            function fn() {}
-
-            object[a] = fn;
-            object[b] = fn;
-
-            copy = deepcopy(object);
-
-            assert(copy[a] === copy[b]);
-          } : undefined
-      );
-
-    });
-
+    // undefined
+    assert(deepcopy(void 0) === void 0);
   });
 
-}).call(this);
+  it('can copy symbol', hasSymbol && function() {
+    const symbol = Symbol();
+
+    assert(deepcopy(symbol) === symbol);
+  });
+
+  it('can copy some built-in classes', function() {
+    const date = new Date();
+
+    assert(+deepcopy(date) === +date);
+
+    const regexp = new RegExp('', 'ig');
+
+    assert(String(deepcopy(regexp)) === String(regexp));
+
+    const array = [1, 2, 3];
+
+    assert(JSON.stringify(deepcopy(array)) === JSON.stringify(array));
+
+    const object = { a: 1, b: 2, c: 3 };
+
+    assert(JSON.stringify(deepcopy(object)) === JSON.stringify(object));
+  });
+
+  it('can recursively copy from Array', function() {
+    const array = [
+      [[1], [2], [3]],
+      [[4], [5], [6]],
+      [[7], [8], [9]],
+    ];
+
+    assert.deepEqual(deepcopy(array), array);
+  });
+
+  it('can recursively copy from Object', function() {
+    const object = {
+      a: { a: { a: true }, b: { b: false }, c: { c: null } },
+      b: { a: { a: true }, b: { b: false }, c: { c: null } },
+      c: { a: { a: true }, b: { b: false }, c: { c: null } },
+    };
+
+    assert.deepEqual(deepcopy(object), object);
+  });
+
+  it('can recursively copy from Object, it has Symbol', hasSymbol && function() {
+    const symbolObject = {
+      [Symbol.for('a')]: 1,
+      [Symbol.for('b')]: 2,
+      [Symbol.for('c')]: 3,
+    };
+
+    const copiedObject = deepcopy(symbolObject);
+
+    assert(copiedObject[Symbol.for('a')] === symbolObject[Symbol.for('a')]);
+    assert(copiedObject[Symbol.for('b')] === symbolObject[Symbol.for('b')]);
+    assert(copiedObject[Symbol.for('c')] === symbolObject[Symbol.for('c')]);
+  });
+
+  it('can copy duplicated function', function() {
+    const fn = function() {};
+
+    const array = [fn, fn],
+          copiedArray = deepcopy(array);
+
+    assert(copiedArray[0] === copiedArray[1]);
+
+    const object = { a: fn, b: fn },
+          copiedObject = deepcopy(object);
+
+    assert(copiedObject[0] === copiedObject[1]);
+
+    const symbolObject = {
+      [Symbol.for('a')]: fn,
+      [Symbol.for('b')]: fn,
+    };
+    const copiedSymbolObject = deepcopy(symbolObject);
+
+    assert(copiedSymbolObject[Symbol.for('a')] ===
+           copiedSymbolObject[Symbol.for('b')]);
+  });
+
+});

@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "bower": "~1.4",
+    "espower-babel": "3.3.0",
     "espower-cli": "~0.2",
     "intelli-espower-loader": "~0.6",
     "mocha": "~2.2",

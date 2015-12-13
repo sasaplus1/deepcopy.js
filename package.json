@@ -18,8 +18,7 @@
   },
   "scripts": {
     "bower": "bower install",
-    "fix": "fixjsstyle --flagfile .closurelinter -r .",
-    "lint": "gjslint --flagfile .closurelinter -r .",
+    "lint": "eslint --ext .js .",
     "minify": "uglifyjs ./deepcopy.js --comments '@license' -cm -r deepcopy -o ./deepcopy.min.js",
     "power": "espower ./test/test.js > ./test/test.pwr.js",
     "test": "mocha ./test/test.js",
@@ -27,7 +26,10 @@
     "travis": "testem ci --launch Firefox,PhantomJS"
   },
   "devDependencies": {
+    "babel-eslint": "4.1.6",
     "bower": "~1.4",
+    "eslint": "^1.10.3",
+    "eslint-config-sasaplus1": "git://github.com/sasaplus1-prototype/eslint-config-sasaplus1.git",
     "espower-babel": "3.3.0",
     "espower-cli": "~0.2",
     "intelli-espower-loader": "~0.6",

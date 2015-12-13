@@ -109,4 +109,27 @@ describe('deepcopy', function() {
            copiedSymbolObject[Symbol.for('b')]);
   });
 
+  it('can copy duplicated Date', function() {
+    const date = new Date();
+
+    const array = [date, date],
+          copiedArray = deepcopy(array);
+
+    assert(copiedArray[0] === copiedArray[1]);
+
+    const object = { a: date, b: date },
+          copiedObject = deepcopy(object);
+
+    assert(copiedObject[0] === copiedObject[1]);
+
+    const symbolObject = {
+      [Symbol.for('a')]: date,
+      [Symbol.for('b')]: date,
+    };
+    const copiedSymbolObject = deepcopy(symbolObject);
+
+    assert(copiedSymbolObject[Symbol.for('a')] ===
+           copiedSymbolObject[Symbol.for('b')]);
+  });
+
 });

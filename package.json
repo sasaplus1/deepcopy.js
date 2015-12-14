@@ -6,7 +6,7 @@
     "kjirou <kjirou.web@gmail.com>"
   ],
   "description": "deep copy for any data",
-  "main": "./deepcopy.js",
+  "main": "./index.js",
   "license": "MIT",
   "readmeFilename": "README.md",
   "repository": {

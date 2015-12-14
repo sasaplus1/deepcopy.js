@@ -86,7 +86,7 @@ describe('deepcopy', function() {
     assert(copiedObject[Symbol.for('c')] === symbolObject[Symbol.for('c')]);
   });
 
-  it('can copy duplicated function', function() {
+  it('can copy duplicated Function', function() {
     const fn = function() {};
 
     const array = [fn, fn],

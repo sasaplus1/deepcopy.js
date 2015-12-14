@@ -18,16 +18,20 @@
   },
   "scripts": {
     "bower": "bower install",
+    "compile": "npm ru webpack -- --output-filename deepcopy.js",
     "lint": "eslint --ext .js .",
-    "minify": "uglifyjs ./deepcopy.js --comments '@license' -cm -r deepcopy -o ./deepcopy.min.js",
+    "minify": "npm ru webpack -- --optimize-minimize --output-filename deepcopy.min.js",
     "power": "espower ./test/test.js > ./test/test.pwr.js",
     "test": "mocha ./test/test.js",
     "testem": "testem",
-    "travis": "testem ci --launch Firefox,PhantomJS"
+    "travis": "testem ci --launch Firefox,PhantomJS",
+    "webpack": "webpack --colors --display-error-details --progress"
   },
   "devDependencies": {
     "babel-eslint": "4.1.6",
+    "babel-loader": "5.3.3",
     "bower": "~1.4",
+    "coffee-script": "^1.10.0",
     "eslint": "^1.10.3",
     "eslint-config-sasaplus1": "git://github.com/sasaplus1-prototype/eslint-config-sasaplus1.git",
     "espower-babel": "3.3.0",
@@ -36,7 +40,8 @@
     "mocha": "~2.2",
     "power-assert": "~0.10",
     "testem": "~0.7",
-    "uglify-js": "~2.4"
+    "uglify-js": "~2.4",
+    "webpack": "^1.12.9"
   },
   "engines": {
     "node": "4.2.3",

@@ -72,6 +72,16 @@ describe('deepcopy', function() {
     assert.deepEqual(deepcopy(object), object);
   });
 
+  it('can recursively copy from Function as Object', function() {
+    const fn = function() {};
+
+    fn.a = { a: { a: true }, b: { b: false }, c: { c: null } };
+    fn.b = { a: { a: true }, b: { b: false }, c: { c: null } };
+    fn.c = { a: { a: true }, b: { b: false }, c: { c: null } };
+
+    assert.deepEqual(deepcopy(fn), fn);
+  });
+
   it('can recursively copy from Object, it has Symbol', hasSymbol && function() {
     const symbolObject = {
       [Symbol.for('a')]: 1,

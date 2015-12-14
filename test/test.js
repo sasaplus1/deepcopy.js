@@ -129,7 +129,7 @@ describe('deepcopy', function() {
     const object = { a: fn, b: fn },
           copiedObject = deepcopy(object);
 
-    assert(copiedObject[0] === copiedObject[1]);
+    assert(copiedObject.a === copiedObject.b);
 
     const symbolObject = {
       [Symbol.for('a')]: fn,
@@ -152,7 +152,7 @@ describe('deepcopy', function() {
     const object = { a: date, b: date },
           copiedObject = deepcopy(object);
 
-    assert(+copiedObject[0] === +copiedObject[1]);
+    assert(+copiedObject.a === +copiedObject.b);
 
     const symbolObject = {
       [Symbol.for('a')]: date,

@@ -37,5 +37,9 @@
     "power-assert": "~0.10",
     "testem": "~0.7",
     "uglify-js": "~2.4"
+  },
+  "engines": {
+    "node": "4.2.3",
+    "npm": "2.14.7"
   }
 }

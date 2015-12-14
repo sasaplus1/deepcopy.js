@@ -59,7 +59,13 @@ describe('deepcopy', function() {
       [[7], [8], [9]],
     ];
 
-    assert.deepEqual(deepcopy(array), array);
+    const result = deepcopy(array);
+
+    assert.deepEqual(result, array);
+
+    array[0][0][0] = 10;
+
+    assert(result[0][0][0] !== array[0][0][0]);
   });
 
   it('can recursively copy from Object', function() {
@@ -69,7 +75,13 @@ describe('deepcopy', function() {
       c: { a: { a: true }, b: { b: false }, c: { c: null } },
     };
 
-    assert.deepEqual(deepcopy(object), object);
+    const result = deepcopy(object);
+
+    assert.deepEqual(result, object);
+
+    object.a.a.a = void 0;
+
+    assert(result.a.a.a !== object.a.a.a);
   });
 
   it('can recursively copy from Function as Object', function() {
@@ -79,7 +91,13 @@ describe('deepcopy', function() {
     fn.b = { a: { a: true }, b: { b: false }, c: { c: null } };
     fn.c = { a: { a: true }, b: { b: false }, c: { c: null } };
 
-    assert.deepEqual(deepcopy(fn), fn);
+    const result = deepcopy(fn);
+
+    assert.deepEqual(result, fn);
+
+    fn.a.a.a = void 0;
+
+    assert(result.a.a.a !== fn.a.a.a);
   });
 
   it('can recursively copy from Object, it has Symbol', hasSymbol && function() {
@@ -89,11 +107,15 @@ describe('deepcopy', function() {
       [Symbol.for('c')]: 3,
     };
 
-    const copiedObject = deepcopy(symbolObject);
+    const result = deepcopy(symbolObject);
 
-    assert(copiedObject[Symbol.for('a')] === symbolObject[Symbol.for('a')]);
-    assert(copiedObject[Symbol.for('b')] === symbolObject[Symbol.for('b')]);
-    assert(copiedObject[Symbol.for('c')] === symbolObject[Symbol.for('c')]);
+    assert(result[Symbol.for('a')] === symbolObject[Symbol.for('a')]);
+    assert(result[Symbol.for('b')] === symbolObject[Symbol.for('b')]);
+    assert(result[Symbol.for('c')] === symbolObject[Symbol.for('c')]);
+
+    symbolObject[Symbol.for('a')] = 10;
+
+    assert(result[Symbol.for('a')] !== symbolObject[Symbol.for('a')]);
   });
 
   it('can copy duplicated Function', function() {
@@ -125,12 +147,12 @@ describe('deepcopy', function() {
     const array = [date, date],
           copiedArray = deepcopy(array);
 
-    assert(copiedArray[0] === copiedArray[1]);
+    assert(+copiedArray[0] === +copiedArray[1]);
 
     const object = { a: date, b: date },
           copiedObject = deepcopy(object);
 
-    assert(copiedObject[0] === copiedObject[1]);
+    assert(+copiedObject[0] === +copiedObject[1]);
 
     const symbolObject = {
       [Symbol.for('a')]: date,
@@ -138,8 +160,8 @@ describe('deepcopy', function() {
     };
     const copiedSymbolObject = deepcopy(symbolObject);
 
-    assert(copiedSymbolObject[Symbol.for('a')] ===
-           copiedSymbolObject[Symbol.for('b')]);
+    assert(+copiedSymbolObject[Symbol.for('a')] ===
+           +copiedSymbolObject[Symbol.for('b')]);
   });
 
 });

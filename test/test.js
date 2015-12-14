@@ -65,6 +65,9 @@ describe('deepcopy', function() {
 
     array[0][0][0] = 10;
 
+    assert(result !== array);
+    assert(result[0] !== array[0]);
+    assert(result[0][0] !== array[0][0]);
     assert(result[0][0][0] !== array[0][0][0]);
   });
 
@@ -81,6 +84,9 @@ describe('deepcopy', function() {
 
     object.a.a.a = void 0;
 
+    assert(result !== object);
+    assert(result.a !== object.a);
+    assert(result.a.a !== object.a.a);
     assert(result.a.a.a !== object.a.a.a);
   });
 
@@ -93,10 +99,15 @@ describe('deepcopy', function() {
 
     const result = deepcopy(fn);
 
-    assert.deepEqual(result, fn);
+    assert.deepEqual(result.a, fn.a);
+    assert.deepEqual(result.b, fn.b);
+    assert.deepEqual(result.c, fn.c);
 
     fn.a.a.a = void 0;
 
+    assert(result !== fn);
+    assert(result.a !== fn.a);
+    assert(result.a.a !== fn.a.a);
     assert(result.a.a.a !== fn.a.a.a);
   });
 
@@ -115,6 +126,7 @@ describe('deepcopy', function() {
 
     symbolObject[Symbol.for('a')] = 10;
 
+    assert(result !== symbolObject);
     assert(result[Symbol.for('a')] !== symbolObject[Symbol.for('a')]);
   });
 

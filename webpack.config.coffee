@@ -19,6 +19,9 @@ module.exports =
       { test: /\.js$/, exclude: /node_modules/, loader: 'babel' }
     ]
 
+  node:
+    Buffer: false
+
   resolve:
     extensions: [
       ''

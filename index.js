@@ -1,3 +1,1 @@
-import { deepcopy } from './lib';
-
-export default deepcopy;
+module.exports = require('./lib');

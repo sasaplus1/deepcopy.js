@@ -23,6 +23,7 @@
     "mocha": "mocha",
     "karma": "karma",
     "test": "npm ru mocha",
+    "test-node": "npm ru mocha",
     "test-browser": "npm ru karma -- start --single-run --browsers Firefox,Chrome,Safari",
     "webpack": "webpack --colors --display-error-details --progress"
   },

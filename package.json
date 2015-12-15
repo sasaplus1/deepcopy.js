@@ -21,6 +21,7 @@
     "lint": "npm ru eslint -- --ext .js .",
     "minify": "npm ru webpack -- --optimize-minimize --output-filename deepcopy.min.js",
     "mocha": "mocha",
+    "karma": "karma",
     "test": "npm ru mocha",
     "webpack": "webpack --colors --display-error-details --progress"
   },

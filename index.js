@@ -1,3 +1,3 @@
-import { deepcopy } from './lib/base';
+import { deepcopy } from './lib';
 
 export default deepcopy;

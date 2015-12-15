@@ -1,5 +1,0 @@
-{
-  "before_tests": "npm run power",
-  "on_exit": "rm ./test/test.pwr.js",
-  "test_page": "./test/index.html"
-}

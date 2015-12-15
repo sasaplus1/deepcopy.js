@@ -28,6 +28,7 @@
     "webpack": "webpack --colors --display-error-details --progress"
   },
   "devDependencies": {
+    "babel": "5.8.34",
     "babel-eslint": "4.1.6",
     "babel-loader": "5.3.3",
     "babel-plugin-espower": "1.0.1",

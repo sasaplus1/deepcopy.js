@@ -23,6 +23,7 @@
     "mocha": "mocha",
     "karma": "karma",
     "test": "npm ru mocha",
+    "test-browser": "npm ru karma -- start --single-run --browsers Firefox,Chrome,Safari",
     "webpack": "webpack --colors --display-error-details --progress"
   },
   "devDependencies": {
@@ -34,7 +35,10 @@
     "eslint-config-sasaplus1": "git://github.com/sasaplus1-prototype/eslint-config-sasaplus1.git",
     "espower-babel": "3.3.0",
     "karma": "^0.13.15",
+    "karma-chrome-launcher": "^0.2.2",
+    "karma-firefox-launcher": "^0.1.7",
     "karma-mocha": "^0.2.1",
+    "karma-safari-launcher": "^0.1.1",
     "karma-webpack": "^1.7.0",
     "mocha": "^2.3.4",
     "power-assert": "^1.2.0",

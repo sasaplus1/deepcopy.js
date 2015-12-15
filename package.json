@@ -15,9 +15,11 @@
   },
   "scripts": {
     "compile": "npm ru webpack -- --output-filename deepcopy.js",
-    "lint": "eslint --ext .js .",
+    "eslint": "eslint",
+    "lint": "npm ru eslint -- --ext .js .",
     "minify": "npm ru webpack -- --optimize-minimize --output-filename deepcopy.min.js",
-    "test": "mocha ./test/test.js",
+    "mocha": "mocha",
+    "test": "npm ru mocha",
     "webpack": "webpack --colors --display-error-details --progress"
   },
   "devDependencies": {

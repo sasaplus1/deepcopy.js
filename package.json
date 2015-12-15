@@ -21,8 +21,6 @@
     "lint": "eslint --ext .js .",
     "minify": "npm ru webpack -- --optimize-minimize --output-filename deepcopy.min.js",
     "test": "mocha ./test/test.js",
-    "testem": "testem",
-    "travis": "testem ci --launch Firefox,PhantomJS",
     "webpack": "webpack --colors --display-error-details --progress"
   },
   "devDependencies": {

@@ -5,19 +5,24 @@ describe('deepcopy', function() {
 
   const hasSymbol = (typeof Symbol === 'function');
 
+  it('throw error if customizer is not a Function', function() {
+    assert.throws(() => deepcopy([], null));
+    assert.throws(() => deepcopy({}, null));
+  });
+
   it('can copy some basic primitive types', function() {
-    // string
+    // String
     assert(deepcopy('') === '');
     assert(deepcopy('string') === 'string');
 
-    // number
+    // Number
     assert(deepcopy(0) === 0);
     assert(deepcopy(192455631) === 192455631);
     assert(deepcopy(Infinity) === Infinity);
     assert(deepcopy(-Infinity) === -Infinity);
     assert(isNaN(deepcopy(NaN)));
 
-    // boolean
+    // Boolean
     assert(deepcopy(true) === true);
     assert(deepcopy(false) === false);
 
@@ -28,28 +33,50 @@ describe('deepcopy', function() {
     assert(deepcopy(void 0) === void 0);
   });
 
-  it('can copy symbol', hasSymbol && function() {
+  it('can copy Symbol', hasSymbol && function() {
     const symbol = Symbol();
 
     assert(deepcopy(symbol) === symbol);
   });
 
-  it('can copy some built-in classes', function() {
+  it('can copy Date', function() {
     const date = new Date();
 
-    assert(+deepcopy(date) === +date);
+    const copiedDate = deepcopy(date);
 
+    assert(copiedDate !== date);
+    assert(+copiedDate === +date);
+  });
+
+  it('can copy RegExp', function() {
     const regexp = new RegExp('', 'ig');
 
-    assert(String(deepcopy(regexp)) === String(regexp));
+    const copiedRegExp = deepcopy(regexp);
 
+    assert(copiedRegExp !== regexp);
+    assert(String(copiedRegExp) === String(regexp));
+  });
+
+  it('can copy Array', function() {
     const array = [1, 2, 3];
 
-    assert(JSON.stringify(deepcopy(array)) === JSON.stringify(array));
+    const copiedArray = deepcopy(array);
 
+    assert(copiedArray !== array);
+    assert(copiedArray[0] === array[0]);
+    assert(copiedArray[1] === array[1]);
+    assert(copiedArray[2] === array[2]);
+  });
+
+  it('can copy Object', function() {
     const object = { a: 1, b: 2, c: 3 };
 
-    assert(JSON.stringify(deepcopy(object)) === JSON.stringify(object));
+    const copiedObject = deepcopy(object);
+
+    assert(copiedObject !== object);
+    assert(copiedObject.a === object.a);
+    assert(copiedObject.b === object.b);
+    assert(copiedObject.c === object.c);
   });
 
   it('can recursively copy from Array', function() {
@@ -61,13 +88,13 @@ describe('deepcopy', function() {
 
     const result = deepcopy(array);
 
-    assert.deepEqual(result, array);
-
-    array[0][0][0] = 10;
-
     assert(result !== array);
     assert(result[0] !== array[0]);
     assert(result[0][0] !== array[0][0]);
+    assert(result[0][0][0] === array[0][0][0]);
+
+    array[0][0][0] = 10;
+
     assert(result[0][0][0] !== array[0][0][0]);
   });
 
@@ -80,14 +107,37 @@ describe('deepcopy', function() {
 
     const result = deepcopy(object);
 
-    assert.deepEqual(result, object);
-
-    object.a.a.a = void 0;
-
     assert(result !== object);
     assert(result.a !== object.a);
     assert(result.a.a !== object.a.a);
+    assert(result.a.a.a === object.a.a.a);
+
+    object.a.a.a = 10;
+
     assert(result.a.a.a !== object.a.a.a);
+  });
+
+  it('can recursively copy from Object, it has Symbol', hasSymbol && function() {
+    const a = Symbol('a'),
+          b = Symbol('b'),
+          c = Symbol('c');
+
+    const symbolObject = {
+      [a]: 1,
+      [b]: 2,
+      [c]: 3,
+    };
+
+    const result = deepcopy(symbolObject);
+
+    assert(result !== symbolObject);
+    assert(result[a] === symbolObject[a]);
+    assert(result[b] === symbolObject[b]);
+    assert(result[c] === symbolObject[c]);
+
+    symbolObject[a] = 10;
+
+    assert(result[a] !== symbolObject[a]);
   });
 
   it('can recursively copy from Function as Object', function() {
@@ -99,81 +149,195 @@ describe('deepcopy', function() {
 
     const result = deepcopy(fn);
 
-    assert.deepEqual(result.a, fn.a);
-    assert.deepEqual(result.b, fn.b);
-    assert.deepEqual(result.c, fn.c);
-
-    fn.a.a.a = void 0;
-
     assert(result !== fn);
     assert(result.a !== fn.a);
     assert(result.a.a !== fn.a.a);
+    assert(result.a.a.a === fn.a.a.a);
+
+    fn.a.a.a = 10;
+
     assert(result.a.a.a !== fn.a.a.a);
   });
 
-  it('can recursively copy from Object, it has Symbol', hasSymbol && function() {
-    const symbolObject = {
-      [Symbol.for('a')]: 1,
-      [Symbol.for('b')]: 2,
-      [Symbol.for('c')]: 3,
-    };
+  it('can recursively copy from Function as Object, it has Symbol', hasSymbol && function() {
+    const fn = function() {};
 
-    const result = deepcopy(symbolObject);
+    const a = Symbol('a'),
+          b = Symbol('b'),
+          c = Symbol('c');
 
-    assert(result[Symbol.for('a')] === symbolObject[Symbol.for('a')]);
-    assert(result[Symbol.for('b')] === symbolObject[Symbol.for('b')]);
-    assert(result[Symbol.for('c')] === symbolObject[Symbol.for('c')]);
+    fn[a] = { [a]: { [a]: true }, [b]: { [b]: false }, [c]: { [c]: null } };
+    fn[b] = { [a]: { [a]: true }, [b]: { [b]: false }, [c]: { [c]: null } };
+    fn[c] = { [a]: { [a]: true }, [b]: { [b]: false }, [c]: { [c]: null } };
 
-    symbolObject[Symbol.for('a')] = 10;
+    const result = deepcopy(fn);
 
-    assert(result !== symbolObject);
-    assert(result[Symbol.for('a')] !== symbolObject[Symbol.for('a')]);
+    assert(result !== fn);
+    assert(result[a] !== fn[a]);
+    assert(result[a][a] !== fn[a][a]);
+    assert(result[a][a][a] === fn[a][a][a]);
+
+    fn[a][a][a] = 10;
+
+    assert(result[a][a][a] !== fn[a][a][a]);
   });
 
-  it('can copy duplicated Function', function() {
+  it('can copy duplicate Function', function() {
     const fn = function() {};
 
     const array = [fn, fn],
           copiedArray = deepcopy(array);
+
+    assert(array !== copiedArray);
+    assert(array[0] !== copiedArray[0]);
+    assert(array[1] !== copiedArray[1]);
 
     assert(copiedArray[0] === copiedArray[1]);
 
     const object = { a: fn, b: fn },
           copiedObject = deepcopy(object);
 
+    assert(object !== copiedObject);
+    assert(object.a !== copiedObject.a);
+    assert(object.b !== copiedObject.b);
+
     assert(copiedObject.a === copiedObject.b);
+  });
+
+  it('can copy duplicate Function, it has Symbol', hasSymbol && function() {
+    const fn = function() {};
+
+    const a = Symbol('a'),
+          b = Symbol('b');
 
     const symbolObject = {
-      [Symbol.for('a')]: fn,
-      [Symbol.for('b')]: fn,
+      [a]: fn,
+      [b]: fn,
     };
     const copiedSymbolObject = deepcopy(symbolObject);
 
-    assert(copiedSymbolObject[Symbol.for('a')] ===
-           copiedSymbolObject[Symbol.for('b')]);
+    assert(symbolObject !== copiedSymbolObject);
+    assert(symbolObject[a] !== copiedSymbolObject[a]);
+    assert(symbolObject[b] !== copiedSymbolObject[b]);
+
+    assert(copiedSymbolObject[a] === copiedSymbolObject[b]);
   });
 
-  it('can copy duplicated Date', function() {
+  it('can copy duplicate Date', function() {
     const date = new Date();
 
     const array = [date, date],
           copiedArray = deepcopy(array);
 
+    assert(array !== copiedArray);
+    assert(array[0] !== copiedArray[0]);
+    assert(array[1] !== copiedArray[1]);
+
+    assert(+array[0] === +copiedArray[0]);
+    assert(+array[1] === +copiedArray[1]);
+
+    assert(copiedArray[0] === copiedArray[1]);
     assert(+copiedArray[0] === +copiedArray[1]);
 
     const object = { a: date, b: date },
           copiedObject = deepcopy(object);
 
+    assert(object !== copiedObject);
+    assert(object.a !== copiedObject.a);
+    assert(object.b !== copiedObject.b);
+
+    assert(+object.a === +copiedObject.a);
+    assert(+object.b === +copiedObject.b);
+
+    assert(copiedObject.a === copiedObject.b);
     assert(+copiedObject.a === +copiedObject.b);
+  });
+
+  it('can copy duplicate Date, it has Symbol', hasSymbol && function() {
+    const date = new Date();
+
+    const a = Symbol('a'),
+          b = Symbol('b');
 
     const symbolObject = {
-      [Symbol.for('a')]: date,
-      [Symbol.for('b')]: date,
+      [a]: date,
+      [b]: date,
     };
     const copiedSymbolObject = deepcopy(symbolObject);
 
-    assert(+copiedSymbolObject[Symbol.for('a')] ===
-           +copiedSymbolObject[Symbol.for('b')]);
+    assert(symbolObject !== copiedSymbolObject);
+    assert(symbolObject[a] !== copiedSymbolObject[a]);
+    assert(symbolObject[b] !== copiedSymbolObject[b]);
+
+    assert(+symbolObject[a] === +copiedSymbolObject[a]);
+    assert(+symbolObject[b] === +copiedSymbolObject[b]);
+
+    assert(copiedSymbolObject[a] === copiedSymbolObject[b]);
+    assert(+copiedSymbolObject[a] === +copiedSymbolObject[b]);
+  });
+
+  it('can copy Class from Array and Object by customizer', function() {
+    function MyClass(number) {
+      this.number = +number;
+    }
+
+    const customizer = function(target) {
+      if (target.constructor === MyClass) {
+        return new MyClass(target.number);
+      }
+    };
+
+    const myClass = new MyClass(10);
+
+    const array = [myClass, myClass],
+          copiedArray = deepcopy(array, customizer);
+
+    assert(array[0] !== copiedArray[0]);
+    assert(array[1] !== copiedArray[1]);
+    assert(array[0].number === copiedArray[0].number);
+    assert(array[1].number === copiedArray[1].number);
+
+    assert(copiedArray[0] === copiedArray[1]);
+    assert(copiedArray[0].number === copiedArray[1].number);
+
+    const object = { a: myClass, b: myClass },
+          copiedObject = deepcopy(object, customizer);
+
+    assert(object.a !== copiedObject.a);
+    assert(object.b !== copiedObject.b);
+    assert(object.a.number === copiedObject.a.number);
+    assert(object.b.number === copiedObject.b.number);
+
+    assert(copiedObject.a === copiedObject.b);
+    assert(copiedObject.a.number === copiedObject.b.number);
+  });
+
+  it('can copy Class from Object by customizer, it has Symbol', hasSymbol && function() {
+    function MyClass(number) {
+      this.number = +number;
+    }
+
+    const customizer = function(target) {
+      if (target.constructor === MyClass) {
+        return new MyClass(target.number);
+      }
+    };
+
+    const myClass = new MyClass(10);
+
+    const a = Symbol('a'),
+          b = Symbol('b');
+
+    const object = { [a]: myClass, [b]: myClass },
+          copiedObject = deepcopy(object, customizer);
+
+    assert(object[a] !== copiedObject[a]);
+    assert(object[b] !== copiedObject[b]);
+    assert(object[a].number === copiedObject[a].number);
+    assert(object[b].number === copiedObject[b].number);
+
+    assert(copiedObject[a] === copiedObject[b]);
+    assert(copiedObject[a].number === copiedObject[b].number);
   });
 
 });

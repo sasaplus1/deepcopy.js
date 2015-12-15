@@ -14,6 +14,7 @@
     "url": "git://github.com/sasaplus1/deepcopy.js.git"
   },
   "scripts": {
+    "clean": "rimraf ./deepcopy.js ./deepcopy.min.js",
     "compile": "npm ru webpack -- --output-filename deepcopy.js",
     "eslint": "eslint",
     "lint": "npm ru eslint -- --ext .js .",
@@ -35,6 +36,7 @@
     "karma-webpack": "^1.7.0",
     "mocha": "^2.3.4",
     "power-assert": "^1.2.0",
+    "rimraf": "^2.4.4",
     "webpack": "^1.12.9"
   },
   "engines": {

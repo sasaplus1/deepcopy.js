@@ -14,6 +14,7 @@
     "url": "git://github.com/sasaplus1/deepcopy.js.git"
   },
   "scripts": {
+    "build": "npm ru clean && npm ru compile && npm ru minify",
     "clean": "rimraf ./deepcopy.js ./deepcopy.min.js",
     "compile": "npm ru webpack -- --output-filename deepcopy.js",
     "eslint": "eslint",

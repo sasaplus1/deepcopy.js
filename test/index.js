@@ -1,5 +1,5 @@
 import assert from 'power-assert';
-import deepcopy from '../';
+import deepcopy from '../src';
 
 describe('deepcopy', function() {
 
@@ -77,6 +77,30 @@ describe('deepcopy', function() {
     assert(copiedObject.a === object.a);
     assert(copiedObject.b === object.b);
     assert(copiedObject.c === object.c);
+  });
+
+  it('can copy Function', function() {
+    const fn = function() {
+      return 192455631;
+    };
+
+    const result = deepcopy(fn);
+
+    assert(result !== fn);
+    assert(String(result) === String(fn));
+    assert(result() === 192455631);
+  });
+
+  it('can shallow copy native function', function() {
+    const result = deepcopy(Math.abs);
+
+    assert(result === Math.abs);
+  });
+
+  it('can shallow copy native object', function() {
+    const result = deepcopy(Math);
+
+    assert(result === Math);
   });
 
   it('can recursively copy from Array', function() {

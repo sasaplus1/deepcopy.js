@@ -1,2 +1,3 @@
-./deepcopy.js
-./deepcopy.min.js
+./build/deepcopy.js
+./build/deepcopy.min.js
+./lib

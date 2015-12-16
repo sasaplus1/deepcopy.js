@@ -58,18 +58,17 @@ function copyCollection(target, customizer) {
     }
   }
 
-  const stringifiedTarget = toString.call(target);
+  const targetClass = toString.call(target);
 
-  if (stringifiedTarget === '[object Array]') {
+  if (targetClass === '[object Array]') {
     return [];
   }
 
-  if (stringifiedTarget === '[object Object]' &&
-      target.constructor === Object) {
+  if (targetClass === '[object Object]' && target.constructor === Object) {
     return {};
   }
 
-  if (stringifiedTarget === '[object Date]') {
+  if (targetClass === '[object Date]') {
     // NOTE:
     //
     //   Firefox need to convert
@@ -88,7 +87,7 @@ function copyCollection(target, customizer) {
     return new Date(+target);
   }
 
-  if (stringifiedTarget === '[object RegExp]') {
+  if (targetClass === '[object RegExp]') {
     // NOTE:
     //
     //   Chrome, Safari:

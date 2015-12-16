@@ -17,9 +17,45 @@ function copyCollection(target, customizer) {
     throw new TypeError('customizer is must be a Function');
   }
 
-  // TODO: how to copy when passed native function?
   if (typeof target === 'function') {
-    return (new Function(`return ${target}`)());
+    const source = String(target);
+
+    // NOTE:
+    //
+    //   https://gist.github.com/jdalton/5e34d890105aca44399f
+    //
+    //   - https://gist.github.com/jdalton/5e34d890105aca44399f#gistcomment-1283831
+    //   - http://es5.github.io/#x15
+    //
+    //   native functions does not have prototype:
+    //
+    //       Object.toString.prototype  // => undefined
+    //       (function() {}).prototype  // => {}
+    //
+    //   but cannot detect native constructor:
+    //
+    //       typeof Object     // => 'function'
+    //       Object.prototype  // => {}
+    //
+    //   and cannot detect null binded function:
+    //
+    //       String(Math.abs)
+    //         // => 'function abs() { [native code] }'
+    //
+    //     Firefox, Safari:
+    //       String((function abs() {}).bind(null))
+    //         // => 'function abs() { [native code] }'
+    //
+    //     Chrome:
+    //       String((function abs() {}).bind(null))
+    //         // => 'function () { [native code] }'
+    if (/^\s*function\s*\S*\([^\)]*\)\s*{\s*\[native code\]\s*}/.test(source)) {
+      // native function
+      return target;
+    } else {
+      // user defined function
+      return (new Function(`return ${source}`)());
+    }
   }
 
   const stringifiedTarget = toString.call(target);

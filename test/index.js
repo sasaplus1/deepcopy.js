@@ -17,7 +17,8 @@ describe('deepcopy', function() {
 
     // Number
     assert(deepcopy(0) === 0);
-    assert(deepcopy(192455631) === 192455631);
+    assert(deepcopy(9007199254740991) === 9007199254740991);
+    assert(deepcopy(-9007199254740991) === -9007199254740991);
     assert(deepcopy(Infinity) === Infinity);
     assert(deepcopy(-Infinity) === -Infinity);
     assert(isNaN(deepcopy(NaN)));

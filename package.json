@@ -22,11 +22,11 @@
     "eslint": "eslint",
     "karma": "karma",
     "lint": "npm ru eslint -- --ext .js .",
-    "mocha": "mocha",
     "minify": "npm ru webpack -- --optimize-minimize --output-filename ./build/deepcopy.min.js",
+    "mocha": "mocha",
+    "posttest": "npm ru karma -- start --single-run --browsers Chrome,Firefox,Safari",
     "rimraf": "rimraf",
     "test": "npm ru mocha",
-    "posttest": "npm ru karma -- start --single-run --browsers Chrome,Firefox,Safari",
     "webpack": "webpack --colors --display-error-details --progress"
   },
   "devDependencies": {

@@ -15,7 +15,7 @@
   },
   "scripts": {
     "babel": "babel --out-dir ./lib ./src",
-    "build": "npm ru clean && npm ru compile && npm ru minify",
+    "build": "npm ru clean && npm ru babel && npm ru compile && npm ru minify",
     "clean": "npm ru rimraf -- ./build ./lib",
     "compile": "npm ru webpack -- --output-filename ./build/deepcopy.js",
     "develop": " parallelshell 'npm ru babel -- -w' 'npm ru compile -- -w' 'npm ru minify -- -w'",
@@ -24,7 +24,7 @@
     "lint": "npm ru eslint -- --ext .js .",
     "minify": "npm ru webpack -- --optimize-minimize --output-filename ./build/deepcopy.min.js",
     "mocha": "mocha",
-    "prepublish": "npm ru babel",
+    "prepublish": "npm ru build",
     "posttest": "npm ru karma -- start --single-run --browsers Chrome,Firefox,Safari",
     "rimraf": "rimraf",
     "test": "npm ru mocha",

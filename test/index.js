@@ -98,12 +98,6 @@ describe('deepcopy', function() {
     assert(result === Math.abs);
   });
 
-  it('can shallow copy native object', function() {
-    const result = deepcopy(Math);
-
-    assert(result === Math);
-  });
-
   it('can recursively copy from Array', function() {
     const array = [
       [[1], [2], [3]],

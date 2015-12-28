@@ -14,17 +14,19 @@
     "url": "git://github.com/sasaplus1/deepcopy.js.git"
   },
   "scripts": {
+    "babel": "babel --out-dir ./lib ./src",
     "build": "npm ru clean && npm ru compile && npm ru minify",
-    "clean": "rimraf './build/deepcopy?(.min).js'",
+    "clean": "npm ru rimraf -- ./build ./lib",
     "compile": "npm ru webpack -- --output-filename ./build/deepcopy.js",
+    "develop": " parallelshell 'npm ru babel -- -w' 'npm ru compile -- -w' 'npm ru minify -- -w'",
     "eslint": "eslint",
-    "lint": "npm ru eslint -- --ext .js .",
-    "minify": "npm ru webpack -- --optimize-minimize --output-filename ./build/deepcopy.min.js",
-    "mocha": "mocha",
     "karma": "karma",
+    "lint": "npm ru eslint -- --ext .js .",
+    "mocha": "mocha",
+    "minify": "npm ru webpack -- --optimize-minimize --output-filename ./build/deepcopy.min.js",
+    "rimraf": "rimraf",
     "test": "npm ru mocha",
-    "test-node": "npm ru mocha",
-    "test-browser": "npm ru karma -- start --single-run --browsers Firefox,Chrome,Safari",
+    "posttest": "npm ru karma -- start --single-run --browsers Chrome,Firefox,Safari",
     "webpack": "webpack --colors --display-error-details --progress"
   },
   "devDependencies": {
@@ -43,6 +45,7 @@
     "karma-safari-launcher": "^0.1.1",
     "karma-webpack": "^1.7.0",
     "mocha": "^2.3.4",
+    "parallelshell": "^2.0.0",
     "power-assert": "^1.2.0",
     "rimraf": "^2.4.4",
     "webpack": "^1.12.9"

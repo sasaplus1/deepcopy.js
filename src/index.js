@@ -1,4 +1,4 @@
-import { copy, copyCollection, copyValue } from './copier';
+import { copy, copyCollection, copyValue } from './copy';
 import { getKeys, getSymbols, indexOf } from './polyfill';
 
 function defaultCustomizer(target) {

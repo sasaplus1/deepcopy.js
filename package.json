@@ -24,6 +24,7 @@
     "lint": "npm ru eslint -- --ext .js .",
     "minify": "npm ru webpack -- --optimize-minimize --output-filename ./build/deepcopy.min.js",
     "mocha": "mocha",
+    "postinstall": "npm ru babel",
     "posttest": "npm ru karma -- start --single-run --browsers Chrome,Firefox,Safari",
     "rimraf": "rimraf",
     "test": "npm ru mocha",

@@ -3,22 +3,17 @@
 [![Build Status](https://travis-ci.org/sasaplus1/deepcopy.js.svg)](https://travis-ci.org/sasaplus1/deepcopy.js)
 [![Dependency Status](https://gemnasium.com/sasaplus1/deepcopy.js.svg)](https://gemnasium.com/sasaplus1/deepcopy.js)
 [![NPM version](https://badge.fury.io/js/deepcopy.svg)](http://badge.fury.io/js/deepcopy)
-[![Bower version](https://badge.fury.io/bo/deepcopy.svg)](http://badge.fury.io/bo/deepcopy)
 
 deep copy for any data
 
-## Installation
+## Playground
 
-### npm
+[REPL powered by Tonic](https://tonicdev.com/npm/deepcopy)
+
+## Installation
 
 ```sh
 $ npm install deepcopy
-```
-
-### bower
-
-```sh
-$ bower install deepcopy
 ```
 
 ## Usage
@@ -26,7 +21,7 @@ $ bower install deepcopy
 ### node.js
 
 ```js
-var deepcopy = require('deepcopy');
+var deepcopy = require("deepcopy");
 ```
 
 ### browser
@@ -35,121 +30,101 @@ var deepcopy = require('deepcopy');
 <script src="deepcopy.min.js"></script>
 ```
 
-define `deepcopy` by `define()` if using AMD loader.
-
-otherwise `deepcopy` export to global.
-
 ### Example
 
-```js
-var data, shallow, deep;
+basic usage:
 
-data = {
-  objects: {
-    array: [
-      null, undefined, new Date, /deepcopy/ig
-    ],
-    object: {
-      number: NaN,
-      string: 'A',
-      boolean: true
-    },
-    to: null
-  }
+```js
+var base, copy;
+
+base = {
+  desserts: [
+    { name: "cake"      },
+    { name: "ice cream" },
+    { name: "pudding"   }
+  ]
 };
 
-// circular reference
-data.objects.to = data;
+copy = deepcopy(base);
+base.desserts = null;
 
-// shallow copy and deep copy
-shallow = data;
-deep = deepcopy(data);
-
-// remove entry
-delete data.objects;
-
-// results
-console.log(data);
-// {}
-console.log(shallow);
-// {}
-console.log(require('util').inspect(deep, { depth: null }));
-// { objects:
-//    { array:
-//       [ null,
-//         undefined,
-//         Sat Jan 10 2015 03:18:32 GMT+0900 (JST),
-//         /deepcopy/gi ],
-//      object: { number: NaN, string: 'A', boolean: true },
-//      to: [Circular] } }
+console.log(base);
+// { desserts: null }
+console.log(copy);
+// { desserts: [ { name: 'cake' }, { name: 'ice cream' }, { name: 'pudding' } ] }
 ```
 
+customize deepcopy:
+
 ```js
-var data, deep;
+function MyClass(id) {
+  this._id = id;
+}
 
-data = { object: {} };
-data.object[Symbol.for('sym')] = 123;
+var base, copy;
 
-deep = deepcopy(data);
+base = {
+  myClasses: [
+    new MyClass(1),
+    new MyClass(2),
+    new MyClass(3)
+  ]
+};
 
-delete data.object;
+copy = deepcopy(base, function(target) {
+  if (target.constructor === MyClass) {
+    return new MyClass(target._id);
+  }
+});
+base.myClasses = null;
 
-console.log(data.object);
-// undefined
-console.log(deep.object[Symbol.for('sym')]);
-// 123
+console.log(base);
+// { myClasses: null }
+console.log(copy);
+// { myClasses: [ MyClass { _id: 1 }, MyClass { _id: 2 }, MyClass { _id: 3 } ] }
 ```
 
 ## Functions
 
-### deepcopy(value)
+### deepcopy(value[, customizer])
 
-* `value`
-  * `*` - copy target value
-* `return`
-  * `*` - deep copied value
+- `value`
+  - `*` - target value
+- `customizer`
+  - `Function` - customize function
+- `return`
+  - `*` - copied value
 
-return deep copied value.
+support types are below:
 
-supported types are below:
-
-* Number
-* String
-* Boolean
-* Null
-* Undefined
-* Function (shallow copy)
-* Date
-* RegExp
-* Array
-  * recursive copy
-  * also can copy if it has circular reference
-* Object
-  * recursive copy
-  * also can copy if it has circular reference
-* Buffer (node.js only)
-* Symbol
+- Number
+- String
+- Boolean
+- Null
+- Undefined
+- Function
+  - shallow copy if it is native function
+- Date
+- RegExp
+- Array
+  - support recursive copy
+  - also can copy if it has circular reference
+- Object
+  - support recursive copy
+  - also can copy if it has circular reference
+- Buffer (node.js only)
+- Symbol
 
 ## Test
-
-### node.js
 
 ```sh
 $ npm install
 $ npm test
 ```
 
-### browser
-
-```sh
-$ npm install
-$ npm run bower
-$ npm run testem
-```
-
 ## Contributors
 
-* [kjirou](https://github.com/kjirou)
+- [kjirou](https://github.com/kjirou)
 
 ## License
 

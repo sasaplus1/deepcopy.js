@@ -1,3 +1,8 @@
+# 0.6.0 / 2015-12-29
+
+  - fixed #7
+  - added customizer argument
+
 # 0.5.0 / 2015-04-11
 
   - supported for Symbol

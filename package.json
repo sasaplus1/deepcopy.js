@@ -1,38 +1,59 @@
 {
   "name": "deepcopy",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "author": "sasa+1 <sasaplus1@gmail.com>",
   "contributors": [
     "kjirou <kjirou.web@gmail.com>"
   ],
   "description": "deep copy for any data",
-  "main": "./deepcopy.js",
+  "main": "./index.js",
   "license": "MIT",
   "readmeFilename": "README.md",
   "repository": {
     "type": "git",
     "url": "git://github.com/sasaplus1/deepcopy.js.git"
   },
-  "directories": {
-    "test": "test/"
-  },
   "scripts": {
-    "bower": "bower install",
-    "fix": "fixjsstyle --flagfile .closurelinter -r .",
-    "lint": "gjslint --flagfile .closurelinter -r .",
-    "minify": "uglifyjs ./deepcopy.js --comments '@license' -cm -r deepcopy -o ./deepcopy.min.js",
-    "power": "espower ./test/test.js > ./test/test.pwr.js",
-    "test": "mocha ./test/test.js",
-    "testem": "testem",
-    "travis": "testem ci --launch Firefox,PhantomJS"
+    "babel": "babel --out-dir ./lib ./src",
+    "build": "npm ru clean && npm ru babel && npm ru compile && npm ru minify",
+    "clean": "npm ru rimraf -- ./build ./lib",
+    "compile": "npm ru webpack -- --output-filename ./build/deepcopy.js",
+    "develop": " parallelshell 'npm ru babel -- -w' 'npm ru compile -- -w' 'npm ru minify -- -w'",
+    "eslint": "eslint",
+    "karma": "karma",
+    "lint": "npm ru eslint -- --ext .js .",
+    "minify": "npm ru webpack -- --optimize-minimize --output-filename ./build/deepcopy.min.js",
+    "mocha": "mocha",
+    "posttest": "npm ru karma -- start --single-run --browsers Chrome,Firefox,Safari",
+    "prepublish": "npm ru build",
+    "rimraf": "rimraf",
+    "test": "npm ru mocha",
+    "travis": "npm ru mocha",
+    "webpack": "webpack --colors --display-error-details --progress"
   },
   "devDependencies": {
-    "bower": "~1.4",
-    "espower-cli": "~0.2",
-    "intelli-espower-loader": "~0.6",
-    "mocha": "~2.2",
-    "power-assert": "~0.10",
-    "testem": "~0.7",
-    "uglify-js": "~2.4"
+    "babel": "5.8.34",
+    "babel-eslint": "4.1.6",
+    "babel-loader": "5.3.3",
+    "babel-plugin-espower": "1.0.1",
+    "coffee-script": "^1.10.0",
+    "eslint": "^1.10.3",
+    "eslint-config-sasaplus1": "git://github.com/sasaplus1-prototype/eslint-config-sasaplus1.git",
+    "espower-babel": "3.3.0",
+    "karma": "^0.13.15",
+    "karma-chrome-launcher": "^0.2.2",
+    "karma-firefox-launcher": "^0.1.7",
+    "karma-mocha": "^0.2.1",
+    "karma-safari-launcher": "^0.1.1",
+    "karma-webpack": "^1.7.0",
+    "mocha": "^2.3.4",
+    "parallelshell": "^2.0.0",
+    "power-assert": "^1.2.0",
+    "rimraf": "^2.4.4",
+    "webpack": "^1.12.9"
+  },
+  "engines": {
+    "node": "^4.2.3",
+    "npm": "^2.14.7"
   }
 }

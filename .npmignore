@@ -1,4 +1,9 @@
-deepcopy.min.js
-.closurelinter
+.babelrc
+.eslintignore
+.eslintrc
+.gitignore
 .travis.yml
+karma.conf.coffee
 test/
+webpack.config.coffee
+webpack.config.js

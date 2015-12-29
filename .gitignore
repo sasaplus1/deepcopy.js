@@ -1,4 +1,6 @@
+# node.js
 npm-debug.log
-test/test.pwr.js
-bower_components/
 node_modules/
+
+# generate files
+/lib/

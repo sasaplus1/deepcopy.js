@@ -28,6 +28,7 @@
     "posttest": "npm ru karma -- start --single-run --browsers Chrome,Firefox,Safari",
     "rimraf": "rimraf",
     "test": "npm ru mocha",
+    "travis": "npm ru mocha",
     "webpack": "webpack --colors --display-error-details --progress"
   },
   "devDependencies": {

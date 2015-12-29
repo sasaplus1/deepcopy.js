@@ -16,3 +16,6 @@ cache:
 
 notifications:
   email: false
+
+script:
+  - npm run travis

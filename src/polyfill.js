@@ -9,7 +9,7 @@ const isBuffer = (typeof Buffer !== 'undefined') ?
     return false;
   };
 
-const getKeys = (Object.keys) ?
+const getKeys = (typeof Object.keys === 'function') ?
   function getKeys(obj) {
     return Object.keys(obj);
   } :

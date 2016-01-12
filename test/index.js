@@ -295,6 +295,48 @@ describe('deepcopy', function() {
     assert(+copiedSymbolObject[a] === +copiedSymbolObject[b]);
   });
 
+  it('can recursively copy from Object in Array', function() {
+    const array = [
+      {
+        a: 1,
+        b: 2,
+      },
+      {
+        a: 1,
+        b: 3,
+      },
+    ];
+
+    const copiedArray = deepcopy(array);
+
+    assert(array !== copiedArray);
+    assert(array[0].a === copiedArray[0].a);
+    assert(array[0].b === copiedArray[0].b);
+    assert(array[1].a === copiedArray[1].a);
+    assert(array[1].b === copiedArray[1].b);
+  });
+
+  it('can recursively copy from Array in Objct', function() {
+    const object = {
+      a: [
+        1,
+        2,
+      ],
+      b: [
+        1,
+        3,
+      ],
+    };
+
+    const copiedObject = deepcopy(object);
+
+    assert(object !== copiedObject);
+    assert(object.a[0] === copiedObject.a[0]);
+    assert(object.b[0] === copiedObject.b[0]);
+    assert(object.a[1] === copiedObject.a[1]);
+    assert(object.b[1] === copiedObject.b[1]);
+  });
+
   it('can copy Class from Array and Object by customizer', function() {
     function MyClass(number) {
       this.number = +number;

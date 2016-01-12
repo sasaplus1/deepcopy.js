@@ -354,8 +354,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var key = undefined,
 	      value = undefined,
 	      index = undefined,
-	      result = undefined,
 	      resultCopy = undefined,
+	      result = undefined,
 	      ref = undefined;
 
 	  for (i = 0, len = keys.length; i < len; ++i) {
@@ -367,8 +367,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      resultCopy = _copy.copy(value, customizer);
 	      result = resultCopy !== null ? resultCopy : value;
 
-	      visited.push(value);
-	      reference.push(result);
+	      if (value !== null && /^(?:function|object)$/.test(typeof value)) {
+	        visited.push(value);
+	        reference.push(result);
+	      }
 	    } else {
 	      // circular reference
 	      ref = reference[index];

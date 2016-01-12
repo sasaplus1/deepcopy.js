@@ -1,6 +1,6 @@
 {
   "name": "deepcopy",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "author": "sasa+1 <sasaplus1@gmail.com>",
   "contributors": [
     "kjirou <kjirou.web@gmail.com>"
@@ -51,9 +51,5 @@
     "power-assert": "^1.2.0",
     "rimraf": "^2.4.4",
     "webpack": "^1.12.9"
-  },
-  "engines": {
-    "node": "^4.2.3",
-    "npm": "^2.14.7"
   }
 }

@@ -45,7 +45,7 @@ function recursiveCopy(target, customizer, clone, visited, reference) {
 
   let i, len;
 
-  let key, value, index, result, resultCopy, ref;
+  let key, value, index, resultCopy, result, ref;
 
   for (i = 0, len = keys.length; i < len; ++i) {
     key = keys[i];
@@ -56,8 +56,10 @@ function recursiveCopy(target, customizer, clone, visited, reference) {
       resultCopy = copy(value, customizer);
       result = (resultCopy !== null) ? resultCopy : value;
 
-      visited.push(value);
-      reference.push(result);
+      if (value !== null && /^(?:function|object)$/.test(typeof value)) {
+        visited.push(value);
+        reference.push(result);
+      }
     } else {
       // circular reference
       ref = reference[index];

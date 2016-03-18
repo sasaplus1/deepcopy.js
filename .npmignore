@@ -1,6 +1,6 @@
 .babelrc
 .eslintignore
-.eslintrc
+.eslintrc.yaml
 .gitignore
 .travis.yml
 karma.conf.coffee

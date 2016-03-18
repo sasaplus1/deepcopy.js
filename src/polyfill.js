@@ -55,9 +55,13 @@ function indexOf(array, s) {
   for (i = 0, len = array.length; i < len; ++i) {
     value = array[i];
 
-    // it is SameValue algorithm
-    // http://stackoverflow.com/questions/27144277/comparing-a-variable-with-itself
-    if (value === s || (value !== value && s !== s)) { // eslint-disable-line no-self-compare
+    // NOTE:
+    //
+    //   it is SameValue algorithm
+    //   http://stackoverflow.com/questions/27144277/comparing-a-variable-with-itself
+    //
+    // eslint-disable-next-line no-self-compare
+    if (value === s || (value !== value && s !== s)) {
       return i;
     }
   }

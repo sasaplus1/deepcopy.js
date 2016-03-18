@@ -1,5 +1,14 @@
-import { copy, copyCollection, copyValue } from './copy';
-import { getKeys, getSymbols, indexOf } from './polyfill';
+import {
+  copy,
+  copyCollection,
+  copyValue,
+} from './copy';
+
+import {
+  getKeys,
+  getSymbols,
+  indexOf,
+} from './polyfill';
 
 function defaultCustomizer(target) {
   return void 0;

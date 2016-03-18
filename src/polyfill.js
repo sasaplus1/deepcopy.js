@@ -24,7 +24,7 @@ const getKeys = (typeof Object.keys === 'function') ?
         key;
 
     for (key in obj) {
-      obj.hasOwnProperty(key) && resultKeys.push(key);
+      Object.prototype.hasOwnProperty.call(obj, key) && resultKeys.push(key);
     }
 
     return resultKeys;

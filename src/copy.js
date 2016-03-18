@@ -84,7 +84,7 @@ function copyCollection(target, customizer) {
     //     +date;            // 1420909757913
     //     +new Date(date);  // 1420909757913
     //     +new Date(+date); // 1420909757913
-    return new Date(+target);
+    return new Date(target.getTime());
   }
 
   if (targetClass === '[object RegExp]') {

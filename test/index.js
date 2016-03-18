@@ -297,14 +297,14 @@ describe('deepcopy', function() {
 
   it('can recursively copy from Object in Array', function() {
     const array = [
-      {
-        a: 1,
-        b: 2,
-      },
-      {
-        a: 1,
-        b: 3,
-      },
+          {
+            a: 1,
+            b: 2,
+          },
+          {
+            a: 1,
+            b: 3,
+          },
     ];
 
     const copiedArray = deepcopy(array);

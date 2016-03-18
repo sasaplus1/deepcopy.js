@@ -16,7 +16,7 @@ const getKeys = (typeof Object.keys === 'function') ?
   function getKeys(obj) {
     const objType = typeof obj;
 
-    if (obj === null || objType !== 'function' || objType !== 'object') {
+    if (obj === null || (objType !== 'function' && objType !== 'object')) {
       throw new TypeError('obj must be an Object');
     }
 

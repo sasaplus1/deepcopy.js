@@ -136,7 +136,7 @@ function copyValue(target) {
   return null;
 }
 
-export default {
+export {
   copy,
   copyCollection,
   copyValue,

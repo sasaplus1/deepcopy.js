@@ -69,7 +69,7 @@ function indexOf(array, s) {
   return -1;
 }
 
-export default {
+export {
   getKeys,
   getSymbols,
   indexOf,

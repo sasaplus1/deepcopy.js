@@ -35,7 +35,7 @@
     "babel": "^6.5.2",
     "babel-cli": "^6.6.5",
     "babel-core": "^6.7.2",
-    "babel-eslint": "^5.0.0",
+    "babel-eslint": "^6.0.0-beta.6",
     "babel-loader": "^6.2.4",
     "babel-plugin-add-module-exports": "^0.1.2",
     "babel-plugin-check-es2015-constants": "^6.7.2",

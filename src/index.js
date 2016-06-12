@@ -68,6 +68,8 @@ function recursiveCopy(target, customizer, clone, visited, reference) {
       if (value !== null && /^(?:function|object)$/.test(typeof value)) {
         visited.push(value);
         reference.push(result);
+      } else {
+        ref = result;
       }
     } else {
       // circular reference

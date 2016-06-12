@@ -79,20 +79,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return false;
 	};
 
-	var getKeys = Object.keys ? function getKeys(obj) {
+	var getKeys = typeof Object.keys === 'function' ? function getKeys(obj) {
 	  return Object.keys(obj);
 	} : function getKeys(obj) {
 	  var objType = typeof obj;
 
-	  if (obj === null || objType !== 'function' || objType !== 'object') {
+	  if (obj === null || objType !== 'function' && objType !== 'object') {
 	    throw new TypeError('obj must be an Object');
 	  }
 
 	  var resultKeys = [],
-	      key = undefined;
+	      key = void 0;
 
 	  for (key in obj) {
-	    obj.hasOwnProperty(key) && resultKeys.push(key);
+	    Object.prototype.hasOwnProperty.call(obj, key) && resultKeys.push(key);
 	  }
 
 	  return resultKeys;
@@ -116,17 +116,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	    throw new TypeError('array must be an Array');
 	  }
 
-	  var i = undefined,
-	      len = undefined,
-	      value = undefined;
+	  var i = void 0,
+	      len = void 0,
+	      value = void 0;
 
 	  for (i = 0, len = array.length; i < len; ++i) {
 	    value = array[i];
 
-	    // it is SameValue algorithm
-	    // http://stackoverflow.com/questions/27144277/comparing-a-variable-with-itself
+	    // NOTE:
+	    //
+	    //   it is SameValue algorithm
+	    //   http://stackoverflow.com/questions/27144277/comparing-a-variable-with-itself
+	    //
+	    // eslint-disable-next-line no-self-compare
 	    if (value === s || value !== value && s !== s) {
-	      // eslint-disable-line no-self-compare
 	      return i;
 	    }
 	  }
@@ -134,13 +137,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return -1;
 	}
 
-	exports['default'] = {
-	  getKeys: getKeys,
-	  getSymbols: getSymbols,
-	  indexOf: indexOf,
-	  isBuffer: isBuffer
-	};
-	module.exports = exports['default'];
+	exports.getKeys = getKeys;
+	exports.getSymbols = getSymbols;
+	exports.indexOf = indexOf;
+	exports.isBuffer = isBuffer;
 
 /***/ },
 /* 2 */
@@ -149,6 +149,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	exports.__esModule = true;
+	exports.copyValue = exports.copyCollection = exports.copy = void 0;
 
 	var _polyfill = __webpack_require__(1);
 
@@ -206,7 +207,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return target;
 	    } else {
 	      // user defined function
-	      return new Function('return ' + source)();
+	      return new Function('return ' + String(source))();
 	    }
 	  }
 
@@ -236,7 +237,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    //     +date;            // 1420909757913
 	    //     +new Date(date);  // 1420909757913
 	    //     +new Date(+date); // 1420909757913
-	    return new Date(+target);
+	    return new Date(target.getTime());
 	  }
 
 	  if (targetClass === '[object RegExp]') {
@@ -256,7 +257,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return new RegExp(regexpText.slice(1, slashIndex), regexpText.slice(slashIndex + 1));
 	  }
 
-	  if (_polyfill.isBuffer(target)) {
+	  if ((0, _polyfill.isBuffer)(target)) {
 	    var buffer = new Buffer(target.length);
 
 	    target.copy(buffer);
@@ -285,12 +286,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return null;
 	}
 
-	exports['default'] = {
-	  copy: copy,
-	  copyCollection: copyCollection,
-	  copyValue: copyValue
-	};
-	module.exports = exports['default'];
+	exports.copy = copy;
+	exports.copyCollection = copyCollection;
+	exports.copyValue = copyValue;
 
 /***/ },
 /* 3 */
@@ -309,21 +307,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	function deepcopy(target) {
-	  var customizer = arguments.length <= 1 || arguments[1] === undefined ? defaultCustomizer : arguments[1];
+	  var customizer = arguments.length <= 1 || arguments[1] === void 0 ? defaultCustomizer : arguments[1];
 
 	  if (target === null) {
 	    // copy null
 	    return null;
 	  }
 
-	  var resultValue = _copy.copyValue(target);
+	  var resultValue = (0, _copy.copyValue)(target);
 
 	  if (resultValue !== null) {
 	    // copy some primitive types
 	    return resultValue;
 	  }
 
-	  var resultCollection = _copy.copyCollection(target, customizer),
+	  var resultCollection = (0, _copy.copyCollection)(target, customizer),
 	      clone = resultCollection !== null ? resultCollection : target;
 
 	  var visited = [target],
@@ -339,37 +337,39 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return null;
 	  }
 
-	  var resultValue = _copy.copyValue(target);
+	  var resultValue = (0, _copy.copyValue)(target);
 
 	  if (resultValue !== null) {
 	    // copy some primitive types
 	    return resultValue;
 	  }
 
-	  var keys = _polyfill.getKeys(target).concat(_polyfill.getSymbols(target));
+	  var keys = (0, _polyfill.getKeys)(target).concat((0, _polyfill.getSymbols)(target));
 
-	  var i = undefined,
-	      len = undefined;
+	  var i = void 0,
+	      len = void 0;
 
-	  var key = undefined,
-	      value = undefined,
-	      index = undefined,
-	      resultCopy = undefined,
-	      result = undefined,
-	      ref = undefined;
+	  var key = void 0,
+	      value = void 0,
+	      index = void 0,
+	      resultCopy = void 0,
+	      result = void 0,
+	      ref = void 0;
 
 	  for (i = 0, len = keys.length; i < len; ++i) {
 	    key = keys[i];
 	    value = target[key];
-	    index = _polyfill.indexOf(visited, value);
+	    index = (0, _polyfill.indexOf)(visited, value);
 
 	    if (index === -1) {
-	      resultCopy = _copy.copy(value, customizer);
+	      resultCopy = (0, _copy.copy)(value, customizer);
 	      result = resultCopy !== null ? resultCopy : value;
 
 	      if (value !== null && /^(?:function|object)$/.test(typeof value)) {
 	        visited.push(value);
 	        reference.push(result);
+	      } else {
+	        ref = result;
 	      }
 	    } else {
 	      // circular reference

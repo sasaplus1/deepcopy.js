@@ -297,14 +297,14 @@ describe('deepcopy', function() {
 
   it('can recursively copy from Object in Array', function() {
     const array = [
-      {
-        a: 1,
-        b: 2,
-      },
-      {
-        a: 1,
-        b: 3,
-      },
+          {
+            a: 1,
+            b: 2,
+          },
+          {
+            a: 1,
+            b: 3,
+          },
     ];
 
     const copiedArray = deepcopy(array);
@@ -314,6 +314,22 @@ describe('deepcopy', function() {
     assert(array[0].b === copiedArray[0].b);
     assert(array[1].a === copiedArray[1].a);
     assert(array[1].b === copiedArray[1].b);
+
+    const fn = function() {};
+
+    const functionInObject = [
+      { a: fn, b: 'b' },
+      { c: fn, d: 'd' },
+    ];
+
+    const copiedFunctionInObject = deepcopy(functionInObject);
+
+    assert(functionInObject !== copiedFunctionInObject);
+
+    assert(functionInObject[0].a !== copiedFunctionInObject[0].a);
+    assert(functionInObject[0].b === copiedFunctionInObject[0].b);
+    assert(functionInObject[1].c !== copiedFunctionInObject[1].c);
+    assert(functionInObject[1].d === copiedFunctionInObject[1].d);
   });
 
   it('can recursively copy from Array in Objct', function() {
@@ -335,6 +351,38 @@ describe('deepcopy', function() {
     assert(object.b[0] === copiedObject.b[0]);
     assert(object.a[1] === copiedObject.a[1]);
     assert(object.b[1] === copiedObject.b[1]);
+
+    const fn = function() {};
+
+    const functionInArray = {
+      a: [fn, 1],
+      b: [fn, 1],
+    };
+
+    const copiedFunctionInArray = deepcopy(functionInArray);
+
+    assert(functionInArray !== copiedFunctionInArray);
+
+    assert(functionInArray.a[0] !== copiedFunctionInArray.a[0]);
+    assert(functionInArray.a[1] === copiedFunctionInArray.a[1]);
+    assert(functionInArray.b[0] !== copiedFunctionInArray.b[0]);
+    assert(functionInArray.b[1] === copiedFunctionInArray.b[1]);
+
+    const functionInArrayInArray = {
+      a: [
+        [fn, 1],
+        [fn, 2],
+      ]
+    };
+
+    const copiedFunctionInArrayInArray = deepcopy(functionInArrayInArray);
+
+    assert(functionInArrayInArray !== copiedFunctionInArrayInArray);
+
+    assert(functionInArrayInArray.a[0][0] !== copiedFunctionInArrayInArray.a[0][0]);
+    assert(functionInArrayInArray.a[0][1] === copiedFunctionInArrayInArray.a[0][1]);
+    assert(functionInArrayInArray.a[1][0] !== copiedFunctionInArrayInArray.a[1][0]);
+    assert(functionInArrayInArray.a[1][1] === copiedFunctionInArrayInArray.a[1][1]);
   });
 
   it('can copy Class from Array and Object by customizer', function() {

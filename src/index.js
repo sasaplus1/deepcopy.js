@@ -1,5 +1,14 @@
-import { copy, copyCollection, copyValue } from './copy';
-import { getKeys, getSymbols, indexOf } from './polyfill';
+import {
+  copy,
+  copyCollection,
+  copyValue,
+} from './copy';
+
+import {
+  getKeys,
+  getSymbols,
+  indexOf,
+} from './polyfill';
 
 function defaultCustomizer(target) {
   return void 0;
@@ -59,6 +68,8 @@ function recursiveCopy(target, customizer, clone, visited, reference) {
       if (value !== null && /^(?:function|object)$/.test(typeof value)) {
         visited.push(value);
         reference.push(result);
+      } else {
+        ref = result;
       }
     } else {
       // circular reference

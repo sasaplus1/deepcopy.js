@@ -385,6 +385,58 @@ describe('deepcopy', function() {
     assert(functionInArrayInArray.a[1][1] === copiedFunctionInArrayInArray.a[1][1]);
   });
 
+  it('can copy deeper Object and Array', function() {
+    const array = [
+      1,
+      2,
+      [
+        3,
+        4,
+        [
+          function() {},
+          6,
+          7
+        ]
+      ]
+    ];
+
+    const copiedArray = deepcopy(array);
+
+    assert(array !== copiedArray);
+    assert(array[0] === copiedArray[0]);
+    assert(array[1] === copiedArray[1]);
+    assert(array[2] !== copiedArray[2]);
+    assert(array[2][0] === copiedArray[2][0]);
+    assert(array[2][1] === copiedArray[2][1]);
+    assert(array[2][2] !== copiedArray[2][2]);
+    assert(array[2][2][0] !== copiedArray[2][2][0]);
+    assert(array[2][2][1] === copiedArray[2][2][1]);
+    assert(array[2][2][2] === copiedArray[2][2][2]);
+
+    const object = {
+      a: 'a',
+      b: 'b',
+      c: {
+        d: function() {},
+        e: {
+          f: 'f',
+          g: 'g'
+        }
+      }
+    };
+
+    const copiedObject = deepcopy(object);
+
+    assert(object !== copiedObject);
+    assert(object.a === copiedObject.a);
+    assert(object.b === copiedObject.b);
+    assert(object.c !== copiedObject.c);
+    assert(object.c.d !== copiedObject.c.d);
+    assert(object.c.e !== copiedObject.c.e);
+    assert(object.c.e.f === copiedObject.c.e.f);
+    assert(object.c.e.g === copiedObject.c.e.g);
+  });
+
   it('can copy Class from Array and Object by customizer', function() {
     function MyClass(number) {
       this.number = +number;

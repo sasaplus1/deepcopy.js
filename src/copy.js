@@ -6,7 +6,7 @@ function copy(target, customizer) {
   const resultValue = copyValue(target);
 
   if (resultValue !== null) {
-    return copyValue(target);
+    return resultValue;
   }
 
   return copyCollection(target, customizer);

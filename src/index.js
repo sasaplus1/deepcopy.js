@@ -61,6 +61,10 @@ function recursiveCopy(target, customizer, clone, visited, reference) {
     value = target[key];
     index = indexOf(visited, value);
 
+    resultCopy = undefined;
+    result = undefined;
+    ref = undefined;
+
     if (index === -1) {
       resultCopy = copy(value, customizer);
       result = (resultCopy !== null) ? resultCopy : value;
@@ -68,8 +72,6 @@ function recursiveCopy(target, customizer, clone, visited, reference) {
       if (value !== null && /^(?:function|object)$/.test(typeof value)) {
         visited.push(value);
         reference.push(result);
-      } else {
-        ref = result;
       }
     } else {
       // circular reference

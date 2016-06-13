@@ -159,7 +159,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var resultValue = copyValue(target);
 
 	  if (resultValue !== null) {
-	    return copyValue(target);
+	    return resultValue;
 	  }
 
 	  return copyCollection(target, customizer);
@@ -361,6 +361,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value = target[key];
 	    index = (0, _polyfill.indexOf)(visited, value);
 
+	    resultCopy = void 0;
+	    result = void 0;
+	    ref = void 0;
+
 	    if (index === -1) {
 	      resultCopy = (0, _copy.copy)(value, customizer);
 	      result = resultCopy !== null ? resultCopy : value;
@@ -368,8 +372,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (value !== null && /^(?:function|object)$/.test(typeof value)) {
 	        visited.push(value);
 	        reference.push(result);
-	      } else {
-	        ref = result;
 	      }
 	    } else {
 	      // circular reference

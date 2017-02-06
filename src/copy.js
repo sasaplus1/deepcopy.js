@@ -49,7 +49,11 @@ function copyCollection(target, customizer) {
     //     Chrome:
     //       String((function abs() {}).bind(null))
     //         // => 'function () { [native code] }'
-    if (/^\s*function\s*\S*\([^\)]*\)\s*{\s*\[native code\]\s*}/.test(source)) {
+    //
+    //     Firefox 51.0:
+    //     String((function abs() {}).bind(null))
+    //         // => 'function bound abs() { [native code] }'
+    if (/^\s*function\s*\S*\s*\S*\([^\)]*\)\s*{\s*\[native code\]\s*}/.test(source)) {
       // native function
       return target;
     } else {

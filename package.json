@@ -10,7 +10,6 @@
     "type-detect": "^4.0.8"
   },
   "devDependencies": {
-    "coffee-script": "^1.10.0",
     "eslint": "^2.13.1",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-prettier": "^2.6.0",

@@ -65,7 +65,7 @@
   "readmeFilename": "README.md",
   "repository": {
     "type": "git",
-    "url": "git://github.com/sasaplus1/deepcopy.js.git"
+    "url": "https://github.com/sasaplus1/deepcopy.js.git"
   },
   "scripts": {
     "babel": "babel --out-dir ./lib ./src",

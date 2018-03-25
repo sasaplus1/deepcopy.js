@@ -1,22 +1,61 @@
-language: node_js
+os:
+  linux
+
+dist:
+  trusty
+
+sudo:
+  false
+
+addons:
+  chrome:
+    stable
+  firefox:
+    latest
+
+matrix:
+  include:
+    - os:
+        osx
+      osx_image:
+        xcode9.3beta
+      node_js:
+        - "lts/*"
+      env:
+        - BROWSERS=Safari
+    - os:
+        osx
+      osx_image:
+        xcode9.2
+      node_js:
+        - "lts/*"
+      env:
+        - BROWSERS=Safari
+
+language:
+  node_js
 
 node_js:
-  - "iojs"
-  - "0.10"
-  - "0.11"
-  - "0.12"
   - "4"
-  - "5"
   - "6"
+  - "8"
+  - "9"
+  - "lts/*"
 
-sudo: false
+env:
+  - BROWSERS=Chrome,Firefox
+
+git:
+  depth:
+    3
 
 cache:
   directories:
     - node_modules
 
 notifications:
-  email: false
+  email:
+    false
 
 script:
-  - npm run travis
+  - npm run test:travis

@@ -30,7 +30,6 @@
     "coffee-script": "^1.10.0",
     "eslint": "^2.13.1",
     "eslint-config-prettier": "^2.9.0",
-    "eslint-config-sasaplus1": "sasaplus1-prototype/eslint-config-sasaplus1.git",
     "eslint-plugin-prettier": "^2.6.0",
     "fixpack": "^2.3.1",
     "husky": "^0.14.3",
@@ -48,6 +47,25 @@
     "rimraf": "^2.4.4",
     "webpack": "^1.12.9"
   },
+  "eslintConfig": {
+    "env": {
+      "commonjs": true,
+      "es6": true,
+      "node": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:prettier/recommended"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 2017,
+      "sourceType": "module"
+    },
+    "root": true
+  },
+  "eslintIgnore": [
+    "dist"
+  ],
   "license": "MIT",
   "lint-staged": {
     "**/*.js": [
@@ -60,6 +78,9 @@
     ]
   },
   "main": "./index.js",
+  "prettier": {
+    "singleQuote": true
+  },
   "readmeFilename": "README.md",
   "repository": {
     "type": "git",

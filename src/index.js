@@ -1,87 +1,147 @@
-import {
-  copy,
-  copyCollection,
-  copyValue,
-} from './copy';
+const typeDetect = require('type-detect');
 
-import {
-  getKeys,
-  getSymbols,
-  indexOf,
-} from './polyfill';
+const buffer = require('./buffer.js');
+const copyMaps = require('./copy_maps.js');
 
-function defaultCustomizer(target) {
-  return void 0;
+const collectionTypesRegExp = new RegExp(
+  ['Arguments', 'Array', 'Map', 'Object', 'Set'].join('|')
+);
+const unknownValue = Symbol('deepcopy.js unknown value symbol');
+
+/**
+ * DeepCopy class
+ *
+ * @class
+ */
+function DeepCopy() {
+  // TODO: before/after customizer
+  this._customizer = null;
+  // TODO: max depth implementation
+  this._maxDepth = Infinity;
+  this._references = null;
+  this._visited = null;
 }
 
-function deepcopy(target, customizer = defaultCustomizer) {
-  if (target === null) {
-    // copy null
-    return null;
+/**
+ * detect type of value
+ *
+ * @param {*} value
+ * @return {string}
+ */
+DeepCopy.prototype._detectType = function _detectType(value) {
+  // NOTE: isBuffer must execute before typeDetect,
+  // because typeDetect returns 'Uint8Array'.
+  if (buffer.isBuffer(value)) {
+    return 'Buffer';
   }
 
-  const resultValue = copyValue(target);
+  return typeDetect(value);
+};
 
-  if (resultValue !== null) {
-    // copy some primitive types
-    return resultValue;
+/**
+ * copy value
+ *
+ * @param {*} value
+ * @param {string} [type=null]
+ * @return {*}
+ */
+DeepCopy.prototype._copy = function _copy(value, type = null) {
+  const valueType = type || this._detectType(value);
+  const copyFunction = copyMaps.get(valueType);
+
+  if (copyFunction) {
+    return copyFunction(value, valueType);
   }
 
-  const resultCollection = copyCollection(target, customizer),
-        clone = (resultCollection !== null) ? resultCollection : target;
+  const result = this._customizer(value);
 
-  const visited = [target],
-        reference = [clone];
+  return typeof result === 'undefined' ? result : unknownValue;
+};
 
-  // recursively copy from collection
-  return recursiveCopy(target, customizer, clone, visited, reference);
-}
+/**
+ * recursively copy
+ *
+ * @param {*} value
+ * @param {*} clone
+ * @return {*}
+ */
+DeepCopy.prototype._recursiveCopy = function _recursiveCopy(value, clone) {
+  const type = this._detectType(value);
+  const copiedValue = this._copy(value, type);
 
-function recursiveCopy(target, customizer, clone, visited, reference) {
-  if (target === null) {
-    // copy null
-    return null;
+  // return if not a collection value
+  if (!collectionTypesRegExp.test(type)) {
+    return copiedValue;
   }
 
-  const resultValue = copyValue(target);
+  const keys = Object.keys(value).concat(Object.getOwnPropertySymbols(value));
 
-  if (resultValue !== null) {
-    // copy some primitive types
-    return resultValue;
-  }
+  for (let i = 0, len = keys.length; i < len; ++i) {
+    const collectionKey = keys[i];
+    const collectionValue = value[collectionKey];
 
-  const keys = getKeys(target).concat(getSymbols(target));
-
-  let i, len;
-
-  let key, value, index, resultCopy, result, ref;
-
-  for (i = 0, len = keys.length; i < len; ++i) {
-    key = keys[i];
-    value = target[key];
-    index = indexOf(visited, value);
-
-    resultCopy = undefined;
-    result = undefined;
-    ref = undefined;
-
-    if (index === -1) {
-      resultCopy = copy(value, customizer);
-      result = (resultCopy !== null) ? resultCopy : value;
-
-      if (value !== null && /^(?:function|object)$/.test(typeof value)) {
-        visited.push(value);
-        reference.push(result);
-      }
+    if (this._visited.has(collectionValue)) {
+      // TODO: Map/Set
+      clone[collectionKey] = this._references.get(collectionValue);
     } else {
-      // circular reference
-      ref = reference[index];
-    }
+      const collectionValueType = this._detectType(collectionValue);
+      const copiedCollectionValue = this._copy(
+        collectionValue,
+        collectionValueType
+      );
 
-    clone[key] = ref || recursiveCopy(value, customizer, result, visited, reference);
+      // save reference if collection
+      if (collectionTypesRegExp.test(collectionValueType)) {
+        this._references.set(collectionValue, copiedCollectionValue);
+        this._visited.add(collectionValue);
+      }
+
+      // TODO: Map/Set
+      clone[collectionKey] = this._recursiveCopy(
+        collectionValue,
+        copiedCollectionValue
+      );
+    }
   }
 
   return clone;
+};
+
+DeepCopy.prototype.deepcopy = function deepcopy(value) {
+  const type = this._detectType(value);
+  const copiedValue = this._copy(value, type);
+
+  // return if not a collection value
+  if (!collectionTypesRegExp.test(type)) {
+    return copiedValue;
+  }
+
+  this._references = new WeakMap([[value, copiedValue]]);
+  this._visited = new WeakSet([value]);
+
+  const result = this._recursiveCopy(value, copiedValue);
+
+  this._references = null;
+  this._visited = null;
+
+  return result;
+};
+
+/**
+ * deepcopy function
+ *
+ * @param {*} value
+ * @param {Object|Function} [options]
+ * @return {*}
+ */
+function deepcopy(value, options) {
+  if (typeof options === 'function') {
+    options = {
+      customizer: options
+    };
+  }
+
+  return new DeepCopy(options).deepcopy(value);
 }
 
-export default deepcopy;
+module.exports = deepcopy;

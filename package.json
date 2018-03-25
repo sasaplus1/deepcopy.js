@@ -6,6 +6,9 @@
   "contributors": [
     "kjirou <kjirou.web@gmail.com>"
   ],
+  "dependencies": {
+    "type-detect": "^4.0.8"
+  },
   "devDependencies": {
     "babel": "^6.5.2",
     "babel-cli": "^6.6.5",

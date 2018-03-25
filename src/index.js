@@ -1,131 +1,6 @@
-const typeDetect = require('type-detect');
-
-const buffer = require('./buffer.js');
-const copyMaps = require('./copy_maps.js');
-
-const collectionTypesRegExp = new RegExp(
-  ['Arguments', 'Array', 'Map', 'Object', 'Set'].join('|')
-);
-const unknownValue = Symbol('deepcopy.js unknown value symbol');
-
-/**
- * DeepCopy class
- *
- * @class
- */
-function DeepCopy() {
-  // TODO: before/after customizer
-  this._customizer = null;
-  // TODO: max depth implementation
-  this._maxDepth = Infinity;
-  this._references = null;
-  this._visited = null;
-}
-
-/**
- * detect type of value
- *
- * @param {*} value
- * @return {string}
- */
-DeepCopy.prototype._detectType = function _detectType(value) {
-  // NOTE: isBuffer must execute before typeDetect,
-  // because typeDetect returns 'Uint8Array'.
-  if (buffer.isBuffer(value)) {
-    return 'Buffer';
-  }
-
-  return typeDetect(value);
-};
-
-/**
- * copy value
- *
- * @param {*} value
- * @param {string} [type=null]
- * @return {*}
- */
-DeepCopy.prototype._copy = function _copy(value, type = null) {
-  const valueType = type || this._detectType(value);
-  const copyFunction = copyMaps.get(valueType);
-
-  if (copyFunction) {
-    return copyFunction(value, valueType);
-  }
-
-  const result = this._customizer(value);
-
-  return typeof result === 'undefined' ? result : unknownValue;
-};
-
-/**
- * recursively copy
- *
- * @param {*} value
- * @param {*} clone
- * @return {*}
- */
-DeepCopy.prototype._recursiveCopy = function _recursiveCopy(value, clone) {
-  const type = this._detectType(value);
-  const copiedValue = this._copy(value, type);
-
-  // return if not a collection value
-  if (!collectionTypesRegExp.test(type)) {
-    return copiedValue;
-  }
-
-  const keys = Object.keys(value).concat(Object.getOwnPropertySymbols(value));
-
-  for (let i = 0, len = keys.length; i < len; ++i) {
-    const collectionKey = keys[i];
-    const collectionValue = value[collectionKey];
-
-    if (this._visited.has(collectionValue)) {
-      // TODO: Map/Set
-      clone[collectionKey] = this._references.get(collectionValue);
-    } else {
-      const collectionValueType = this._detectType(collectionValue);
-      const copiedCollectionValue = this._copy(
-        collectionValue,
-        collectionValueType
-      );
-
-      // save reference if collection
-      if (collectionTypesRegExp.test(collectionValueType)) {
-        this._references.set(collectionValue, copiedCollectionValue);
-        this._visited.add(collectionValue);
-      }
-
-      // TODO: Map/Set
-      clone[collectionKey] = this._recursiveCopy(
-        collectionValue,
-        copiedCollectionValue
-      );
-    }
-  }
-
-  return clone;
-};
-
-DeepCopy.prototype.deepcopy = function deepcopy(value) {
-  const type = this._detectType(value);
-  const copiedValue = this._copy(value, type);
-
-  // return if not a collection value
-  if (!collectionTypesRegExp.test(type)) {
-    return copiedValue;
-  }
-
-  this._references = new WeakMap([[value, copiedValue]]);
-  this._visited = new WeakSet([value]);
-
-  const result = this._recursiveCopy(value, copiedValue);
-
-  this._references = null;
-  this._visited = null;
-
-  return result;
-};
+const { detectType } = require('./detector.js');
+const { get, isCollection, set } = require('./collection.js');
+const { copy } = require('./copier.js');
 
 /**
  * deepcopy function
@@ -134,14 +9,106 @@ DeepCopy.prototype.deepcopy = function deepcopy(value) {
  * @param {Object|Function} [options]
  * @return {*}
  */
-function deepcopy(value, options) {
+function deepcopy(value, options = {}) {
   if (typeof options === 'function') {
     options = {
       customizer: options
     };
   }
 
-  return new DeepCopy(options).deepcopy(value);
+  const {
+    // TODO: before/after customizer
+    customizer
+    // TODO: max depth
+    // depth = Infinity,
+  } = options;
+
+  const valueType = detectType(value);
+
+  if (!isCollection(valueType)) {
+    return recursiveCopy(value, null, null, null, customizer);
+  }
+
+  const copiedValue = copy(value, valueType, customizer);
+
+  const references = new WeakMap([[value, copiedValue]]);
+  const visited = new WeakSet([value]);
+
+  return recursiveCopy(value, copiedValue, references, visited, customizer);
+}
+
+/**
+ * recursively copy
+ *
+ * @param {*} value target value
+ * @param {*} clone clone of value
+ * @param {WeakMap} references visited references of clone
+ * @param {WeakSet} visited visited references of value
+ * @param {Function} customizer user customize function
+ * @return {*}
+ */
+function recursiveCopy(value, clone, references, visited, customizer) {
+  const type = detectType(value);
+  const copiedValue = copy(value, type);
+
+  // return if not a collection value
+  if (!isCollection(type)) {
+    return copiedValue;
+  }
+
+  let keys;
+
+  switch (type) {
+    case 'Arguments':
+    case 'Array':
+      keys = Object.keys(value);
+      break;
+    case 'Object':
+      keys = Object.keys(value);
+      keys.push(...Object.getOwnPropertySymbols(value));
+      break;
+    case 'Map':
+    case 'Set':
+      keys = value.keys();
+      break;
+    default:
+  }
+
+  // walk within collection with iterator
+  for (let collectionKey of keys) {
+    const collectionValue = get(value, collectionKey, type);
+
+    if (visited.has(collectionValue)) {
+      // for [Circular]
+      set(clone, collectionKey, references.get(collectionValue), type);
+    } else {
+      const collectionValueType = detectType(collectionValue);
+      const copiedCollectionValue = copy(collectionValue, collectionValueType);
+
+      // save reference if value is collection
+      if (isCollection(collectionValueType)) {
+        references.set(collectionValue, copiedCollectionValue);
+        visited.add(collectionValue);
+      }
+
+      set(
+        clone,
+        collectionKey,
+        recursiveCopy(
+          collectionValue,
+          copiedCollectionValue,
+          references,
+          visited,
+          customizer
+        ),
+        type
+      );
+    }
+  }
+
+  // TODO: isSealed/isFrozen/isExtensible
+
+  return clone;
 }
 
 module.exports = deepcopy;

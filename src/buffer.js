@@ -2,22 +2,57 @@ const isBufferExists = typeof Buffer !== 'undefined';
 const isBufferFromExists = isBufferExists && typeof Buffer.from !== 'undefined';
 
 const isBuffer = isBufferExists
-  ? function isBuffer(value) {
+  ? /**
+     * is value is Buffer?
+     *
+     * @param {*} value
+     * @return {boolean}
+     */
+    function isBuffer(value) {
       return Buffer.isBuffer(value);
     }
-  : function isBuffer() {
+  : /**
+     * return false
+     *
+     * NOTE: for Buffer unsupported
+     *
+     * @return {boolean}
+     */
+    function isBuffer() {
       return false;
     };
 
 const copy = isBufferFromExists
-  ? function copy(value) {
+  ? /**
+     * copy Buffer
+     *
+     * @param {Buffer} value
+     * @return {Buffer}
+     */
+    function copy(value) {
       return Buffer.from(value);
     }
   : isBufferExists
-    ? function copy(value) {
+    ? /**
+       * copy Buffer
+       *
+       * NOTE: for old node.js
+       *
+       * @param {Buffer} value
+       * @return {Buffer}
+       */
+      function copy(value) {
         return new Buffer(value);
       }
-    : function copy(value) {
+    : /**
+       * shallow copy
+       *
+       * NOTE: for Buffer unsupported
+       *
+       * @param {*}
+       * @return {*}
+       */
+      function copy(value) {
         return value;
       };
 

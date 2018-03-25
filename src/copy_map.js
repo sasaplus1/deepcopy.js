@@ -1,6 +1,16 @@
-const buffer = require('./buffer.js');
+const { copy: cloneBuffer } = require('./buffer.js');
 
 const globalObject = Function('return this')();
+
+/**
+ * copy ArrayBuffer
+ *
+ * @param {ArrayBuffer} value
+ * @return {ArrayBuffer}
+ */
+function copyArrayBuffer(value) {
+  return value.slice();
+}
 
 /**
  * copy Boolean
@@ -13,13 +23,24 @@ function copyBoolean(value) {
 }
 
 /**
+ * copy DataView
+ *
+ * @param {DataView} value
+ * @return {DataView}
+ */
+function copyDataView(value) {
+  // TODO: copy ArrayBuffer?
+  return new DataView(value.buffer);
+}
+
+/**
  * copy Buffer
  *
  * @param {Buffer} value
  * @return {Buffer}
  */
 function copyBuffer(value) {
-  return buffer.copy(value);
+  return cloneBuffer(value);
 }
 
 /**
@@ -120,14 +141,17 @@ function getEmptySet() {
 
 module.exports = new Map([
   // deep copy
+  ['ArrayBuffer', copyArrayBuffer],
   ['Boolean', copyBoolean],
   ['Buffer', copyBuffer],
+  ['DataView', copyDataView],
   ['Date', copyDate],
   ['Number', copyNumber],
   ['RegExp', copyRegExp],
   ['String', copyString],
 
   // typed arrays
+  // TODO: pass bound function
   ['Float32Array', copyTypedArray],
   ['Float64Array', copyTypedArray],
   ['Int16Array', copyTypedArray],
@@ -137,9 +161,6 @@ module.exports = new Map([
   ['Uint32Array', copyTypedArray],
   ['Uint8Array', copyTypedArray],
   ['Uint8ClampedArray', copyTypedArray],
-  // TODO:
-  // 'ArrayBuffer'
-  // 'DataView'
 
   // shallow copy
   ['Array Iterator', shallowCopy],
@@ -169,6 +190,7 @@ module.exports = new Map([
   ['Object', getEmptyObject],
   ['Set', getEmptySet]
 
+  // NOTE: type-detect returns following types
   // 'Location'
   // 'Document'
   // 'MimeTypeArray'
@@ -178,5 +200,5 @@ module.exports = new Map([
   // 'HTMLTableHeaderCellElement'
 
   // TODO: is type-detect never return 'object'?
-  // 'object':
+  // 'object'
 ]);

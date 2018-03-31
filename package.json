@@ -10,8 +10,10 @@
     "type-detect": "^4.0.8"
   },
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
+    "@babel/cli": "^7.0.0-beta.42",
+    "@babel/core": "^7.0.0-beta.42",
+    "@babel/plugin-transform-modules-commonjs": "^7.0.0-beta.42",
+    "@babel/preset-env": "^7.0.0-beta.42",
     "eslint": "^4.19.1",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-prettier": "^2.6.0",

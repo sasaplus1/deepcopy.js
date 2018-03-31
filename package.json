@@ -32,6 +32,7 @@
     "karma-safari-launcher": "^1.0.0",
     "lint-staged": "^7.0.0",
     "mocha": "^5.0.5",
+    "npm-run-all": "^4.1.2",
     "power-assert": "^1.4.4",
     "prettier": "^1.11.1",
     "rimraf": "^2.6.2",
@@ -88,25 +89,18 @@
     "url": "https://github.com/sasaplus1/deepcopy.js.git"
   },
   "scripts": {
-    "babel": "babel --out-dir ./lib ./src",
-    "build": "npm run clean && npm run babel && npm run compile && npm run minify",
+    "build": "run-p --aggregate-output build:*",
     "build:bundlejs": "rollup -c",
     "build:commonjs": "babel ./src --out-dir ./cjs --source-maps --source-type script",
-    "clean": "npm run rimraf -- ./build ./lib",
-    "compile": "npm run webpack -- --output-filename ./build/deepcopy.js",
-    "develop": " parallelshell 'npm run babel -- -w' 'npm run compile -- -w' 'npm run minify -- -w'",
+    "develop": "run-p --print-label 'build:* -- --watch'",
     "eslint": "eslint --ext .js,.mjs",
     "fixpack": "fixpack",
-    "karma": "karma",
     "lint": "npm run eslint -- .",
-    "minify": "npm run webpack -- --optimize-minimize --output-filename ./build/deepcopy.min.js",
-    "mocha": "mocha",
-    "posttest": "npm run karma -- start --single-run --browsers Chrome,Firefox,Safari",
+    "prebuild": "rimraf ./cjs ./dist",
     "precommit": "lint-staged",
-    "prepublish": "npm run build",
-    "rimraf": "rimraf",
-    "test": "npm run mocha",
-    "travis": "npm run mocha",
-    "webpack": "webpack --colors --display-error-details --progress"
+    "test": "mocha",
+    "test:travis": "run-s test:travis:*",
+    "test:travis:browser": "karma start --single-run --browsers $BROWSERS",
+    "test:travis:node": "npm test"
   }
 }

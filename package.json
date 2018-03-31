@@ -71,10 +71,7 @@
   ],
   "license": "MIT",
   "lint-staged": {
-    "**/*.{js,mjs}": [
-      "eslint --fix",
-      "git add"
-    ],
+    "**/*.{js,mjs}": "eslint",
     "package.json": [
       "fixpack",
       "git diff --exit-code --quiet"

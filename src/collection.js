@@ -1,4 +1,4 @@
-const { detectType } = require('./detector.js');
+import { detectType } from './detector';
 
 /**
  * collection types
@@ -19,7 +19,7 @@ const collectionTypeSet = new Set([
  * @param {string} [type=null]
  * @return {*}
  */
-function get(collection, key, type = null) {
+export function get(collection, key, type = null) {
   const valueType = type || detectType(collection);
 
   switch (valueType) {
@@ -39,7 +39,7 @@ function get(collection, key, type = null) {
  *
  * @param {string} type
  */
-function isCollection(type) {
+export function isCollection(type) {
   return collectionTypeSet.has(type);
 }
 
@@ -52,7 +52,7 @@ function isCollection(type) {
  * @param {string} [type=null]
  * @return {Array|Object|Map|Set}
  */
-function set(collection, key, value, type = null) {
+export function set(collection, key, value, type = null) {
   const valueType = type || detectType(collection);
 
   switch (valueType) {
@@ -72,9 +72,3 @@ function set(collection, key, value, type = null) {
 
   return collection;
 }
-
-module.exports = {
-  get,
-  isCollection,
-  set
-};

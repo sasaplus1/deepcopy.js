@@ -1,4 +1,4 @@
-const { copy: cloneBuffer } = require('./buffer.js');
+import { copy as cloneBuffer } from './buffer';
 
 const globalObject = Function('return this')();
 
@@ -139,7 +139,7 @@ function getEmptySet() {
   return new Set();
 }
 
-module.exports = new Map([
+export default new Map([
   // deep copy
   ['ArrayBuffer', copyArrayBuffer],
   ['Boolean', copyBoolean],

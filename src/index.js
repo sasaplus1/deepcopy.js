@@ -1,6 +1,6 @@
-const { detectType } = require('./detector.js');
-const { get, isCollection, set } = require('./collection.js');
-const { copy } = require('./copier.js');
+import { detectType } from './detector';
+import { get, isCollection, set } from './collection';
+import { copy } from './copier';
 
 /**
  * deepcopy function
@@ -9,7 +9,7 @@ const { copy } = require('./copier.js');
  * @param {Object|Function} [options]
  * @return {*}
  */
-function deepcopy(value, options = {}) {
+export default function deepcopy(value, options = {}) {
   if (typeof options === 'function') {
     options = {
       customizer: options
@@ -110,5 +110,3 @@ function recursiveCopy(value, clone, references, visited, customizer) {
 
   return clone;
 }
-
-module.exports = deepcopy;

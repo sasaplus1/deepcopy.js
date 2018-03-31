@@ -1,7 +1,7 @@
 const isBufferExists = typeof Buffer !== 'undefined';
 const isBufferFromExists = isBufferExists && typeof Buffer.from !== 'undefined';
 
-const isBuffer = isBufferExists
+export const isBuffer = isBufferExists
   ? /**
      * is value is Buffer?
      *
@@ -22,7 +22,7 @@ const isBuffer = isBufferExists
       return false;
     };
 
-const copy = isBufferFromExists
+export const copy = isBufferFromExists
   ? /**
      * copy Buffer
      *
@@ -55,8 +55,3 @@ const copy = isBufferFromExists
       function copy(value) {
         return value;
       };
-
-module.exports = {
-  copy,
-  isBuffer
-};

@@ -1,10 +1,10 @@
-const copyMap = require('./copy_map.js');
-const { detectType } = require('./detector.js');
+import copyMap from './copy_map';
+import { detectType } from './detector';
 
 /**
  * symbol for unknown value
  */
-const unknown = Symbol('unknown');
+export const unknown = Symbol('unknown');
 
 /**
  * no operation
@@ -19,7 +19,7 @@ function noop() {}
  * @param {Function} [customizer=noop]
  * @return {*}
  */
-function copy(value, type = null, customizer = noop) {
+export function copy(value, type = null, customizer = noop) {
   if (arguments.length === 2 && typeof type === 'function') {
     customizer = type;
     type = null;
@@ -37,8 +37,3 @@ function copy(value, type = null, customizer = noop) {
 
   return result === undefined ? unknown : result;
 }
-
-module.exports = {
-  copy,
-  unknown
-};

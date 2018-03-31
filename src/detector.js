@@ -1,6 +1,6 @@
-const typeDetect = require('type-detect');
+import typeDetect from 'type-detect';
 
-const { isBuffer } = require('./buffer.js');
+import { isBuffer } from './buffer';
 
 /**
  * detect type of value
@@ -8,7 +8,7 @@ const { isBuffer } = require('./buffer.js');
  * @param {*} value
  * @return {string}
  */
-function detectType(value) {
+export function detectType(value) {
   // NOTE: isBuffer must execute before type-detect,
   // because type-detect returns 'Uint8Array'.
   if (isBuffer(value)) {
@@ -17,7 +17,3 @@ function detectType(value) {
 
   return typeDetect(value);
 }
-
-module.exports = {
-  detectType
-};

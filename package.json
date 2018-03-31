@@ -66,11 +66,12 @@
     }
   },
   "eslintIgnore": [
+    "cjs",
     "dist"
   ],
   "license": "MIT",
   "lint-staged": {
-    "**/*.js": [
+    "**/*.{js,mjs}": [
       "eslint --fix",
       "git add"
     ],
@@ -96,10 +97,10 @@
     "clean": "npm run rimraf -- ./build ./lib",
     "compile": "npm run webpack -- --output-filename ./build/deepcopy.js",
     "develop": " parallelshell 'npm run babel -- -w' 'npm run compile -- -w' 'npm run minify -- -w'",
-    "eslint": "eslint",
+    "eslint": "eslint --ext .js,.mjs",
     "fixpack": "fixpack",
     "karma": "karma",
-    "lint": "npm run eslint -- --ext .js .",
+    "lint": "npm run eslint -- .",
     "minify": "npm run webpack -- --optimize-minimize --output-filename ./build/deepcopy.min.js",
     "mocha": "mocha",
     "posttest": "npm run karma -- start --single-run --browsers Chrome,Firefox,Safari",

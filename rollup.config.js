@@ -1,4 +1,4 @@
-// import babel from 'rollup-plugin-babel';
+import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
 import nodeResolve from 'rollup-plugin-node-resolve';
 import uglify from 'rollup-plugin-uglify';
@@ -13,40 +13,103 @@ const banner = [
   ' */'
 ].join('\n');
 
+const nodeResolveOptions = {
+  browser: true,
+  extensions: ['.mjs', '.js'],
+  main: true,
+  module: true
+};
+
+const babelOptions = {
+  babelrc: false,
+  presets: [
+    [
+      '@babel/preset-env',
+      {
+        debug: true,
+        modules: false,
+        targets: {
+          browsers: ['IE >= 11', 'Android >= 4.4.4'],
+          node: '4'
+        },
+        useBuiltIns: 'usage'
+      }
+    ]
+  ]
+};
+
 export default [
   {
-    input: 'src/index.js',
+    input: './index.mjs',
     output: {
       banner,
-      file: 'dist/deepcopy.js',
+      file: './dist/deepcopy.legacy.js',
       format: 'umd',
       name: meta.name,
       sourcemap: true
     },
+    plugins: [nodeResolve(nodeResolveOptions), commonjs(), babel(babelOptions)]
+  },
+  {
+    input: './index.mjs',
+    output: {
+      banner,
+      file: './dist/deepcopy.legacy.min.js',
+      format: 'umd',
+      name: meta.name
+    },
     plugins: [
-      nodeResolve({
-        browser: true,
-        main: true
-      }),
-      commonjs()
+      nodeResolve(nodeResolveOptions),
+      commonjs(),
+      babel(babelOptions),
+      uglify()
     ]
   },
   {
-    input: 'src/index.js',
+    input: './index.mjs',
     output: {
       banner,
-      file: 'dist/deepcopy.min.js',
+      file: './dist/deepcopy.js',
       format: 'umd',
       name: meta.name,
       sourcemap: true
     },
+    plugins: [nodeResolve(nodeResolveOptions), commonjs()]
+  },
+  {
+    input: './index.mjs',
+    output: {
+      banner,
+      file: './dist/deepcopy.min.js',
+      format: 'umd',
+      name: meta.name
+    },
     plugins: [
-      nodeResolve({
-        browser: true,
-        main: true
-      }),
+      nodeResolve(nodeResolveOptions),
       commonjs(),
+      babel(babelOptions),
       uglify()
     ]
+  },
+  {
+    input: './index.mjs',
+    output: {
+      banner,
+      file: './dist/deepcopy.mjs',
+      format: 'es',
+      name: meta.name,
+      sourcemap: true
+    },
+    plugins: [nodeResolve(nodeResolveOptions), commonjs()]
+  },
+  {
+    input: './index.mjs',
+    output: {
+      banner,
+      file: './dist/deepcopy.min.mjs',
+      format: 'es',
+      name: meta.name
+    },
+    plugins: [nodeResolve(nodeResolveOptions), commonjs(), uglify()]
   }
 ];

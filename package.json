@@ -71,7 +71,8 @@
       "git diff --exit-code --quiet"
     ]
   },
-  "main": "./index.js",
+  "main": "./index",
+  "module": "./index.mjs",
   "prettier": {
     "singleQuote": true
   },

@@ -3,6 +3,12 @@
   "description": "deep copy for any data",
   "version": "0.6.3",
   "author": "sasa+1 <sasaplus1@gmail.com>",
+  "babel": {
+    "compact": false,
+    "plugins": [
+      "@babel/plugin-transform-modules-commonjs"
+    ]
+  },
   "contributors": [
     "kjirou <kjirou.web@gmail.com>"
   ],
@@ -86,6 +92,7 @@
   "scripts": {
     "babel": "babel --out-dir ./lib ./src",
     "build": "npm run clean && npm run babel && npm run compile && npm run minify",
+    "build:commonjs": "babel ./src --out-dir ./cjs --source-maps --source-type script",
     "clean": "npm run rimraf -- ./build ./lib",
     "compile": "npm run webpack -- --output-filename ./build/deepcopy.js",
     "develop": " parallelshell 'npm run babel -- -w' 'npm run compile -- -w' 'npm run minify -- -w'",

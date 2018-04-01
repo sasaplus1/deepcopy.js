@@ -5,6 +5,7 @@
   "author": "sasa+1 <sasaplus1@gmail.com>",
   "babel": {
     "compact": false,
+    "minified": false,
     "plugins": [
       "@babel/plugin-transform-modules-commonjs"
     ]

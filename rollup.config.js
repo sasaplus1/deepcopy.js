@@ -22,6 +22,8 @@ const nodeResolveOptions = {
 
 const babelOptions = {
   babelrc: false,
+  compact: false,
+  minified: false,
   presets: [
     [
       '@babel/preset-env',

@@ -101,6 +101,7 @@
     "mocha": "mocha ./test/unit",
     "prebuild": "npm run clean",
     "precommit": "lint-staged",
+    "pretest:cjs": "npm run build:commonjs",
     "test": "run-s test:cjs test:esm mocha",
     "test:cjs": "node ./test/cjs/index.js",
     "test:esm": "node --experimental-modules ./test/esm/index.mjs",

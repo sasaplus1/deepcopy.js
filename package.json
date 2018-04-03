@@ -5,6 +5,13 @@
   "author": "sasa+1 <sasaplus1@gmail.com>",
   "babel": {
     "compact": false,
+    "env": {
+      "test": {
+        "presets": [
+          "power-assert"
+        ]
+      }
+    },
     "minified": false,
     "plugins": [
       "@babel/plugin-transform-modules-commonjs"
@@ -21,11 +28,14 @@
     "@babel/core": "^7.0.0-beta.42",
     "@babel/plugin-transform-modules-commonjs": "^7.0.0-beta.42",
     "@babel/preset-env": "^7.0.0-beta.42",
+    "@babel/register": "^7.0.0-beta.43",
+    "babel-preset-power-assert": "^3.0.0-beta.1",
     "eslint": "^4.19.1",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-prettier": "^2.6.0",
     "fixpack": "^2.3.1",
     "husky": "^0.14.3",
+    "intelli-espower-loader": "^1.0.1",
     "karma": "^2.0.0",
     "karma-chrome-launcher": "^2.2.0",
     "karma-firefox-launcher": "^1.1.0",
@@ -45,7 +55,7 @@
   },
   "eslintConfig": {
     "env": {
-      "commonjs": true,
+      "browser": true,
       "es6": true,
       "node": true
     },
@@ -98,7 +108,7 @@
     "eslint": "eslint --ext .js,.mjs",
     "fixpack": "fixpack",
     "lint": "npm run eslint -- .",
-    "mocha": "mocha ./test/unit",
+    "mocha": "NODE_ENV=test mocha ./test/unit/**/*.js",
     "prebuild": "npm run clean",
     "precommit": "lint-staged",
     "pretest:cjs": "npm run build:commonjs",

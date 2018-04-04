@@ -114,8 +114,8 @@
     "pretest:cjs": "npm run build:commonjs",
     "test": "run-s test:cjs test:esm mocha",
     "test:cjs": "node ./test/cjs/index.js",
-    "test:esm": "node --experimental-modules ./test/esm/index.mjs",
-    "test:travis": "run-s test:travis:*",
+    "test:esm": "node --eval 0 --experimental-modules && node --experimental-modules ./test/esm/index.mjs || true",
+    "test:travis": "run-s test test:travis:*",
     "test:travis:browser": "karma start --single-run --browsers $BROWSERS",
     "test:travis:node": "npm test"
   }

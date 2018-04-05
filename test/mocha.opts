@@ -1,3 +1,4 @@
 --reporter spec
 --require @babel/register
+--require test/setup
 --ui bdd

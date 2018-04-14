@@ -19,7 +19,7 @@ function copyArrayBuffer(value) {
  * @return {Boolean}
  */
 function copyBoolean(value) {
-  return new Boolean(value);
+  return new Boolean(value.valueOf());
 }
 
 /**

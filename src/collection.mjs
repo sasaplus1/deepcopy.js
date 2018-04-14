@@ -28,8 +28,11 @@ export function get(collection, key, type = null) {
     case 'Object':
       return collection[key];
     case 'Map':
-    case 'Set':
       return collection.get(key);
+    case 'Set':
+      // NOTE: Set.prototype.keys is alias of Set.prototype.values
+      // it means key is equals value
+      return key;
     default:
   }
 }

@@ -2,11 +2,6 @@ import copyMap from './copy_map';
 import { detectType } from './detector';
 
 /**
- * symbol for unknown value
- */
-export const unknown = Symbol('unknown');
-
-/**
  * no operation
  */
 function noop() {}
@@ -28,12 +23,14 @@ export function copy(value, type = null, customizer = noop) {
   const valueType = type || detectType(value);
   const copyFunction = copyMap.get(valueType);
 
-  if (copyFunction) {
-    // NOTE: TypedArray needs pass type to argument
-    return copyFunction(value, valueType);
+  if (valueType === 'Object') {
+    const result = customizer(value, valueType);
+
+    if (result !== undefined) {
+      return result;
+    }
   }
 
-  const result = customizer(value, valueType);
-
-  return result === undefined ? unknown : result;
+  // NOTE: TypedArray needs pass type to argument
+  return copyFunction ? copyFunction(value, valueType) : value;
 }

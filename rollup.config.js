@@ -23,6 +23,9 @@ const nodeResolveOptions = {
 const babelOptions = {
   babelrc: false,
   compact: false,
+  // NOTE: fix circular dependencies in core-js
+  // https://github.com/rollup/rollup-plugin-commonjs/issues/284#issuecomment-361085666
+  ignore: ['node_modules/core-js/**/*.js'],
   minified: false,
   presets: [
     [
@@ -31,8 +34,7 @@ const babelOptions = {
         debug: true,
         modules: false,
         targets: {
-          browsers: ['IE >= 11', 'Android >= 4.4.4'],
-          node: '4'
+          browsers: ['IE >= 11', 'Android >= 4.4.4']
         },
         useBuiltIns: 'usage'
       }
@@ -48,6 +50,8 @@ export default [
       file: './dist/deepcopy.legacy.js',
       format: 'umd',
       name: meta.name,
+      // NOTE: break sourcemap
+      // https://github.com/rollup/rollup/wiki/Troubleshooting#sourcemap-is-likely-to-be-incorrect
       sourcemap: true
     },
     plugins: [nodeResolve(nodeResolveOptions), commonjs(), babel(babelOptions)]
@@ -86,12 +90,7 @@ export default [
       format: 'umd',
       name: meta.name
     },
-    plugins: [
-      nodeResolve(nodeResolveOptions),
-      commonjs(),
-      babel(babelOptions),
-      uglify()
-    ]
+    plugins: [nodeResolve(nodeResolveOptions), commonjs(), uglify()]
   },
   {
     input: './index.mjs',

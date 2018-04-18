@@ -7,22 +7,44 @@ dist:
 sudo:
   false
 
-addons:
-  chrome:
-    stable
-  firefox:
-    latest
+language:
+  node_js
+
+node_js:
+  - "6"
+  - "8"
+  - "9"
+  - "lts/*"
 
 matrix:
   include:
     - os:
+        linux
+      dist:
+        trusty
+      sudo:
+        false
+      addons:
+        chrome:
+          stable
+        firefox:
+          latest
+      node_js:
+        - "lts/*"
+      env:
+        - BROWSERS=ChromeHeadlessNoSandbox,FirefoxHeadless
+      script:
+        - npm run test:browser
+    - os:
         osx
       osx_image:
-        xcode9.3beta
+        xcode9.3
       node_js:
         - "lts/*"
       env:
         - BROWSERS=Safari
+      script:
+        npm run test:browser
     - os:
         osx
       osx_image:
@@ -31,19 +53,8 @@ matrix:
         - "lts/*"
       env:
         - BROWSERS=Safari
-
-language:
-  node_js
-
-node_js:
-  - "4"
-  - "6"
-  - "8"
-  - "9"
-  - "lts/*"
-
-env:
-  - BROWSERS=Chrome,Firefox
+      script:
+        - npm run test:browser
 
 git:
   depth:
@@ -56,6 +67,3 @@ cache:
 notifications:
   email:
     false
-
-script:
-  - npm run test:travis

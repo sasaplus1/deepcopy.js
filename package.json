@@ -81,6 +81,13 @@
     "cjs",
     "dist"
   ],
+  "files": [
+    "cjs",
+    "dist",
+    "index.js",
+    "index.mjs",
+    "src"
+  ],
   "license": "MIT",
   "lint-staged": {
     "**/*.{js,mjs}": "eslint",

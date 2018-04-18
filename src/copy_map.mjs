@@ -9,7 +9,7 @@ const globalObject = Function('return this')();
  * @return {ArrayBuffer}
  */
 function copyArrayBuffer(value) {
-  return value.slice();
+  return value.slice(0);
 }
 
 /**

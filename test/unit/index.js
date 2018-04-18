@@ -2,7 +2,7 @@ describe('deepcopy', function() {
   const globalObject = Function('return this')();
 
   describe('testing info', function() {
-    it('global is ' + globalObject);
+    it('global object is ' + globalObject);
   });
 
   describe('deep copy targets', function() {
@@ -386,6 +386,26 @@ describe('deepcopy', function() {
         assert(result[s3][0].a === 1);
         assert(result[s3][1].b === 2);
         assert(result[s3][2].c === 3);
+      });
+
+      it('Object in Map', function() {
+        const result = deepcopy(
+          new Map([
+            [1, { a: 1, b: 2, c: 3 }],
+            [2, { a: 4, b: 5, c: 6 }],
+            [3, { a: 7, b: 8, c: 9 }]
+          ])
+        );
+
+        assert(result.get(1).a === 1);
+        assert(result.get(1).b === 2);
+        assert(result.get(1).c === 3);
+        assert(result.get(2).a === 4);
+        assert(result.get(2).b === 5);
+        assert(result.get(2).c === 6);
+        assert(result.get(3).a === 7);
+        assert(result.get(3).b === 8);
+        assert(result.get(3).c === 9);
       });
     });
   });

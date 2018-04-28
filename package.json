@@ -1,6 +1,6 @@
 {
   "name": "deepcopy",
-  "description": "deep copy for any data",
+  "description": "deep copy data",
   "version": "0.6.3",
   "author": "sasa+1 <sasaplus1@gmail.com>",
   "babel": {

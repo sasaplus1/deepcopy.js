@@ -2,6 +2,7 @@ import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
 import nodeResolve from 'rollup-plugin-node-resolve';
 import uglify from 'rollup-plugin-uglify';
+import uglifySaveLicense from 'uglify-save-license';
 
 import meta from './package.json';
 
@@ -10,6 +11,11 @@ const banner = [
   ' * @license deepcopy.js Copyright(c) 2013 sasa+1',
   ' * https://github.com/sasaplus1/deepcopy.js',
   ' * Released under the MIT license.',
+  // TODO: type-detect licensing got from node_modules/type-detect/index.js with manual
+  ' *',
+  ' * type-detect',
+  ' * Copyright(c) 2013 jake luer <jake@alogicalparadox.com>',
+  ' * MIT Licensed',
   ' */'
 ].join('\n');
 
@@ -42,6 +48,14 @@ const babelOptions = {
   ]
 };
 
+const uglifyOptions = {
+  output: {
+    // TODO: deepcopy.legacy.min.js has line comment
+    // `// 25.4.1.5 NewPromiseCapability(C)`
+    comments: uglifySaveLicense
+  }
+};
+
 export default [
   {
     input: './index.mjs',
@@ -68,7 +82,7 @@ export default [
       nodeResolve(nodeResolveOptions),
       commonjs(),
       babel(babelOptions),
-      uglify()
+      uglify(uglifyOptions)
     ]
   },
   {
@@ -90,7 +104,11 @@ export default [
       format: 'umd',
       name: meta.name
     },
-    plugins: [nodeResolve(nodeResolveOptions), commonjs(), uglify()]
+    plugins: [
+      nodeResolve(nodeResolveOptions),
+      commonjs(),
+      uglify(uglifyOptions)
+    ]
   },
   {
     input: './index.mjs',
@@ -111,6 +129,10 @@ export default [
       format: 'es',
       name: meta.name
     },
-    plugins: [nodeResolve(nodeResolveOptions), commonjs(), uglify()]
+    plugins: [
+      nodeResolve(nodeResolveOptions),
+      commonjs(),
+      uglify(uglifyOptions)
+    ]
   }
 ];

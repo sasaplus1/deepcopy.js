@@ -1,3 +1,9 @@
+# 1.0.0 / 2018-05-21
+
+  - support some ES2015 types
+  - support ES Modules
+  - drop support for legacy environments
+
 # 0.6.3 / 2016-06-13
 
   - fixed #10, #11, #12

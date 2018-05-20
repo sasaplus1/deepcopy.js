@@ -1,7 +1,7 @@
 {
   "name": "deepcopy",
   "description": "deep copy data",
-  "version": "0.6.3",
+  "version": "1.0.0",
   "author": "sasa+1 <sasaplus1@gmail.com>",
   "babel": {
     "compact": false,

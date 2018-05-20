@@ -3,16 +3,13 @@
 [![Build Status](https://travis-ci.org/sasaplus1/deepcopy.js.svg)](https://travis-ci.org/sasaplus1/deepcopy.js)
 [![Dependency Status](https://gemnasium.com/sasaplus1/deepcopy.js.svg)](https://gemnasium.com/sasaplus1/deepcopy.js)
 [![NPM version](https://badge.fury.io/js/deepcopy.svg)](http://badge.fury.io/js/deepcopy)
+[![Try deepcopy on RunKit](https://badge.runkitcdn.com/deepcopy.svg)](https://npm.runkit.com/deepcopy)
 
-deep copy for any data
-
-## Playground
-
-[REPL powered by Tonic](https://tonicdev.com/npm/deepcopy)
+deep copy data
 
 ## Installation
 
-```sh
+```console
 $ npm install deepcopy
 ```
 
@@ -20,14 +17,32 @@ $ npm install deepcopy
 
 ### node.js
 
+#### via ES Modules
+
 ```js
-var deepcopy = require("deepcopy");
+import deepcopy from 'deepcopy';
+```
+
+#### via CommonJS
+
+```js
+const deepcopy = require('deepcopy');
 ```
 
 ### browser
 
+#### via module
+
 ```html
-<script src="deepcopy.min.js"></script>
+<script type="module">
+  import deepcopy from "./dist/deepcopy.min.mjs";
+</script>
+```
+
+#### via script
+
+```html
+<script src="./dist/deepcopy.min.js"></script>
 ```
 
 ### Example
@@ -35,23 +50,20 @@ var deepcopy = require("deepcopy");
 basic usage:
 
 ```js
-var base, copy;
-
-base = {
+const src = {
   desserts: [
-    { name: "cake"      },
-    { name: "ice cream" },
-    { name: "pudding"   }
+    { name: 'cake'      },
+    { name: 'ice cream' },
+    { name: 'pudding'   }
   ]
 };
 
-copy = deepcopy(base);
-base.desserts = null;
+const dist = deepcopy(src);
 
-console.log(base);
-// { desserts: null }
-console.log(copy);
-// { desserts: [ { name: 'cake' }, { name: 'ice cream' }, { name: 'pudding' } ] }
+src.desserts = null;
+
+console.log(src);   // { desserts: null }
+console.log(dist);  // { desserts: [ { name: 'cake' }, { name: 'ice cream' }, { name: 'pudding' } ] }
 ```
 
 customize deepcopy:
@@ -61,9 +73,7 @@ function MyClass(id) {
   this._id = id;
 }
 
-var base, copy;
-
-base = {
+const src = {
   myClasses: [
     new MyClass(1),
     new MyClass(2),
@@ -71,53 +81,102 @@ base = {
   ]
 };
 
-copy = deepcopy(base, function(target) {
-  if (target.constructor === MyClass) {
-    return new MyClass(target._id);
+const dest = deepcopy(base, {
+  customizer(value) {
+    if (target.constructor === MyClass) {
+      return new MyClass(target._id);
+    }
   }
 });
-base.myClasses = null;
 
-console.log(base);
-// { myClasses: null }
-console.log(copy);
-// { myClasses: [ MyClass { _id: 1 }, MyClass { _id: 2 }, MyClass { _id: 3 } ] }
+src.myClasses = null;
+
+console.log(src);   // { myClasses: null }
+console.log(dest);  // { myClasses: [ MyClass { _id: 1 }, MyClass { _id: 2 }, MyClass { _id: 3 } ] }
 ```
+
+## Explanation of build files
+
+- deepcopy.mjs
+  - library bundled
+  - ES Modules
+- deepcopy.min.mjs
+  - minified deepcopy.mjs
+- deepcopy.js
+  - library bundled
+  - UMD builds
+- deepcopy.min.js
+  - minified deepcopy.js
+- deepcopy.legacy.js
+  - compiled for old browsers with [@babel/preset-env](https://github.com/babel/babel/tree/master/packages/babel-preset-env)
+    - `IE >= 11`
+    - `Android >= 4.4.4`
+  - library bundled
+  - UMD builds
+- deepcopy.legacy.min.js
+  - minified deepcopy.legacy.js
+
+scripts are put in `dist` directory.
 
 ## Functions
 
-### deepcopy(value[, customizer])
+### deepcopy(value[, options])
 
 - `value`
-  - `*` - target value
-- `customizer`
-  - `Function` - customize function
+  - `*`
+    - target value
+- `options`
+  - `Object|Function`
+    - `Object` - pass options
+    - `Function` - use as customize function
 - `return`
   - `*` - copied value
 
-support types are below:
+### Supported types and copy operation
 
-- Number
-- String
-- Boolean
-- Null
-- Undefined
-- Function
-  - shallow copy if it is native function
-- Date
-- RegExp
-- Array
-  - support recursive copy
-  - also can copy if it has circular reference
-- Object
-  - support recursive copy
-  - also can copy if it has circular reference
-- Buffer (node.js only)
-- Symbol
+|type              |operation   |                          |
+|:-----------------|:-----------|:-------------------------|
+|ArrayBuffer       |deep copy   |                          |
+|Boolean           |deep copy   |                          |
+|Buffer            |deep copy   |node.js only              |
+|DataView          |deep copy   |                          |
+|Date              |deep copy   |                          |
+|Number            |deep copy   |                          |
+|RegExp            |deep copy   |                          |
+|String            |deep copy   |                          |
+|Float32Array      |deep copy   |                          |
+|Float64Array      |deep copy   |                          |
+|Int16Array        |deep copy   |                          |
+|Int32Array        |deep copy   |                          |
+|Int8Array         |deep copy   |                          |
+|Uint16Array       |deep copy   |                          |
+|Uint32Array       |deep copy   |                          |
+|Uint8Array        |deep copy   |                          |
+|Uint8ClampedArray |deep copy   |                          |
+|boolean           |deep copy   |                          |
+|null              |deep copy   |                          |
+|number            |deep copy   |                          |
+|string            |deep copy   |                          |
+|symbol            |deep copy   |                          |
+|undefined         |deep copy   |                          |
+|Arguments         |deep copy   |recursively, copy as Array|
+|Array             |deep copy   |recursively               |
+|Map               |deep copy   |recursively               |
+|Object            |deep copy   |recursively               |
+|Set               |deep copy   |recursively               |
+|Array Iterator    |shallow copy|                          |
+|Map Iterator      |shallow copy|                          |
+|Promise           |shallow copy|                          |
+|Set Iterator      |shallow copy|                          |
+|String Iterator   |shallow copy|                          |
+|function          |shallow copy|                          |
+|global            |shallow copy|window, global, self, etc.|
+|WeakMap           |shallow copy|                          |
+|WeakSet           |shallow copy|                          |
 
 ## Test
 
-```sh
+```console
 $ npm install
 $ npm test
 ```
@@ -128,4 +187,4 @@ $ npm test
 
 ## License
 
-The MIT license. Please see LICENSE file.
+The MIT license.

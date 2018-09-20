@@ -49,7 +49,7 @@ export default function deepcopy(value, options = {}) {
  */
 function recursiveCopy(value, clone, references, visited, customizer) {
   const type = detectType(value);
-  const copiedValue = copy(value, type);
+  const copiedValue = copy(value, type, customizer);
 
   // return if not a collection value
   if (!isCollection(type)) {
@@ -83,7 +83,7 @@ function recursiveCopy(value, clone, references, visited, customizer) {
       set(clone, collectionKey, references.get(collectionValue), type);
     } else {
       const collectionValueType = detectType(collectionValue);
-      const copiedCollectionValue = copy(collectionValue, collectionValueType);
+      const copiedCollectionValue = copy(collectionValue, collectionValueType, customizer);
 
       // save reference if value is collection
       if (isCollection(collectionValueType)) {

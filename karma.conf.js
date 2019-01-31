@@ -15,6 +15,13 @@ module.exports = function(config) {
         ui: 'bdd'
       }
     },
+    customHeaders: [
+      {
+        match: '.*debug\\.html$',
+        name: 'Content-Security-Policy',
+        value: "default-src 'self' 'unsafe-inline';"
+      }
+    ],
     customLaunchers: {
       // NOTE: https://docs.travis-ci.com/user/chrome#Sandboxing
       ChromeHeadlessNoSandbox: {

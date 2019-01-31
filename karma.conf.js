@@ -19,7 +19,8 @@ module.exports = function(config) {
       {
         match: '.*debug\\.html$',
         name: 'Content-Security-Policy',
-        value: "default-src 'self' 'unsafe-inline';"
+        value:
+          "default-src 'none'; img-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self'"
       }
     ],
     customLaunchers: {

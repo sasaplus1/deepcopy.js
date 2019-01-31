@@ -7,14 +7,14 @@ exports.default = void 0;
 
 var _buffer = require("./buffer");
 
-const globalObject = Function('return this')();
+var _global = require("./global");
+
 /**
  * copy ArrayBuffer
  *
  * @param {ArrayBuffer} value
  * @return {ArrayBuffer}
  */
-
 function copyArrayBuffer(value) {
   return value.slice(0);
 }
@@ -105,7 +105,7 @@ function copyString(value) {
 
 
 function copyTypedArray(value, type) {
-  return globalObject[type].from(value);
+  return _global.globalObject[type].from(value);
 }
 /**
  * shallow copy

@@ -2737,7 +2737,11 @@
 	  get: _flags
 	});
 
-	var globalObject = Function('return this')();
+	var freeGlobalThis = typeof globalThis !== 'undefined' && globalThis !== null && globalThis.Object === Object && globalThis;
+	var freeGlobal = typeof global !== 'undefined' && global !== null && global.Object === Object && global;
+	var freeSelf = typeof self !== 'undefined' && self !== null && self.Object === Object && self;
+	var globalObject = freeGlobalThis || freeGlobal || freeSelf || Function('return this')();
+
 	/**
 	 * copy ArrayBuffer
 	 *

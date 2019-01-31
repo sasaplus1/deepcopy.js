@@ -1,6 +1,5 @@
 import { copy as cloneBuffer } from './buffer';
-
-const globalObject = Function('return this')();
+import { globalObject } from './global';
 
 /**
  * copy ArrayBuffer

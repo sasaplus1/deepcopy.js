@@ -64,6 +64,9 @@
       "eslint:recommended",
       "plugin:prettier/recommended"
     ],
+    "globals": {
+      "globalThis": true
+    },
     "parserOptions": {
       "ecmaVersion": 2017,
       "sourceType": "module"

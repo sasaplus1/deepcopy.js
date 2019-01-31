@@ -186,7 +186,7 @@ describe('deepcopy', function() {
 
   describe('shallow copy targets', function() {
     it('can shallow copy function', function() {
-      const data = new Function();
+      const data = function() {};
       const result = deepcopy(data);
 
       assert(data === result);

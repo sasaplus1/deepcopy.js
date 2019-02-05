@@ -3,20 +3,6 @@
   "description": "deep copy data",
   "version": "1.0.1",
   "author": "sasa+1 <sasaplus1@gmail.com>",
-  "babel": {
-    "compact": false,
-    "env": {
-      "test": {
-        "presets": [
-          "power-assert"
-        ]
-      }
-    },
-    "minified": false,
-    "plugins": [
-      "@babel/plugin-transform-modules-commonjs"
-    ]
-  },
   "contributors": [
     "kjirou <kjirou.web@gmail.com>"
   ],

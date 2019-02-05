@@ -33,25 +33,25 @@ export const copy = isBufferFromExists
       return Buffer.from(value);
     }
   : isBufferExists
-    ? /**
-       * copy Buffer
-       *
-       * NOTE: for old node.js
-       *
-       * @param {Buffer} value
-       * @return {Buffer}
-       */
-      function copy(value) {
-        return new Buffer(value);
-      }
-    : /**
-       * shallow copy
-       *
-       * NOTE: for Buffer unsupported
-       *
-       * @param {*}
-       * @return {*}
-       */
-      function copy(value) {
-        return value;
-      };
+  ? /**
+     * copy Buffer
+     *
+     * NOTE: for old node.js
+     *
+     * @param {Buffer} value
+     * @return {Buffer}
+     */
+    function copy(value) {
+      return new Buffer(value);
+    }
+  : /**
+     * shallow copy
+     *
+     * NOTE: for Buffer unsupported
+     *
+     * @param {*}
+     * @return {*}
+     */
+    function copy(value) {
+      return value;
+    };

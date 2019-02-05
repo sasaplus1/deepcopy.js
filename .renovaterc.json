@@ -1,0 +1,7 @@
+{
+  "extends": [
+    "config:base",
+    ":label(renovate)",
+    ":timezone(Asia/Tokyo)"
+  ]
+}

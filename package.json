@@ -61,18 +61,8 @@
     "src"
   ],
   "license": "MIT",
-  "lint-staged": {
-    "**/*.{js,mjs}": "eslint",
-    "package.json": [
-      "fixpack",
-      "git diff --exit-code --quiet"
-    ]
-  },
   "main": "./index",
   "module": "./index.mjs",
-  "prettier": {
-    "singleQuote": true
-  },
   "readmeFilename": "README.md",
   "repository": {
     "type": "git",

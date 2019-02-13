@@ -1,8 +1,7 @@
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
 import nodeResolve from 'rollup-plugin-node-resolve';
-import uglify from 'rollup-plugin-uglify';
-import uglifySaveLicense from 'uglify-save-license';
+import { terser } from 'rollup-plugin-terser';
 
 import meta from './package.json';
 
@@ -48,11 +47,9 @@ const babelOptions = {
   ]
 };
 
-const uglifyOptions = {
+const terserOptions = {
   output: {
-    // TODO: deepcopy.legacy.min.js has line comment
-    // `// 25.4.1.5 NewPromiseCapability(C)`
-    comments: uglifySaveLicense
+    preamble: banner
   }
 };
 
@@ -61,7 +58,7 @@ export default [
     input: './index.mjs',
     output: {
       banner,
-      file: './dist/deepcopy.legacy.js',
+      file: './umd/deepcopy.legacy.js',
       format: 'umd',
       name: meta.name,
       // NOTE: break sourcemap
@@ -74,7 +71,7 @@ export default [
     input: './index.mjs',
     output: {
       banner,
-      file: './dist/deepcopy.legacy.min.js',
+      file: './umd/deepcopy.legacy.min.js',
       format: 'umd',
       name: meta.name
     },
@@ -82,14 +79,14 @@ export default [
       nodeResolve(nodeResolveOptions),
       commonjs(),
       babel(babelOptions),
-      uglify(uglifyOptions)
+      terser(terserOptions)
     ]
   },
   {
     input: './index.mjs',
     output: {
       banner,
-      file: './dist/deepcopy.js',
+      file: './umd/deepcopy.js',
       format: 'umd',
       name: meta.name,
       sourcemap: true
@@ -100,21 +97,21 @@ export default [
     input: './index.mjs',
     output: {
       banner,
-      file: './dist/deepcopy.min.js',
+      file: './umd/deepcopy.min.js',
       format: 'umd',
       name: meta.name
     },
     plugins: [
       nodeResolve(nodeResolveOptions),
       commonjs(),
-      uglify(uglifyOptions)
+      terser(terserOptions)
     ]
   },
   {
     input: './index.mjs',
     output: {
       banner,
-      file: './dist/deepcopy.mjs',
+      file: './umd/deepcopy.mjs',
       format: 'es',
       name: meta.name,
       sourcemap: true
@@ -125,14 +122,14 @@ export default [
     input: './index.mjs',
     output: {
       banner,
-      file: './dist/deepcopy.min.mjs',
+      file: './umd/deepcopy.min.mjs',
       format: 'es',
       name: meta.name
     },
     plugins: [
       nodeResolve(nodeResolveOptions),
       commonjs(),
-      uglify(uglifyOptions)
+      terser(terserOptions)
     ]
   }
 ];

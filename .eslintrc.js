@@ -13,7 +13,7 @@ module.exports = {
       env: {
         mocha: true
       },
-      files: ['test/**/*.js']
+      files: ['test/**/*.mjs']
     }
   ],
   parserOptions: {

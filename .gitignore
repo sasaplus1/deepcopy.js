@@ -62,4 +62,7 @@ typings/
 # next.js build output
 .next
 
+### deepcopy.js
 
+# Chrome data directory
+.chrome

@@ -1,6 +1,6 @@
 module.exports = {
   linters: {
-    '*.{js,mjs}': 'npx --no-install eslint',
+    '*.+(js|mjs)': 'npx --no-install eslint --ext .js,.mjs',
     '*.yml': [
       'npx --no-install prettier --parser yaml --write',
       'git diff --exit-code --quiet'

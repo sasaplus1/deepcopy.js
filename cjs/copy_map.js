@@ -5,9 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _buffer = require("./buffer");
+var _buffer = require("./buffer.js");
 
-var _global = require("./global");
+var _global = require("./global.js");
 
 /**
  * copy ArrayBuffer

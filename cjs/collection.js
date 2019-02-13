@@ -7,7 +7,7 @@ exports.get = get;
 exports.isCollection = isCollection;
 exports.set = set;
 
-var _detector = require("./detector");
+var _detector = require("./detector.js");
 
 /**
  * collection types

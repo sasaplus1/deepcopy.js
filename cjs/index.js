@@ -5,11 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = deepcopy;
 
-var _detector = require("./detector");
+var _detector = require("./detector.js");
 
-var _collection = require("./collection");
+var _collection = require("./collection.js");
 
-var _copier = require("./copier");
+var _copier = require("./copier.js");
 
 /**
  * deepcopy function
@@ -25,12 +25,8 @@ function deepcopy(value, options = {}) {
     };
   }
 
-  const {
-    // TODO: before/after customizer
-    customizer // TODO: max depth
-    // depth = Infinity,
-
-  } = options;
+  const _options = options,
+        customizer = _options.customizer;
   const valueType = (0, _detector.detectType)(value);
 
   if (!(0, _collection.isCollection)(valueType)) {
@@ -84,25 +80,45 @@ function recursiveCopy(value, clone, references, visited, customizer) {
   } // walk within collection with iterator
 
 
-  for (let collectionKey of keys) {
-    const collectionValue = (0, _collection.get)(value, collectionKey, type);
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
 
-    if (visited.has(collectionValue)) {
-      // for [Circular]
-      (0, _collection.set)(clone, collectionKey, references.get(collectionValue), type);
-    } else {
-      const collectionValueType = (0, _detector.detectType)(collectionValue);
-      const copiedCollectionValue = (0, _copier.copy)(collectionValue, collectionValueType); // save reference if value is collection
+  try {
+    for (var _iterator = keys[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      let collectionKey = _step.value;
+      const collectionValue = (0, _collection.get)(value, collectionKey, type);
 
-      if ((0, _collection.isCollection)(collectionValueType)) {
-        references.set(collectionValue, copiedCollectionValue);
-        visited.add(collectionValue);
+      if (visited.has(collectionValue)) {
+        // for [Circular]
+        (0, _collection.set)(clone, collectionKey, references.get(collectionValue), type);
+      } else {
+        const collectionValueType = (0, _detector.detectType)(collectionValue);
+        const copiedCollectionValue = (0, _copier.copy)(collectionValue, collectionValueType); // save reference if value is collection
+
+        if ((0, _collection.isCollection)(collectionValueType)) {
+          references.set(collectionValue, copiedCollectionValue);
+          visited.add(collectionValue);
+        }
+
+        (0, _collection.set)(clone, collectionKey, recursiveCopy(collectionValue, copiedCollectionValue, references, visited, customizer), type);
       }
+    } // TODO: isSealed/isFrozen/isExtensible
 
-      (0, _collection.set)(clone, collectionKey, recursiveCopy(collectionValue, copiedCollectionValue, references, visited, customizer), type);
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return != null) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
     }
-  } // TODO: isSealed/isFrozen/isExtensible
-
+  }
 
   return clone;
 }

@@ -7,7 +7,7 @@ exports.detectType = detectType;
 
 var _typeDetect = _interopRequireDefault(require("type-detect"));
 
-var _buffer = require("./buffer");
+var _buffer = require("./buffer.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

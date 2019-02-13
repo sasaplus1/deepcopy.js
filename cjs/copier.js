@@ -5,9 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.copy = copy;
 
-var _copy_map = _interopRequireDefault(require("./copy_map"));
+var _copy_map = _interopRequireDefault(require("./copy_map.js"));
 
-var _detector = require("./detector");
+var _detector = require("./detector.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

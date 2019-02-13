@@ -1,3 +1,7 @@
+import assert from 'assert';
+
+import deepcopy from '../index.mjs';
+
 describe('deepcopy', function() {
   const freeGlobalThis =
     typeof globalThis !== 'undefined' &&

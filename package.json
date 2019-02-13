@@ -69,5 +69,6 @@
     "test:browser": "ls -1 dist/*.js | xargs -I {} karma start --single-run --browsers $BROWSERS --file {}",
     "test:cjs": "node ./test/cjs/index.js",
     "test:esm": "node --eval 0 --experimental-modules && node --experimental-modules ./test/esm/index.mjs || true"
-  }
+  },
+  "sideEffects": false
 }

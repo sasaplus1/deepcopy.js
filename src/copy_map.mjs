@@ -1,5 +1,5 @@
-import { copy as cloneBuffer } from './buffer';
-import { globalObject } from './global';
+import { copy as cloneBuffer } from './buffer.mjs';
+import { globalObject } from './global.mjs';
 
 /**
  * copy ArrayBuffer

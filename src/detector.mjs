@@ -1,6 +1,6 @@
 import typeDetect from 'type-detect';
 
-import { isBuffer } from './buffer';
+import { isBuffer } from './buffer.mjs';
 
 /**
  * detect type of value

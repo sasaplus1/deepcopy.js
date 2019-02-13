@@ -1,4 +1,4 @@
-import { detectType } from './detector';
+import { detectType } from './detector.mjs';
 
 /**
  * collection types

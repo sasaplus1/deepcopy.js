@@ -1,6 +1,6 @@
-import { detectType } from './detector';
-import { get, isCollection, set } from './collection';
-import { copy } from './copier';
+import { detectType } from './detector.mjs';
+import { get, isCollection, set } from './collection.mjs';
+import { copy } from './copier.mjs';
 
 /**
  * deepcopy function

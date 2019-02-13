@@ -1,5 +1,5 @@
-import copyMap from './copy_map';
-import { detectType } from './detector';
+import copyMap from './copy_map.mjs';
+import { detectType } from './detector.mjs';
 
 /**
  * no operation

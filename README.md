@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/sasaplus1/deepcopy.js.svg)](https://travis-ci.org/sasaplus1/deepcopy.js)
 [![npm version](https://badge.fury.io/js/deepcopy.svg)](http://badge.fury.io/js/deepcopy)
 [![Try deepcopy on RunKit](https://badge.runkitcdn.com/deepcopy.svg)](https://npm.runkit.com/deepcopy)
+[![renovate](https://badges.renovateapi.com/github/sasaplus1/deepcopy.js)](https://renovatebot.com)
 
 deep copy data
 

@@ -9,6 +9,8 @@ deep copy data
 
 ## Installation
 
+### npm
+
 ```console
 $ npm install deepcopy
 ```
@@ -17,32 +19,14 @@ $ npm install deepcopy
 
 ### node.js
 
-#### via ES Modules
-
-```js
-import deepcopy from 'deepcopy';
-```
-
-#### via CommonJS
-
 ```js
 const deepcopy = require('deepcopy');
 ```
 
 ### browser
 
-#### via module
-
 ```html
-<script type="module">
-  import deepcopy from "./dist/deepcopy.min.mjs";
-</script>
-```
-
-#### via script
-
-```html
-<script src="./dist/deepcopy.min.js"></script>
+<script src="deepcopy.min.js"></script>
 ```
 
 ### Example
@@ -94,29 +78,6 @@ src.myClasses = null;
 console.log(src);   // { myClasses: null }
 console.log(dest);  // { myClasses: [ MyClass { _id: 1 }, MyClass { _id: 2 }, MyClass { _id: 3 } ] }
 ```
-
-## Explanation of build files
-
-- deepcopy.mjs
-  - library bundled
-  - ES Modules
-- deepcopy.min.mjs
-  - minified deepcopy.mjs
-- deepcopy.js
-  - library bundled
-  - UMD builds
-- deepcopy.min.js
-  - minified deepcopy.js
-- deepcopy.legacy.js
-  - compiled for old browsers with [@babel/preset-env](https://github.com/babel/babel/tree/master/packages/babel-preset-env)
-    - `IE >= 11`
-    - `Android >= 4.4.4`
-  - library bundled
-  - UMD builds
-- deepcopy.legacy.min.js
-  - minified deepcopy.legacy.js
-
-scripts are put in `dist` directory.
 
 ## Functions
 
@@ -173,13 +134,6 @@ scripts are put in `dist` directory.
 |global            |shallow copy|window, global, self, etc.|
 |WeakMap           |shallow copy|                          |
 |WeakSet           |shallow copy|                          |
-
-## Test
-
-```console
-$ npm install
-$ npm test
-```
 
 ## Contributors
 

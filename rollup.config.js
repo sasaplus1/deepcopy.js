@@ -106,30 +106,5 @@ export default [
       commonjs(),
       terser(terserOptions)
     ]
-  },
-  {
-    input: './index.mjs',
-    output: {
-      banner,
-      file: './umd/deepcopy.mjs',
-      format: 'es',
-      name: meta.name,
-      sourcemap: true
-    },
-    plugins: [nodeResolve(nodeResolveOptions), commonjs()]
-  },
-  {
-    input: './index.mjs',
-    output: {
-      banner,
-      file: './umd/deepcopy.min.mjs',
-      format: 'es',
-      name: meta.name
-    },
-    plugins: [
-      nodeResolve(nodeResolveOptions),
-      commonjs(),
-      terser(terserOptions)
-    ]
   }
 ];

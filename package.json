@@ -32,7 +32,7 @@
     "mocha": "6.0.1",
     "power-assert": "1.6.1",
     "prettier": "1.16.4",
-    "rollup": "0.68.2",
+    "rollup": "1.2.3",
     "rollup-plugin-babel": "4.3.2",
     "rollup-plugin-commonjs": "9.1.8",
     "rollup-plugin-node-resolve": "4.0.1",

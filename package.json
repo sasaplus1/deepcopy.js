@@ -11,11 +11,11 @@
     "type-detect": "^4.0.8"
   },
   "devDependencies": {
-    "@babel/cli": "7.4.3",
-    "@babel/core": "7.4.3",
-    "@babel/plugin-transform-modules-commonjs": "7.4.3",
-    "@babel/preset-env": "7.4.3",
-    "@babel/register": "7.4.0",
+    "@babel/cli": "7.4.4",
+    "@babel/core": "7.4.4",
+    "@babel/plugin-transform-modules-commonjs": "7.4.4",
+    "@babel/preset-env": "7.4.4",
+    "@babel/register": "7.4.4",
     "babel-plugin-transform-rename-import": "2.3.0",
     "babel-preset-power-assert": "3.0.0",
     "eslint": "5.15.3",

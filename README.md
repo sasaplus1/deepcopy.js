@@ -1,6 +1,6 @@
 # deepcopy.js
 
-[![Build Status](https://travis-ci.org/sasaplus1/deepcopy.js.svg)](https://travis-ci.org/sasaplus1/deepcopy.js)
+[![test](https://github.com/sasaplus1/deepcopy.js/workflows/test/badge.svg)](https://github.com/sasaplus1/deepcopy.js/actions?query=workflow%3Atest)
 [![npm version](https://badge.fury.io/js/deepcopy.svg)](http://badge.fury.io/js/deepcopy)
 [![Try deepcopy on RunKit](https://badge.runkitcdn.com/deepcopy.svg)](https://npm.runkit.com/deepcopy)
 [![renovate](https://badges.renovateapi.com/github/sasaplus1/deepcopy.js)](https://renovatebot.com)

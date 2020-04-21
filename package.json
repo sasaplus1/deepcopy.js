@@ -61,7 +61,7 @@
     "fix": "eslint --ext .js,.mjs --fix",
     "fixpack": "npx fixpack",
     "lint": "eslint --ext .js,.mjs .",
-    "mocha": "run-s run mocha:*",
+    "mocha": "run-s mocha:*",
     "mocha:cjs": "BABEL_ENV=mocha:cjs mocha './test/**/*.mjs'",
     "mocha:mjs": "BABEL_ENV=mocha:mjs mocha './test/**/*.mjs'",
     "premocha:cjs": "run-s build:cjs",

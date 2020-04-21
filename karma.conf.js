@@ -7,12 +7,6 @@ const nodeResolve = require('rollup-plugin-node-resolve');
 const meta = require('./package.json');
 
 module.exports = function(config) {
-  const { file } = config;
-
-  if (!file) {
-    throw new Error('file is not found');
-  }
-
   config.set({
     basePath: path.resolve(__dirname),
     browsers: ['ChromeHeadlessNoSandbox'],

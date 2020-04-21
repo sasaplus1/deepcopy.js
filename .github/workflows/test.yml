@@ -1,0 +1,111 @@
+name: test
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  mocha:
+    name: mocha
+    strategy:
+      matrix:
+        node:
+          - 12
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+      - id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - run: npm install -g yarn
+      - run: yarn install --frozen-lockfile
+      - run: yarn run lint
+      - run: yarn run test
+      - run: yarn run build
+  karma-ie:
+    name: karma on IE
+    strategy:
+      matrix:
+        node:
+          - 12
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+      - id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - run: npm install -g yarn
+      - run: yarn install --frozen-lockfile
+      - run: yarn add -D karma-ie-launcher
+      - run: yarn karma start --single-run --browsers IE
+  karma-ios:
+    name: karma on iOS
+    strategy:
+      matrix:
+        node:
+          - 12
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+      - id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - run: npm install -g yarn
+      - run: yarn install --frozen-lockfile
+      - run: xcrun simctl list
+      - run: xcrun simctl list -j
+      - run: |
+          xcrun simctl list -j | jq '.devices[][] | select(.isAvailable == true) | { (.name): .udid }' | jq -s add
+      - run: |
+          xcrun simctl list -j | jq '.devices[][] | select(.isAvailable == true) | { (.name): .udid }' | jq -s add | jq -r '.["iPhone 11"]' | tee udid
+      - run: xcrun simctl boot $(cat udid)
+      - run: (sleep 3 && xcrun simctl openurl $(cat udid) http://127.0.0.1:9876) &
+      - run: yarn karma start --single-run --no-browsers
+  karma-chrome-firefox:
+    name: karma on Chrome and Firefox
+    strategy:
+      matrix:
+        node:
+          - 12
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+      - id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - run: npm install -g yarn
+      - run: yarn install --frozen-lockfile
+      - run: yarn add -D karma-chrome-launcher karma-firefox-launcher
+      - run: yarn karma start --single-run --browsers ChromeHeadlessNoSandbox,FirefoxHeadless

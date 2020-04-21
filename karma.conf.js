@@ -45,9 +45,14 @@ module.exports = function(config) {
         watched: false
       },
       {
-        pattern: file,
+        pattern: require.resolve('./umd/deepcopy.legacy.js'),
         type: 'js',
         watched: true
+      },
+      {
+        included: false,
+        pattern: require.resolve('./umd/deepcopy.legacy.js.map'),
+        served: true
       },
       {
         pattern: 'test/**/*.mjs',

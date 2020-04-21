@@ -34,29 +34,14 @@ module.exports = function(config) {
     },
     files: [
       {
-        pattern: require.resolve('power-assert/build/power-assert.js'),
-        type: 'js',
-        watched: false
-      },
-      {
-        pattern: require.resolve('./umd/deepcopy.legacy.js'),
-        type: 'js',
-        watched: true
-      },
-      {
-        included: false,
-        pattern: require.resolve('./umd/deepcopy.legacy.js.map'),
-        served: true
-      },
-      {
         pattern: 'test/**/*.mjs',
         type: 'js',
         watched: true
       }
     ],
-    frameworks: ['mocha'],
+    frameworks: ['mocha', 'power-assert'],
     preprocessors: {
-      'test/**/*.mjs': ['rollup']
+      'test/**/*.mjs': ['espower', 'rollup']
     },
     reporters: ['dots'],
     rollupPreprocessor: {

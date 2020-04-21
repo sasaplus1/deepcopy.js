@@ -30,7 +30,7 @@
     "karma-power-assert": "^1.0.0",
     "karma-rollup-preprocessor": "7.0.2",
     "karma-safari-launcher": "1.0.0",
-    "lint-staged": "8.1.7",
+    "lint-staged": "10.1.7",
     "mocha": "6.0.2",
     "npm-run-all": "^4.1.5",
     "power-assert": "1.6.1",

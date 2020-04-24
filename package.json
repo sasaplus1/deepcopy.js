@@ -64,8 +64,8 @@
     "fixpack": "npx fixpack",
     "lint": "eslint --cache --ext .js,.mjs .",
     "mocha": "run-s mocha:*",
-    "mocha:cjs": "BABEL_ENV=mocha:cjs mocha './test/**/*.mjs'",
-    "mocha:mjs": "BABEL_ENV=mocha:mjs mocha './test/**/*.mjs'",
+    "mocha:cjs": "BABEL_ENV=mocha:cjs mocha --experimental-modules './test/**/*.mjs'",
+    "mocha:mjs": "BABEL_ENV=mocha:mjs mocha --experimental-modules './test/**/*.mjs'",
     "premocha:cjs": "run-s build:cjs",
     "test": "run-s mocha"
   },

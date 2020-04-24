@@ -69,7 +69,7 @@ function copyNumber(value) {
  * @return {RegExp}
  */
 function copyRegExp(value) {
-  return new RegExp(value.source || '(?:)', value.flags);
+  return new RegExp(value.source, value.flags);
 }
 
 /**
@@ -89,7 +89,13 @@ function copyString(value) {
  * @return {*}
  */
 function copyTypedArray(value, type) {
-  return globalObject[type].from(value);
+  const typedArray = globalObject[type];
+
+  if (typedArray.from) {
+    return globalObject[type].from(value);
+  }
+
+  return new globalObject[type](value);
 }
 
 /**

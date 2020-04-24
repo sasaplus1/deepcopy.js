@@ -41,19 +41,39 @@ module.exports = function(config) {
     ],
     frameworks: ['mocha', 'power-assert'],
     preprocessors: {
-      'test/**/*.mjs': ['espower', 'rollup']
+      'test/**/*.mjs': ['rollup', 'espower']
     },
     reporters: ['dots'],
     rollupPreprocessor: {
       plugins: [
-        babel(),
         nodeResolve({
           browser: true,
           extensions: ['.mjs', '.js'],
           main: true,
           module: true
         }),
-        commonjs()
+        commonjs(),
+        babel({
+          babelrc: false,
+          compact: false,
+          // NOTE: fix circular dependencies in core-js
+          // https://github.com/rollup/rollup-plugin-commonjs/issues/284#issuecomment-361085666
+          ignore: ['node_modules/core-js/**/*.js'],
+          minified: false,
+          presets: [
+            [
+              '@babel/preset-env',
+              {
+                debug: true,
+                modules: false,
+                targets: {
+                  browsers: ['IE >= 11', 'Android >= 4.4.4']
+                },
+                useBuiltIns: 'usage'
+              }
+            ]
+          ]
+        })
       ],
       output: {
         format: 'umd',

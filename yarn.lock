@@ -1202,7 +1202,7 @@ chokidar@^2.0.3, chokidar@^2.0.4:
   optionalDependencies:
     fsevents "^1.2.7"
 
-chokidar@^3.0.2:
+chokidar@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.3.1.tgz#c84e5b3d18d9a4d77558fef466b1bf16bbeb3450"
   integrity sha512-4QYCEWOcK3OJrxwvyyAOxFuhpvOVCYkr33LPfFNBjAD/w3sEzWsp2BUOkI4l9bHvWioAd0rc6NlHUOEaWkTeqg==
@@ -2931,12 +2931,12 @@ karma-power-assert@^1.0.0:
   resolved "https://registry.yarnpkg.com/karma-power-assert/-/karma-power-assert-1.0.0.tgz#c7682b32c15cc163c3f24966f9e2f9cf30e47872"
   integrity sha1-x2grMsFcwWPD8klm+eL5zzDkeHI=
 
-karma-rollup-preprocessor@7.0.2:
-  version "7.0.2"
-  resolved "https://registry.yarnpkg.com/karma-rollup-preprocessor/-/karma-rollup-preprocessor-7.0.2.tgz#d8c2d9fe90d235a7d9291a805c76055907f6b5a2"
-  integrity sha512-A+kr5FoiMr/S8dIPij/nuzB9PLhkrh3umFowjumAOKBDVQRhPYs3kKmQ82hP3+2MB6CICqeB4MmiIE4iTwUmDQ==
+karma-rollup-preprocessor@7.0.5:
+  version "7.0.5"
+  resolved "https://registry.yarnpkg.com/karma-rollup-preprocessor/-/karma-rollup-preprocessor-7.0.5.tgz#d2cd9c8e654bc1451c31518bc18e6b022237deff"
+  integrity sha512-VhZI81l8LZBvBrSf4xaojsbur7bcycsSlxXkYaTOjV6DQwx1gtAM0CQVdue7LuIbXB1AohYIg0S5at+dqDtMxQ==
   dependencies:
-    chokidar "^3.0.2"
+    chokidar "^3.3.1"
     debounce "^1.2.0"
 
 karma-safari-launcher@1.0.0:

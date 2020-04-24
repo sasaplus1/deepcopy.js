@@ -36,7 +36,7 @@
     "power-assert": "1.6.1",
     "prettier": "1.16.4",
     "rollup": "1.8.0",
-    "rollup-plugin-babel": "4.3.3",
+    "rollup-plugin-babel": "4.4.0",
     "rollup-plugin-commonjs": "9.2.3",
     "rollup-plugin-node-resolve": "4.0.1",
     "rollup-plugin-terser": "4.0.4"

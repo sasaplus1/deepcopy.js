@@ -6,7 +6,7 @@ const nodeResolve = require('rollup-plugin-node-resolve');
 
 const meta = require('./package.json');
 
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
     basePath: path.resolve(__dirname),
     browsers: ['ChromeHeadlessNoSandbox'],

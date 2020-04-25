@@ -2,7 +2,7 @@ import assert from 'assert';
 
 import deepcopy from '../index.mjs';
 
-describe('deepcopy', function() {
+describe('deepcopy', function () {
   const freeGlobalThis =
     typeof globalThis !== 'undefined' &&
     globalThis !== null &&
@@ -24,12 +24,12 @@ describe('deepcopy', function() {
   const globalObject =
     freeGlobalThis || freeGlobal || freeSelf || Function('return this')();
 
-  describe('testing info', function() {
+  describe('testing info', function () {
     it('global object is ' + globalObject);
   });
 
-  describe('deep copy targets', function() {
-    it('can copy ArrayBuffer', function() {
+  describe('deep copy targets', function () {
+    it('can copy ArrayBuffer', function () {
       if (
         typeof ArrayBuffer === 'undefined' ||
         typeof Uint8Array === 'undefined'
@@ -58,12 +58,12 @@ describe('deepcopy', function() {
       assert(b[2] === 3);
     });
 
-    it('can copy boolean', function() {
+    it('can copy boolean', function () {
       assert(deepcopy(true) === true);
       assert(deepcopy(false) === false);
     });
 
-    it('can copy Boolean', function() {
+    it('can copy Boolean', function () {
       const data = new Boolean(false);
       const result = deepcopy(data);
 
@@ -72,7 +72,7 @@ describe('deepcopy', function() {
       assert(data.valueOf() === result.valueOf());
     });
 
-    it('can copy Buffer', function() {
+    it('can copy Buffer', function () {
       if (typeof Buffer === 'undefined') {
         return this.skip();
       }
@@ -89,7 +89,7 @@ describe('deepcopy', function() {
       assert(data.toString('utf8') !== result.toString('utf8'));
     });
 
-    it('can copy DataView', function() {
+    it('can copy DataView', function () {
       if (
         typeof DataView === 'undefined' ||
         typeof ArrayBuffer === 'undefined'
@@ -104,7 +104,7 @@ describe('deepcopy', function() {
       assert(data !== result);
     });
 
-    it('can copy Date', function() {
+    it('can copy Date', function () {
       const data = new Date();
       const result = deepcopy(data);
 
@@ -113,11 +113,11 @@ describe('deepcopy', function() {
       assert(data.getTime() === result.getTime());
     });
 
-    it('can copy null', function() {
+    it('can copy null', function () {
       assert(deepcopy(null) === null);
     });
 
-    it('can copy number', function() {
+    it('can copy number', function () {
       assert(deepcopy(0) === 0);
       assert(deepcopy(Number.MAX_SAFE_INTEGER) === Number.MAX_SAFE_INTEGER);
       assert(deepcopy(Number.MIN_SAFE_INTEGER) === Number.MIN_SAFE_INTEGER);
@@ -126,7 +126,7 @@ describe('deepcopy', function() {
       assert(Number.isNaN(deepcopy(NaN)));
     });
 
-    it('can copy Number', function() {
+    it('can copy Number', function () {
       const data = new Number(65535);
       const result = deepcopy(data);
 
@@ -135,7 +135,7 @@ describe('deepcopy', function() {
       assert(data.valueOf() === result.valueOf());
     });
 
-    it('can copy RegExp', function() {
+    it('can copy RegExp', function () {
       const data = new RegExp('', 'i');
       const result = deepcopy(data);
 
@@ -144,11 +144,11 @@ describe('deepcopy', function() {
       assert(String(data) === String(result));
     });
 
-    it('can copy string', function() {
+    it('can copy string', function () {
       assert(deepcopy('Hello!') === 'Hello!');
     });
 
-    it('can copy String', function() {
+    it('can copy String', function () {
       const data = new String('Hello!');
       const result = deepcopy(data);
 
@@ -157,7 +157,7 @@ describe('deepcopy', function() {
       assert(data.valueOf() === result.valueOf());
     });
 
-    it('can copy symbol', function() {
+    it('can copy symbol', function () {
       if (typeof Symbol === 'undefined') {
         return this.skip();
       }
@@ -168,11 +168,11 @@ describe('deepcopy', function() {
       assert(data === result);
     });
 
-    it('can copy undefined', function() {
+    it('can copy undefined', function () {
       assert(deepcopy(undefined) === undefined);
     });
 
-    describe('TypedArrays', function() {
+    describe('TypedArrays', function () {
       [
         'Float32Array',
         'Float64Array',
@@ -183,8 +183,8 @@ describe('deepcopy', function() {
         'Uint32Array',
         'Uint8Array',
         'Uint8ClampedArray'
-      ].forEach(function(typedArrayName) {
-        it('can copy ' + typedArrayName, function() {
+      ].forEach(function (typedArrayName) {
+        it('can copy ' + typedArrayName, function () {
           if (typeof globalObject[typedArrayName] === 'undefined') {
             return this.skip();
           }
@@ -207,49 +207,49 @@ describe('deepcopy', function() {
     });
   });
 
-  describe('shallow copy targets', function() {
-    it('can shallow copy function', function() {
-      const data = function() {};
+  describe('shallow copy targets', function () {
+    it('can shallow copy function', function () {
+      const data = function () {};
       const result = deepcopy(data);
 
       assert(data === result);
     });
 
-    it('can shallow copy global object', function() {
+    it('can shallow copy global object', function () {
       const data = globalObject;
       const result = deepcopy(data);
 
       assert(data === result);
     });
 
-    it('can shallow copy Promise', function() {
-      const data = new Promise(function() {});
+    it('can shallow copy Promise', function () {
+      const data = new Promise(function () {});
       const result = deepcopy(data);
 
       assert(data === result);
     });
 
-    it('can shallow copy WeakMap', function() {
+    it('can shallow copy WeakMap', function () {
       const data = new WeakMap();
       const result = deepcopy(data);
 
       assert(data === result);
     });
 
-    it('can shallow copy WeakSet', function() {
+    it('can shallow copy WeakSet', function () {
       const data = new WeakSet();
       const result = deepcopy(data);
 
       assert(data === result);
     });
 
-    describe('Iterators', function() {
-      ['Array', 'Map', 'Set', 'String'].forEach(function(
+    describe('Iterators', function () {
+      ['Array', 'Map', 'Set', 'String'].forEach(function (
         IteratorBaseClassName
       ) {
         it(
           'can shallow copy ' + IteratorBaseClassName + ' Iterator',
-          function() {
+          function () {
             if (
               typeof globalObject[IteratorBaseClassName] === 'undefined' ||
               typeof Symbol === 'undefined' ||
@@ -270,9 +270,9 @@ describe('deepcopy', function() {
     });
   });
 
-  describe('recursively copy', function() {
-    it('can copy Arguments, it convert to an Array', function() {
-      (function() {
+  describe('recursively copy', function () {
+    it('can copy Arguments, it convert to an Array', function () {
+      (function () {
         const data = arguments;
         const result = deepcopy(data);
 
@@ -284,7 +284,7 @@ describe('deepcopy', function() {
       })(1, 2, 3);
     });
 
-    it('can copy Array', function() {
+    it('can copy Array', function () {
       const data = [1, 2, 3];
       const result = deepcopy(data);
 
@@ -294,12 +294,16 @@ describe('deepcopy', function() {
       assert(result[2] === 3);
     });
 
-    it('can copy Map', function() {
+    it('can copy Map', function () {
       if (typeof Map === 'undefined') {
         return this.skip();
       }
 
-      const data = new Map([['a', 1], ['b', 2], ['c', 3]]);
+      const data = new Map([
+        ['a', 1],
+        ['b', 2],
+        ['c', 3]
+      ]);
       const result = deepcopy(data);
 
       assert(data !== result);
@@ -313,7 +317,7 @@ describe('deepcopy', function() {
       assert(iterator.next().value.join(',') === 'c,3');
     });
 
-    it('can copy Object', function() {
+    it('can copy Object', function () {
       const data = { a: 1, b: 2, c: 3 };
       const result = deepcopy(data);
 
@@ -323,7 +327,7 @@ describe('deepcopy', function() {
       assert(result.c === 3);
     });
 
-    it('can copy Set', function() {
+    it('can copy Set', function () {
       if (typeof Set === 'undefined') {
         return this.skip();
       }
@@ -340,16 +344,20 @@ describe('deepcopy', function() {
       assert(result.has(3));
     });
 
-    describe('dive deep', function() {
-      it('Array', function() {
-        const result = deepcopy([[1, 2, 3], [4, 5, 6], [7, 8, 9]]);
+    describe('dive deep', function () {
+      it('Array', function () {
+        const result = deepcopy([
+          [1, 2, 3],
+          [4, 5, 6],
+          [7, 8, 9]
+        ]);
 
         assert(result[0].join(',') === '1,2,3');
         assert(result[1].join(',') === '4,5,6');
         assert(result[2].join(',') === '7,8,9');
       });
 
-      it('Object in Array', function() {
+      it('Object in Array', function () {
         const result = deepcopy([
           {
             a: 1,
@@ -371,7 +379,7 @@ describe('deepcopy', function() {
         assert(result[1].c === 6);
       });
 
-      it('Object', function() {
+      it('Object', function () {
         const result = deepcopy({
           a: { a: 1, b: 2, c: 3 },
           b: { d: 4, e: 5, f: 6 },
@@ -389,7 +397,7 @@ describe('deepcopy', function() {
         assert(result.c.i === 9);
       });
 
-      it('Symbol in Object', function() {
+      it('Symbol in Object', function () {
         const s1 = Symbol();
         const s2 = Symbol();
         const s3 = Symbol();
@@ -411,7 +419,7 @@ describe('deepcopy', function() {
         assert(result[s3][2].c === 3);
       });
 
-      it('Object in Map', function() {
+      it('Object in Map', function () {
         const result = deepcopy(
           new Map([
             [1, { a: 1, b: 2, c: 3 }],
@@ -433,13 +441,13 @@ describe('deepcopy', function() {
     });
   });
 
-  describe('options', function() {
-    describe('customizer', function() {
-      it('can copy unknown class', function() {
+  describe('options', function () {
+    describe('customizer', function () {
+      it('can copy unknown class', function () {
         function A() {}
 
         const data = new A();
-        const result = deepcopy(data, function(value) {
+        const result = deepcopy(data, function (value) {
           if (value instanceof A) {
             return new A();
           }
@@ -451,8 +459,8 @@ describe('deepcopy', function() {
     });
   });
 
-  describe('issues', function() {
-    it('#2', function() {
+  describe('issues', function () {
+    it('#2', function () {
       function fn() {}
 
       const result = deepcopy({
@@ -464,7 +472,7 @@ describe('deepcopy', function() {
       assert(result.b === fn);
     });
 
-    it('#7', function() {
+    it('#7', function () {
       const result = deepcopy({
         a: {
           x: new Date(),
@@ -482,7 +490,7 @@ describe('deepcopy', function() {
       assert(result.b.y === 1);
     });
 
-    it('#9', function() {
+    it('#9', function () {
       const result = deepcopy([
         {
           a: 1,
@@ -500,10 +508,13 @@ describe('deepcopy', function() {
       assert(result[1].b === 2);
     });
 
-    it('#10', function() {
+    it('#10', function () {
       function fn() {}
 
-      const result = deepcopy([{ a: fn, b: 'asdf' }, { x: fn, y: 'asdf' }]);
+      const result = deepcopy([
+        { a: fn, b: 'asdf' },
+        { x: fn, y: 'asdf' }
+      ]);
 
       assert(result[0].a === fn);
       assert(result[0].b === 'asdf');
@@ -511,12 +522,12 @@ describe('deepcopy', function() {
       assert(result[1].y === 'asdf');
     });
 
-    it('#11', function() {
+    it('#11', function () {
       const result = deepcopy({
         a: 1,
         b: 2,
         c: 3,
-        d: function() {},
+        d: function () {},
         e: 4,
         f: []
       });
@@ -529,7 +540,7 @@ describe('deepcopy', function() {
       assert(Array.isArray(result.f));
     });
 
-    it('#12', function() {
+    it('#12', function () {
       const result = deepcopy({
         a: 1,
         b: 2,

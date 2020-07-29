@@ -19,8 +19,15 @@ $ npm install deepcopy
 
 ### node.js
 
+#### JavaScript
+
 ```js
 const deepcopy = require('deepcopy');
+```
+
+#### TypeScript
+```typescript
+import * as deepcopy from 'deepcopy';
 ```
 
 ### browser

@@ -10,10 +10,10 @@
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
-	(global = global || self, global.deepcopy = factory());
-}(this, function () { 'use strict';
+	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.deepcopy = factory());
+}(this, (function () { 'use strict';
 
-	var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+	var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 	function createCommonjsModule(fn, module) {
 		return module = { exports: {} }, fn(module, module.exports), module.exports;
@@ -21,7 +21,7 @@
 
 	var typeDetect = createCommonjsModule(function (module, exports) {
 	(function (global, factory) {
-		module.exports = factory();
+		 module.exports = factory() ;
 	}(commonjsGlobal, (function () {
 	/* !
 	 * type-detect
@@ -514,7 +514,6 @@
 	      // NOTE: Set.prototype.keys is alias of Set.prototype.values
 	      // it means key is equals value
 	      return key;
-	    default:
 	  }
 	}
 
@@ -551,7 +550,6 @@
 	    case 'Set':
 	      collection.add(value);
 	      break;
-	    default:
 	  }
 
 	  return collection;
@@ -646,7 +644,7 @@
 	 * @return {RegExp}
 	 */
 	function copyRegExp(value) {
-	  return new RegExp(value.source || '(?:)', value.flags);
+	  return new RegExp(value.source, value.flags);
 	}
 
 	/**
@@ -666,7 +664,13 @@
 	 * @return {*}
 	 */
 	function copyTypedArray(value, type) {
-	  return globalObject[type].from(value);
+	  const typedArray = globalObject[type];
+
+	  if (typedArray.from) {
+	    return globalObject[type].from(value);
+	  }
+
+	  return new globalObject[type](value);
 	}
 
 	/**
@@ -837,7 +841,7 @@
 	  const valueType = detectType(value);
 
 	  if (!isCollection(valueType)) {
-	    return recursiveCopy(value, null, null, null, customizer);
+	    return recursiveCopy(value, null, null, null);
 	  }
 
 	  const copiedValue = copy$1(value, valueType, customizer);
@@ -845,7 +849,7 @@
 	  const references = new WeakMap([[value, copiedValue]]);
 	  const visited = new WeakSet([value]);
 
-	  return recursiveCopy(value, copiedValue, references, visited, customizer);
+	  return recursiveCopy(value, copiedValue, references, visited);
 	}
 
 	/**
@@ -882,7 +886,6 @@
 	    case 'Set':
 	      keys = value.keys();
 	      break;
-	    default:
 	  }
 
 	  // walk within collection with iterator
@@ -909,9 +912,7 @@
 	          collectionValue,
 	          copiedCollectionValue,
 	          references,
-	          visited,
-	          customizer
-	        ),
+	          visited),
 	        type
 	      );
 	    }
@@ -924,5 +925,5 @@
 
 	return deepcopy;
 
-}));
+})));
 //# sourceMappingURL=deepcopy.js.map

@@ -83,7 +83,7 @@ function copyNumber(value) {
 
 
 function copyRegExp(value) {
-  return new RegExp(value.source || '(?:)', value.flags);
+  return new RegExp(value.source, value.flags);
 }
 /**
  * copy String
@@ -105,7 +105,13 @@ function copyString(value) {
 
 
 function copyTypedArray(value, type) {
-  return _global.globalObject[type].from(value);
+  const typedArray = _global.globalObject[type];
+
+  if (typedArray.from) {
+    return _global.globalObject[type].from(value);
+  }
+
+  return new _global.globalObject[type](value);
 }
 /**
  * shallow copy

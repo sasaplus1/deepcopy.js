@@ -69,5 +69,6 @@
     "premocha:cjs": "run-s build:cjs",
     "test": "run-s mocha"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "types": "./index.d.ts"
 }

@@ -145,6 +145,7 @@ console.log(dest);  // { myClasses: [ MyClass { _id: 1 }, MyClass { _id: 2 }, My
 ## Contributors
 
 - [kjirou](https://github.com/kjirou)
+- [Pr0methean](https://github.com/Pr0methean)
 
 ## License
 

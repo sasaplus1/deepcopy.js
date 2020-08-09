@@ -1,3 +1,8 @@
+# 2.1.0 / 2020-08-10
+
+- update some modules
+- add DTS file
+
 # 2.0.0 / 2019-02-15
 
 - modernize

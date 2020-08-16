@@ -1,3 +1,4 @@
 module.exports = {
-  require: '@babel/register'
+  extension: 'ts',
+  require: 'espower-typescript/guess'
 };

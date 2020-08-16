@@ -6,7 +6,6 @@
     ":preserveSemverRanges",
     ":assignee(sasaplus1)",
     ":timezone(Asia/Tokyo)",
-    "group:babelMonorepo",
     "group:definitelyTyped",
     "group:jsUnitTest",
     "group:linters",

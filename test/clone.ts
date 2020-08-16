@@ -499,8 +499,8 @@ describe('clone', function () {
 
       const result = copy(data, detectType(data), customizer) as A;
 
-      assert(result !== data);
       assert(result instanceof A);
+      assert(result !== data);
       assert(typeof result.isA === 'function');
     });
   });

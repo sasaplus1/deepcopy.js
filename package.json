@@ -58,7 +58,6 @@
     "build": "run-p -l build:*",
     "build:cjs": "BABEL_ENV=cjs babel ./src -d ./cjs -s",
     "build:umd": "BABEL_ENV=umd rollup -c",
-    "clean": "npx rimraf ./cjs ./umd",
     "fix": "eslint --ext .js,.mjs --fix .",
     "fixpack": "npx fixpack",
     "lint": "eslint --cache --ext .js,.mjs .",

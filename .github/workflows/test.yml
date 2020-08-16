@@ -11,15 +11,16 @@ jobs:
       matrix:
         node:
           - 12
+          - 14
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2.1.1
         with:
           node-version: ${{ matrix.node }}
       - id: yarn-cache
         run: echo "::set-output name=dir::$(yarn cache dir)"
-      - uses: actions/cache@v1
+      - uses: actions/cache@v2
         with:
           path: ${{ steps.yarn-cache.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
@@ -30,21 +31,45 @@ jobs:
       - run: yarn run lint
       - run: yarn run test
       - run: yarn run build
-  karma-ie:
-    name: karma on IE
+  karma:
+    name: karma with Chrome and Firefox
     strategy:
       matrix:
         node:
-          - 12
-    runs-on: windows-latest
+          - 14
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2.1.1
         with:
           node-version: ${{ matrix.node }}
       - id: yarn-cache
         run: echo "::set-output name=dir::$(yarn cache dir)"
-      - uses: actions/cache@v1
+      - uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - run: npm install -g yarn
+      - run: yarn install --frozen-lockfile
+      - run: yarn add -D karma-chrome-launcher karma-firefox-launcher
+      - run: yarn karma start --single-run --browsers ChromeHeadlessNoSandbox,FirefoxHeadless
+  karma-ie:
+    name: karma with IE11
+    strategy:
+      matrix:
+        node:
+          - 14
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2.1.1
+        with:
+          node-version: ${{ matrix.node }}
+      - id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - uses: actions/cache@v2
         with:
           path: ${{ steps.yarn-cache.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
@@ -59,16 +84,16 @@ jobs:
     strategy:
       matrix:
         node:
-          - 12
-    runs-on: macos-latest
+          - 14
+    runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2.1.1
         with:
           node-version: ${{ matrix.node }}
       - id: yarn-cache
         run: echo "::set-output name=dir::$(yarn cache dir)"
-      - uses: actions/cache@v1
+      - uses: actions/cache@v2
         with:
           path: ${{ steps.yarn-cache.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
@@ -83,29 +108,5 @@ jobs:
       - run: |
           xcrun simctl list -j | jq '.devices[][] | select(.isAvailable == true) | { (.name): .udid }' | jq -s add | jq -r '.["iPhone 11"]' | tee udid
       - run: xcrun simctl boot $(cat udid)
-      - run: (sleep 3 && xcrun simctl openurl $(cat udid) http://127.0.0.1:9876) &
+      - run: xcrun simctl openurl $(cat udid) http://127.0.0.1:9876 &
       - run: yarn karma start --single-run --no-browsers
-  karma-chrome-firefox:
-    name: karma on Chrome and Firefox
-    strategy:
-      matrix:
-        node:
-          - 12
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node }}
-      - id: yarn-cache
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-      - uses: actions/cache@v1
-        with:
-          path: ${{ steps.yarn-cache.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
-      - run: npm install -g yarn
-      - run: yarn install --frozen-lockfile
-      - run: yarn add -D karma-chrome-launcher karma-firefox-launcher
-      - run: yarn karma start --single-run --browsers ChromeHeadlessNoSandbox,FirefoxHeadless

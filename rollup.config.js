@@ -11,7 +11,7 @@ if (process.env.build === 'esm') {
   config.push({
     input: './index.ts',
     output: {
-      dir: './dist/esm',
+      file: './dist/esm/index.mjs',
       format: 'esm',
       sourcemap: true
     },

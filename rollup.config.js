@@ -53,7 +53,7 @@ if (process.env.build === 'umd') {
     newLine: 'lf',
     sourceMap: true,
     strict: true,
-    target: 'ES5'
+    target: 'ES2017'
   };
 
   config.push(
@@ -68,7 +68,11 @@ if (process.env.build === 'umd') {
         // https://github.com/rollup/rollup/wiki/Troubleshooting#sourcemap-is-likely-to-be-incorrect
         sourcemap: true
       },
-      plugins: [nodeResolve(), commonjs(), typescript(typescriptOptions)]
+      plugins: [
+        nodeResolve(),
+        commonjs(),
+        typescript({ ...typescriptOptions, target: 'ES5' })
+      ]
     },
     {
       input: './index.ts',
@@ -82,7 +86,7 @@ if (process.env.build === 'umd') {
       plugins: [
         nodeResolve(),
         commonjs(),
-        typescript({ ...typescriptOptions, sourceMap: false }),
+        typescript({ ...typescriptOptions, sourceMap: false, target: 'ES5' }),
         terser(terserOptions)
       ]
     },

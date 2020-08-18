@@ -116,6 +116,4 @@ if (process.env.build === 'umd') {
   );
 }
 
-require('util').inspect(config, { depth: null });
-
 export default config;

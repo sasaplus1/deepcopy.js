@@ -3,7 +3,7 @@
   "description": "deep copy data",
   "version": "2.1.0",
   "author": "sasa+1 <sasaplus1@gmail.com>",
-  "browser": "./umd/deepcopy.js",
+  "browser": "./dist/umd/deepcopy.js",
   "contributors": [
     "kjirou <kjirou.web@gmail.com>",
     "Pr0methean"
@@ -52,8 +52,8 @@
     "umd"
   ],
   "license": "MIT",
-  "main": "./index.js",
-  "module": "./index.mjs",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.mjs",
   "readmeFilename": "README.md",
   "repository": {
     "type": "git",
@@ -73,5 +73,5 @@
     "test": "run-s mocha"
   },
   "sideEffects": false,
-  "types": "./index.d.ts"
+  "types": "./dist/cjs/index.d.ts"
 }

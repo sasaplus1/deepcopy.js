@@ -46,10 +46,7 @@
     "node": ">=12"
   },
   "files": [
-    "cjs",
-    "index.*",
-    "src",
-    "umd"
+    "dist/**/*"
   ],
   "license": "MIT",
   "main": "./dist/cjs/index.js",

@@ -39,3 +39,5 @@ jobs:
           output-file-path: node.txt
           benchmark-data-dir-path: benchmark
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          auto-push: true
+          comment-always: true

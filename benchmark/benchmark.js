@@ -2,7 +2,7 @@
 
 const Benchmark = require('benchmark');
 
-const deepcopy = require('..');
+const { deepcopy } = require('../dist/cjs');
 const { fixture1 } = require('./fixtures');
 
 const suite = new Benchmark.Suite();

@@ -48,6 +48,12 @@ module.exports = {
       rules: {
         'node/no-unsupported-features/es-syntax': 'off'
       }
+    },
+    {
+      files: ['benchmark/benchmark.js'],
+      rules: {
+        'node/shebang': 'off'
+      }
     }
   ],
   parserOptions: {

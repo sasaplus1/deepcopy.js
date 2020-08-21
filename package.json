@@ -19,6 +19,7 @@
     "@babel/register": "^7.10.5",
     "babel-plugin-transform-rename-import": "^2.3.0",
     "babel-preset-power-assert": "^3.0.0",
+    "benchmark": "^2.1.4",
     "eslint": "^7.7.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
@@ -58,6 +59,7 @@
     "url": "https://github.com/sasaplus1/deepcopy.js.git"
   },
   "scripts": {
+    "benchmark": "./benchmark/benchmark.js",
     "build": "run-p -l build:*",
     "build:cjs": "BABEL_ENV=cjs babel ./src -d ./cjs -s",
     "build:umd": "BABEL_ENV=umd rollup -c",

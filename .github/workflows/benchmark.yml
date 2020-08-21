@@ -1,9 +1,8 @@
 name: benchmark
 
 on:
-  push:
-    branches:
-      - master
+  - push
+  - pull_request
 
 jobs:
   node:
@@ -33,7 +32,8 @@ jobs:
         with:
           name: node.txt
           path: node.txt
-      - uses: rhysd/github-action-benchmark@v1
+      - if: github.ref == 'refs/heads/master'
+        uses: rhysd/github-action-benchmark@v1
         with:
           tool: 'benchmarkjs'
           output-file-path: node.txt

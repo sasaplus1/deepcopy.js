@@ -65,9 +65,10 @@
     "check-types": "tsc --noEmit",
     "fix": "eslint --fix --ext .js,.ts .",
     "fixpack": "npx fixpack",
+    "karma": "karma start --single-run --browsers ChromeHeadlessNoSandbox",
     "lint": "eslint --cache --ext .js,.ts .",
     "mocha": "mocha",
-    "test": "run-s mocha"
+    "test": "run-s mocha karma"
   },
   "sideEffects": false,
   "types": "./dist/cjs/index.d.ts"

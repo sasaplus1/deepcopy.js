@@ -29,7 +29,7 @@ jobs:
       - run: npm install -g yarn
       - run: yarn install --frozen-lockfile
       - run: yarn run lint
-      - run: yarn run test
+      - run: yarn run mocha
       - run: yarn run build
   karma:
     name: karma with Chrome and Firefox

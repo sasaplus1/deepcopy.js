@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1598113276651,
+  "lastUpdate": 1598113487122,
   "repoUrl": "https://github.com/sasaplus1/deepcopy.js",
   "entries": {
     "Benchmark": [
@@ -62,6 +62,37 @@ window.BENCHMARK_DATA = {
             "range": "±1.85%",
             "unit": "ops/sec",
             "extra": "90 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "sasaplus1@gmail.com",
+            "name": "sasaplus1",
+            "username": "sasaplus1"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "11af550d776e4913b62310790364c51f66fd7b59",
+          "message": "Merge pull request #210 from sasaplus1/gitattributes\n\nadd .gitattributes",
+          "timestamp": "2020-08-23T01:24:05+09:00",
+          "tree_id": "2b8e0f5007fd15f46e215a067afdfab2076fd72a",
+          "url": "https://github.com/sasaplus1/deepcopy.js/commit/11af550d776e4913b62310790364c51f66fd7b59"
+        },
+        "date": 1598113486732,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "deepcopy:fixture1",
+            "value": 24277,
+            "range": "±0.94%",
+            "unit": "ops/sec",
+            "extra": "86 samples"
           }
         ]
       }

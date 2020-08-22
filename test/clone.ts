@@ -317,6 +317,11 @@ describe('clone', function () {
         assert(result === data);
       });
       it('Promise', function () {
+        // NOTE: IE11 has not Promise
+        if (typeof Promise === 'undefined') {
+          return this.skip();
+        }
+
         const data = new Promise<number>(function (resolve): void {
           return resolve(1);
         });
@@ -377,6 +382,11 @@ describe('clone', function () {
         assert(result === data);
       });
       it('WeakSet', function () {
+        // NOTE: IE11 has not WeakSet
+        if (typeof WeakSet === 'undefined') {
+          return this.skip();
+        }
+
         const data = new WeakSet<object>();
         const result = clone(data, detectType(data)) as WeakSet<object>;
 
@@ -415,7 +425,8 @@ describe('clone', function () {
             detectType(Number.NEGATIVE_INFINITY)
           ) === Number.NEGATIVE_INFINITY
         );
-        assert(Number.isNaN(clone(NaN, detectType(NaN)) as number));
+        // NOTE: IE11 has not Number.isNaN
+        assert(isNaN(clone(NaN, detectType(NaN)) as number));
       });
       it('string', function () {
         assert(clone('寿司', detectType('寿司')) === '寿司');

@@ -70,16 +70,22 @@ describe('collection', function () {
       ]);
     });
     it('should get keys from Map', function () {
-      const value = new Map<number, number>([
-        [0, 1],
-        [1, 2],
-        [2, 3]
-      ]);
+      // NOTE: IE11 cannot initialize Map with constructor
+      const value = new Map<number, number>();
+
+      value.set(0, 1);
+      value.set(1, 2);
+      value.set(2, 3);
 
       assert.deepStrictEqual(getKeys(value, detectType(value)), [0, 1, 2]);
     });
     it('should get keys from Set', function () {
-      const value = new Set<number>([1, 2, 3]);
+      // NOTE: IE11 cannot initialize Set with constructor
+      const value = new Set<number>();
+
+      value.add(1);
+      value.add(2);
+      value.add(3);
 
       assert.deepStrictEqual(getKeys(value, detectType(value)), [1, 2, 3]);
     });
@@ -93,11 +99,12 @@ describe('collection', function () {
       assert(getValue(value, 2, detectType(value)) === 3);
     });
     it('should get value from Map', function () {
-      const value = new Map<number, number>([
-        [0, 1],
-        [1, 2],
-        [2, 3]
-      ]);
+      // NOTE: IE11 cannot initialize Map with constructor
+      const value = new Map<number, number>();
+
+      value.set(0, 1);
+      value.set(1, 2);
+      value.set(2, 3);
 
       assert(getValue(value, 0, detectType(value)) === 1);
       assert(getValue(value, 1, detectType(value)) === 2);
@@ -111,7 +118,12 @@ describe('collection', function () {
       assert(getValue(value, '2', detectType(value)) === 3);
     });
     it('should get value from Set', function () {
-      const value = new Set<number>([1, 2, 3]);
+      // NOTE: IE11 cannot initialize Set with constructor
+      const value = new Set<number>();
+
+      value.add(1);
+      value.add(2);
+      value.add(3);
 
       assert(getValue(value, 1, detectType(value)) === 1);
       assert(getValue(value, 2, detectType(value)) === 2);

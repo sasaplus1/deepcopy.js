@@ -101,7 +101,8 @@ describe('deepcopy', function () {
       assert(deepcopy(Number.MIN_SAFE_INTEGER) === Number.MIN_SAFE_INTEGER);
       assert(deepcopy(Number.POSITIVE_INFINITY) === Number.POSITIVE_INFINITY);
       assert(deepcopy(Number.NEGATIVE_INFINITY) === Number.NEGATIVE_INFINITY);
-      assert(Number.isNaN(deepcopy(NaN)));
+      // NOTE: IE11 has not Number.isNaN
+      assert(isNaN(deepcopy(NaN)));
     });
 
     it('can copy Number', function () {
@@ -348,6 +349,11 @@ describe('deepcopy', function () {
     });
 
     it('can shallow copy Promise', function () {
+      // NOTE: IE11 has not Promise
+      if (typeof Promise === 'undefined') {
+        return this.skip();
+      }
+
       const data = new Promise(function (): void {
         return;
       });
@@ -364,6 +370,11 @@ describe('deepcopy', function () {
     });
 
     it('can shallow copy WeakSet', function () {
+      // NOTE: IE11 has not WeakSet
+      if (typeof WeakSet === 'undefined') {
+        return this.skip();
+      }
+
       const data = new WeakSet();
       const result = deepcopy(data);
 

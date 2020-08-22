@@ -94,7 +94,7 @@ export function getValue(
       return (collection as Map<unknown, unknown>).get(key);
     case typeSet:
       // NOTE: Set.prototype.keys is alias of Set.prototype.values. It means key equals to value.
-      return key;
+      return (collection as Set<unknown>).has(key) ? key : undefined;
     default:
   }
 }

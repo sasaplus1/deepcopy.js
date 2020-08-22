@@ -1,8 +1,8 @@
 const path = require('path');
 
-const babel = require('rollup-plugin-babel');
-const commonjs = require('rollup-plugin-commonjs');
-const nodeResolve = require('rollup-plugin-node-resolve');
+const commonjs = require('@rollup/plugin-commonjs');
+const { default: nodeResolve } = require('@rollup/plugin-node-resolve');
+const typescript = require('rollup-plugin-typescript');
 
 const meta = require('./package.json');
 
@@ -34,49 +34,32 @@ module.exports = function (config) {
     },
     files: [
       {
-        pattern: 'test/**/*.mjs',
+        pattern: 'test/**/*.ts',
         type: 'js',
         watched: true
       }
     ],
     frameworks: ['mocha', 'power-assert'],
+    mime: {
+      'text/x-typescript': ['ts', 'tsx']
+    },
     preprocessors: {
-      'test/**/*.mjs': ['rollup', 'espower']
+      '+(src|test)/**/*.ts': ['rollup', 'espower']
     },
     reporters: ['dots'],
     rollupPreprocessor: {
       plugins: [
-        nodeResolve({
-          browser: true,
-          extensions: ['.mjs', '.js'],
-          main: true,
-          module: true
+        nodeResolve(),
+        typescript({
+          inlineSourceMap: true,
+          newLine: 'lf',
+          strict: true,
+          target: 'ES5'
         }),
-        commonjs(),
-        babel({
-          babelrc: false,
-          compact: false,
-          // NOTE: fix circular dependencies in core-js
-          // https://github.com/rollup/rollup-plugin-commonjs/issues/284#issuecomment-361085666
-          ignore: ['node_modules/core-js/**/*.js'],
-          minified: false,
-          presets: [
-            [
-              '@babel/preset-env',
-              {
-                debug: true,
-                modules: false,
-                targets: {
-                  browsers: ['IE >= 11', 'Android >= 4.4.4']
-                },
-                useBuiltIns: 'usage'
-              }
-            ]
-          ]
-        })
+        commonjs()
       ],
       output: {
-        format: 'umd',
+        format: 'iife',
         name: meta.name,
         sourcemap: 'inline'
       }

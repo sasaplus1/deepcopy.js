@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "esModuleInterop": true,
+    "module": "CommonJS",
+    "newLine": "lf",
+    "outDir": "dist/cjs",
+    "rootDir": ".",
+    "sourceMap": true,
+    "strict": true,
+    "target": "ESNext"
+  },
+  "files": [
+    "index.ts"
+  ]
+}

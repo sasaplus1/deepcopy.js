@@ -13,9 +13,18 @@ const aliasOptions = {
 };
 
 if (process.env.build === 'esm') {
+  const banner = [
+    '/*!',
+    ' * @license deepcopy.js Copyright(c) 2013 sasa+1',
+    ' * https://github.com/sasaplus1/deepcopy.js',
+    ' * Released under the MIT license.',
+    ' */'
+  ].join('\n');
+
   config.push({
     input: './index.ts',
     output: {
+      banner,
       file: './dist/esm/index.mjs',
       format: 'esm',
       sourcemap: true

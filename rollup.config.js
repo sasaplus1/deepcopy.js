@@ -8,15 +8,6 @@ import meta from './package.json';
 
 const config = [];
 
-const aliasOptions = {
-  // NOTE: use ES Module version
-  entries: [{ find: 'type-detect', replacement: 'type-detect/index' }]
-};
-
-const replaceOptions = {
-  'process.env.NODEJS': JSON.stringify(false)
-};
-
 if (process.env.build === 'esm') {
   const banner = [
     '/*!',
@@ -25,6 +16,15 @@ if (process.env.build === 'esm') {
     ' * Released under the MIT license.',
     ' */'
   ].join('\n');
+
+  const aliasOptions = {
+    // NOTE: use ES Module version
+    entries: [{ find: 'type-detect', replacement: 'type-detect/index' }]
+  };
+
+  const replaceOptions = {
+    'process.env.NODEJS': JSON.stringify(false)
+  };
 
   config.push({
     input: './index.ts',
@@ -42,8 +42,7 @@ if (process.env.build === 'esm') {
         module: 'ESNext',
         newLine: 'lf',
         strict: true,
-        target: 'ESNext',
-        outDir: './dist/esm'
+        target: 'ESNext'
       })
     ]
   });
@@ -62,6 +61,15 @@ if (process.env.build === 'umd') {
     ' * MIT Licensed',
     ' */'
   ].join('\n');
+
+  const aliasOptions = {
+    // NOTE: use ES Module version
+    entries: [{ find: 'type-detect', replacement: 'type-detect/index' }]
+  };
+
+  const replaceOptions = {
+    'process.env.NODEJS': JSON.stringify(false)
+  };
 
   const terserOptions = {
     output: {

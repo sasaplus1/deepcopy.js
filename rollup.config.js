@@ -1,4 +1,5 @@
 import alias from '@rollup/plugin-alias';
+import replace from '@rollup/plugin-replace';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import { terser } from 'rollup-plugin-terser';
 import typescript from 'rollup-plugin-typescript';
@@ -10,6 +11,10 @@ const config = [];
 const aliasOptions = {
   // NOTE: use ES Module version
   entries: [{ find: 'type-detect', replacement: 'type-detect/index' }]
+};
+
+const replaceOptions = {
+  'process.env.NODEJS': JSON.stringify(false)
 };
 
 if (process.env.build === 'esm') {
@@ -30,6 +35,7 @@ if (process.env.build === 'esm') {
       sourcemap: true
     },
     plugins: [
+      replace(replaceOptions),
       alias(aliasOptions),
       nodeResolve(),
       typescript({
@@ -83,6 +89,7 @@ if (process.env.build === 'umd') {
         sourcemap: true
       },
       plugins: [
+        replace(replaceOptions),
         alias(aliasOptions),
         nodeResolve(),
         typescript({ ...typescriptOptions, target: 'ES5' })
@@ -98,6 +105,7 @@ if (process.env.build === 'umd') {
         name: meta.name
       },
       plugins: [
+        replace(replaceOptions),
         alias(aliasOptions),
         nodeResolve(),
         typescript({ ...typescriptOptions, sourceMap: false, target: 'ES5' }),
@@ -114,6 +122,7 @@ if (process.env.build === 'umd') {
         sourcemap: true
       },
       plugins: [
+        replace(replaceOptions),
         alias(aliasOptions),
         nodeResolve(),
         typescript(typescriptOptions)
@@ -129,6 +138,7 @@ if (process.env.build === 'umd') {
         name: meta.name
       },
       plugins: [
+        replace(replaceOptions),
         alias(aliasOptions),
         nodeResolve(),
         typescript({ ...typescriptOptions, sourceMap: false }),

@@ -1,4 +1,6 @@
-const isBufferExists = typeof Buffer !== 'undefined';
+// NOTE: process.env.NODEJS is used for minifying code,
+// It must replace to immediate value before minifying.
+const isBufferExists = process.env.NODEJS && typeof Buffer !== 'undefined';
 
 /**
  * is it Buffer?

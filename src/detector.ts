@@ -21,5 +21,5 @@ export function detectType(value: unknown): string {
     return 'Buffer';
   }
 
-  return typeDetect(value);
+  return /*#__INLINE__*/ typeDetect(value);
 }

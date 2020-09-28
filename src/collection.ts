@@ -21,11 +21,12 @@ export type Collection =
 const collectionTypeSet: Set<string> = new Set();
 
 // NOTE: IE11 cannot initialize Set with constructor
-collectionTypeSet.add(typeArguments);
-collectionTypeSet.add(typeArray);
-collectionTypeSet.add(typeMap);
-collectionTypeSet.add(typeObject);
-collectionTypeSet.add(typeSet);
+collectionTypeSet
+  .add(typeArguments)
+  .add(typeArray)
+  .add(typeMap)
+  .add(typeObject)
+  .add(typeSet);
 
 /**
  * is it Collection?

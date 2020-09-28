@@ -18,13 +18,7 @@ export type Collection =
  *
  * @private
  */
-const collectionTypeSet: Set<
-  | typeof typeArguments
-  | typeof typeArray
-  | typeof typeMap
-  | typeof typeObject
-  | typeof typeSet
-> = new Set();
+const collectionTypeSet: Set<string> = new Set();
 
 // NOTE: IE11 cannot initialize Set with constructor
 collectionTypeSet.add(typeArguments);

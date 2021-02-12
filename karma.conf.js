@@ -7,6 +7,8 @@ const typescript = require('rollup-plugin-typescript');
 const meta = require('./package.json');
 
 module.exports = function (config) {
+  const weaksetPolyfill = require.resolve('core-js/es/weak-set');
+
   config.set({
     basePath: path.resolve(__dirname),
     browsers: ['ChromeHeadlessNoSandbox'],
@@ -33,6 +35,10 @@ module.exports = function (config) {
       }
     },
     files: [
+      {
+        pattern: weaksetPolyfill,
+        type: 'js'
+      },
       {
         pattern: 'test/**/*.ts',
         type: 'js',

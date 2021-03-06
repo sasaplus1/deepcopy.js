@@ -21,7 +21,7 @@
     "@typescript-eslint/parser": "^4.16.1",
     "benchmark": "^2.1.4",
     "eslint": "^7.7.0",
-    "eslint-config-prettier": "^6.11.0",
+    "eslint-config-prettier": "^8.0.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.1.4",
     "espower-typescript": "^10.0.0",

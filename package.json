@@ -57,7 +57,7 @@
     "url": "https://github.com/sasaplus1/deepcopy.js.git"
   },
   "scripts": {
-    "benchmark": "node ./benchmark/benchmark.js",
+    "benchmark": "node ./benchmark/index.js",
     "build": "run-p -l build:*",
     "build:cjs": "tsc",
     "build:esm": "rollup -c --environment build:esm",

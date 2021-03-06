@@ -10,6 +10,7 @@ jobs:
     strategy:
       matrix:
         node:
+          - 12
           - 14
     runs-on: ubuntu-latest
     steps:
@@ -27,17 +28,18 @@ jobs:
             ${{ runner.os }}-yarn-
       - run: npm install -g yarn
       - run: yarn install --frozen-lockfile
-      - run: yarn run --silent benchmark | tee node.txt
+      - run: yarn run --silent benchmark | tee node-${{ matrix.node }}.txt
+        env:
+          ENVIRONMENT: node-${{ matrix.node }}
       - uses: actions/upload-artifact@v2
         with:
-          name: node.txt
-          path: node.txt
+          name: node-${{ matrix.node }}.txt
+          path: node-${{ matrix.node }}.txt
       - if: github.ref == 'refs/heads/master'
         uses: rhysd/github-action-benchmark@v1
         with:
           tool: 'benchmarkjs'
-          output-file-path: node.txt
+          output-file-path: node-${{ matrix.node }}.txt
           benchmark-data-dir-path: benchmark
           github-token: ${{ secrets.GITHUB_TOKEN }}
           auto-push: true
-          comment-always: true

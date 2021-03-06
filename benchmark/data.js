@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1615025975926,
+  "lastUpdate": 1615028549925,
   "repoUrl": "https://github.com/sasaplus1/deepcopy.js",
   "entries": {
     "Benchmark": [
@@ -248,6 +248,37 @@ window.BENCHMARK_DATA = {
             "range": "±1.20%",
             "unit": "ops/sec",
             "extra": "87 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "sasaplus1@gmail.com",
+            "name": "sasaplus1",
+            "username": "sasaplus1"
+          },
+          "committer": {
+            "email": "sasaplus1@gmail.com",
+            "name": "sasaplus1",
+            "username": "sasaplus1"
+          },
+          "distinct": true,
+          "id": "ce9d9f1ba6ab27f00897935321d1c8e09aa0d713",
+          "message": "upgrade eslint and prettier modules",
+          "timestamp": "2021-03-06T20:01:46+09:00",
+          "tree_id": "38155d5cfddf739c3aa9417ff375958b8446043e",
+          "url": "https://github.com/sasaplus1/deepcopy.js/commit/ce9d9f1ba6ab27f00897935321d1c8e09aa0d713"
+        },
+        "date": 1615028549460,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "deepcopy:fixture1",
+            "value": 28860,
+            "range": "±0.28%",
+            "unit": "ops/sec",
+            "extra": "97 samples"
           }
         ]
       }

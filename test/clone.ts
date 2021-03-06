@@ -294,9 +294,10 @@ describe('clone', function () {
         }
 
         const data = [1, 2, 3][Symbol.iterator]();
-        const result = clone(data, detectType(data)) as IterableIterator<
-          number
-        >;
+        const result = clone(
+          data,
+          detectType(data)
+        ) as IterableIterator<number>;
 
         assert(result === data);
       });
@@ -330,9 +331,10 @@ describe('clone', function () {
         }
 
         const data = new Set<number>([1, 2, 3])[Symbol.iterator]();
-        const result = clone(data, detectType(data)) as IterableIterator<
-          number
-        >;
+        const result = clone(
+          data,
+          detectType(data)
+        ) as IterableIterator<number>;
 
         assert(result === data);
       });
@@ -342,9 +344,10 @@ describe('clone', function () {
         }
 
         const data = '寿司'[Symbol.iterator]();
-        const result = clone(data, detectType(data)) as IterableIterator<
-          string
-        >;
+        const result = clone(
+          data,
+          detectType(data)
+        ) as IterableIterator<string>;
 
         assert(result === data);
       });
@@ -440,10 +443,12 @@ describe('clone', function () {
       it('Arguments', function () {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         (function (one: number, two: number, three: number): void {
-          // eslint-disable-next-line prefer-rest-params
-          const result = clone(arguments, detectType(arguments)) as Array<
-            number
-          >;
+          const result = clone(
+            // eslint-disable-next-line prefer-rest-params
+            arguments,
+            // eslint-disable-next-line prefer-rest-params
+            detectType(arguments)
+          ) as Array<number>;
 
           assert(Array.isArray(result));
           assert(result.length === 0);

@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1615028549925,
+  "lastUpdate": 1615029130321,
   "repoUrl": "https://github.com/sasaplus1/deepcopy.js",
   "entries": {
     "Benchmark": [
@@ -279,6 +279,37 @@ window.BENCHMARK_DATA = {
             "range": "±0.28%",
             "unit": "ops/sec",
             "extra": "97 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "sasaplus1@gmail.com",
+            "name": "sasaplus1",
+            "username": "sasaplus1"
+          },
+          "committer": {
+            "email": "sasaplus1@gmail.com",
+            "name": "sasaplus1",
+            "username": "sasaplus1"
+          },
+          "distinct": true,
+          "id": "1cb74881e8f3bb7bd49ea2181dcb456f028d24d7",
+          "message": "upgrade rollup and rollup modules",
+          "timestamp": "2021-03-06T20:11:26+09:00",
+          "tree_id": "904fdaf31c8d1b16ca3f98ed82023688e7e3f930",
+          "url": "https://github.com/sasaplus1/deepcopy.js/commit/1cb74881e8f3bb7bd49ea2181dcb456f028d24d7"
+        },
+        "date": 1615029129819,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "deepcopy:fixture1",
+            "value": 23874,
+            "range": "±1.35%",
+            "unit": "ops/sec",
+            "extra": "82 samples"
           }
         ]
       }

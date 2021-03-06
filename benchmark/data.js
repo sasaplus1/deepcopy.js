@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1615025513312,
+  "lastUpdate": 1615025787420,
   "repoUrl": "https://github.com/sasaplus1/deepcopy.js",
   "entries": {
     "Benchmark": [
@@ -186,6 +186,37 @@ window.BENCHMARK_DATA = {
             "range": "±0.71%",
             "unit": "ops/sec",
             "extra": "88 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "sasaplus1@gmail.com",
+            "name": "sasaplus1",
+            "username": "sasaplus1"
+          },
+          "committer": {
+            "email": "sasaplus1@gmail.com",
+            "name": "sasaplus1",
+            "username": "sasaplus1"
+          },
+          "distinct": true,
+          "id": "7209994c5e9521aae0aca37a202a895d2faf4b3d",
+          "message": "improve lint-staged configs",
+          "timestamp": "2021-03-06T19:14:06+09:00",
+          "tree_id": "a6f2c40ddc0e085f91c8503f538d8f5a2e1d5c94",
+          "url": "https://github.com/sasaplus1/deepcopy.js/commit/7209994c5e9521aae0aca37a202a895d2faf4b3d"
+        },
+        "date": 1615025786965,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "deepcopy:fixture1",
+            "value": 27470,
+            "range": "±2.36%",
+            "unit": "ops/sec",
+            "extra": "84 samples"
           }
         ]
       }

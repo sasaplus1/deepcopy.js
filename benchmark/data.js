@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1615025787420,
+  "lastUpdate": 1615025975926,
   "repoUrl": "https://github.com/sasaplus1/deepcopy.js",
   "entries": {
     "Benchmark": [
@@ -217,6 +217,37 @@ window.BENCHMARK_DATA = {
             "range": "±2.36%",
             "unit": "ops/sec",
             "extra": "84 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "sasaplus1@gmail.com",
+            "name": "sasaplus1",
+            "username": "sasaplus1"
+          },
+          "committer": {
+            "email": "sasaplus1@gmail.com",
+            "name": "sasaplus1",
+            "username": "sasaplus1"
+          },
+          "distinct": true,
+          "id": "4cd53e40f2fee3c7f1c79d850b9926bea969f885",
+          "message": "upgrade espower-typescript",
+          "timestamp": "2021-03-06T19:18:47+09:00",
+          "tree_id": "19c5f8a8ac5f0b2e83128b977c6b2e55c5586599",
+          "url": "https://github.com/sasaplus1/deepcopy.js/commit/4cd53e40f2fee3c7f1c79d850b9926bea969f885"
+        },
+        "date": 1615025975227,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "deepcopy:fixture1",
+            "value": 24948,
+            "range": "±1.20%",
+            "unit": "ops/sec",
+            "extra": "87 samples"
           }
         ]
       }

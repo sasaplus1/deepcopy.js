@@ -368,17 +368,19 @@ describe('clone', function () {
         }
       });
       it('WeakMap', function () {
-        const data = new WeakMap<object, unknown>();
+        const data = new WeakMap<Record<string, unknown>, unknown>();
         const result = clone(data, detectType(data)) as WeakMap<
-          object,
+          Record<string, unknown>,
           unknown
         >;
 
         assert(result === data);
       });
       it('WeakSet', function () {
-        const data = new WeakSet<object>();
-        const result = clone(data, detectType(data)) as WeakSet<object>;
+        const data = new WeakSet<Record<string, unknown>>();
+        const result = clone(data, detectType(data)) as WeakSet<
+          Record<string, unknown>
+        >;
 
         assert(result === data);
       });

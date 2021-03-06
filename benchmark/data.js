@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1615024622684,
+  "lastUpdate": 1615025513312,
   "repoUrl": "https://github.com/sasaplus1/deepcopy.js",
   "entries": {
     "Benchmark": [
@@ -155,6 +155,37 @@ window.BENCHMARK_DATA = {
             "range": "±0.56%",
             "unit": "ops/sec",
             "extra": "91 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "sasaplus1@gmail.com",
+            "name": "sasaplus1",
+            "username": "sasaplus1"
+          },
+          "committer": {
+            "email": "sasaplus1@gmail.com",
+            "name": "sasaplus1",
+            "username": "sasaplus1"
+          },
+          "distinct": true,
+          "id": "bc345d35d35f78cece83ac865a641e5b0096cda9",
+          "message": "upgrade typescript modules",
+          "timestamp": "2021-03-06T19:11:00+09:00",
+          "tree_id": "9a428c11ee2c56cac46ee3a2b71ae3277438517d",
+          "url": "https://github.com/sasaplus1/deepcopy.js/commit/bc345d35d35f78cece83ac865a641e5b0096cda9"
+        },
+        "date": 1615025512847,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "deepcopy:fixture1",
+            "value": 23987,
+            "range": "±0.71%",
+            "unit": "ops/sec",
+            "extra": "88 samples"
           }
         ]
       }

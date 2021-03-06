@@ -23,7 +23,6 @@
     "eslint": "^7.21.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^3.3.1",
     "espower-typescript": "^10.0.0",
     "husky": "^4.2.5",
     "karma": "^6.1.1",
@@ -63,11 +62,14 @@
     "build:esm": "rollup -c --environment build:esm",
     "build:umd": "rollup -c --environment build:umd",
     "check-types": "tsc --noEmit",
-    "fix": "eslint --fix --ext .js,.ts .",
+    "fix": "run-s fix:*",
+    "fix:eslint": "eslint --fix --ext .js,.ts .",
+    "fix:prettier": "prettier --write '**/*.+(js|ts)'",
     "fixpack": "npx fixpack",
-    "lint": "eslint --cache --ext .js,.ts .",
-    "mocha": "mocha",
-    "test": "run-s mocha"
+    "lint": "run-s lint:*",
+    "lint:eslint": "eslint --cache --ext .js,.ts .",
+    "lint:prettier": "prettier --check '**/*.+(js|ts)'",
+    "test": "mocha"
   },
   "sideEffects": false,
   "types": "./dist/cjs/index.d.ts"

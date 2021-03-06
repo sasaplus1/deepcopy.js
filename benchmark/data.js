@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1600957437575,
+  "lastUpdate": 1615024622684,
   "repoUrl": "https://github.com/sasaplus1/deepcopy.js",
   "entries": {
     "Benchmark": [
@@ -124,6 +124,37 @@ window.BENCHMARK_DATA = {
             "range": "±0.46%",
             "unit": "ops/sec",
             "extra": "94 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "sasaplus1@gmail.com",
+            "name": "sasaplus1",
+            "username": "sasaplus1"
+          },
+          "committer": {
+            "email": "sasaplus1@gmail.com",
+            "name": "sasaplus1",
+            "username": "sasaplus1"
+          },
+          "distinct": true,
+          "id": "c16bd4a403c012832fa85e5214f7942b84e62926",
+          "message": "update actions/setup-node version",
+          "timestamp": "2021-03-06T18:54:42+09:00",
+          "tree_id": "f874c567cad7b0b7923adcab3574b0cc49319359",
+          "url": "https://github.com/sasaplus1/deepcopy.js/commit/c16bd4a403c012832fa85e5214f7942b84e62926"
+        },
+        "date": 1615024621882,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "deepcopy:fixture1",
+            "value": 24437,
+            "range": "±0.56%",
+            "unit": "ops/sec",
+            "extra": "91 samples"
           }
         ]
       }

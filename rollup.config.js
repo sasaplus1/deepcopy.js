@@ -22,9 +22,7 @@ if (process.env.build === 'esm') {
         tsconfig(resolvedConfig) {
           return {
             ...resolvedConfig,
-            declaration: false,
-            module: 'ESNext',
-            outDir: './dist/esm'
+            declaration: false
           };
         }
       })
@@ -74,8 +72,6 @@ if (process.env.build === 'umd') {
             return {
               ...resolvedConfig,
               declaration: false,
-              outDir: './dist/umd',
-              sourceMap: false,
               target: 'ES5'
             };
           }
@@ -99,8 +95,6 @@ if (process.env.build === 'umd') {
             return {
               ...resolvedConfig,
               declaration: false,
-              outDir: './dist/umd',
-              sourceMap: false,
               target: 'ES5'
             };
           }
@@ -127,10 +121,7 @@ if (process.env.build === 'umd') {
           tsconfig(resolvedConfig) {
             return {
               ...resolvedConfig,
-              declaration: false,
-              module: 'ESNext',
-              outDir: './dist/umd',
-              sourceMap: false
+              declaration: false
             };
           }
         })
@@ -152,10 +143,7 @@ if (process.env.build === 'umd') {
           tsconfig(resolvedConfig) {
             return {
               ...resolvedConfig,
-              declaration: false,
-              module: 'ESNext',
-              outDir: './dist/umd',
-              sourceMap: false
+              declaration: false
             };
           }
         }),

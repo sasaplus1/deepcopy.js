@@ -2,7 +2,8 @@ const path = require('path');
 
 const commonjs = require('@rollup/plugin-commonjs');
 const { default: nodeResolve } = require('@rollup/plugin-node-resolve');
-const ts = require('@wessberg/rollup-plugin-ts');
+// NOTE: fail build when use @wessberg/rollup-plugin-ts
+const typescript = require('@rollup/plugin-typescript');
 
 const meta = require('./package.json');
 
@@ -48,26 +49,21 @@ module.exports = function (config) {
     },
     reporters: ['dots'],
     rollupPreprocessor: {
-      plugins: [
-        nodeResolve(),
-        commonjs(),
-        ts({
-          tsconfig(resolvedConfig) {
-            return {
-              ...resolvedConfig,
-              inlineSourceMap: true,
-              module: 'ESNext',
-              sourceMap: false,
-              target: 'ES5'
-            };
-          }
-        })
-      ],
       output: {
         format: 'iife',
         name: meta.name,
         sourcemap: 'inline'
-      }
+      },
+      plugins: [
+        nodeResolve(),
+        commonjs(),
+        typescript({
+          esModuleInterop: true,
+          module: 'ESNext',
+          target: 'ES5',
+          tsconfig: false
+        })
+      ]
     }
   });
 };

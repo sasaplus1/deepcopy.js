@@ -2,7 +2,7 @@ const path = require('path');
 
 const commonjs = require('@rollup/plugin-commonjs');
 const { default: nodeResolve } = require('@rollup/plugin-node-resolve');
-const typescript = require('rollup-plugin-typescript');
+const ts = require('@wessberg/rollup-plugin-ts');
 
 const meta = require('./package.json');
 
@@ -50,13 +50,18 @@ module.exports = function (config) {
     rollupPreprocessor: {
       plugins: [
         nodeResolve(),
-        typescript({
-          inlineSourceMap: true,
-          newLine: 'lf',
-          strict: true,
-          target: 'ES5'
-        }),
-        commonjs()
+        commonjs(),
+        ts({
+          tsconfig(resolvedConfig) {
+            return {
+              ...resolvedConfig,
+              inlineSourceMap: true,
+              module: 'ESNext',
+              sourceMap: false,
+              target: 'ES5'
+            };
+          }
+        })
       ],
       output: {
         format: 'iife',

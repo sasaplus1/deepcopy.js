@@ -1,7 +1,7 @@
 import commonjs from '@rollup/plugin-commonjs';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import { terser } from 'rollup-plugin-terser';
-import typescript from 'rollup-plugin-typescript';
+import ts from '@wessberg/rollup-plugin-ts';
 
 import meta from './package.json';
 
@@ -18,12 +18,15 @@ if (process.env.build === 'esm') {
     plugins: [
       nodeResolve(),
       commonjs(),
-      typescript({
-        module: 'ESNext',
-        newLine: 'lf',
-        strict: true,
-        target: 'ESNext',
-        outDir: './dist/esm'
+      ts({
+        tsconfig(resolvedConfig) {
+          return {
+            ...resolvedConfig,
+            declaration: false,
+            module: 'ESNext',
+            outDir: './dist/esm'
+          };
+        }
       })
     ]
   });
@@ -44,16 +47,13 @@ if (process.env.build === 'umd') {
   ].join('\n');
 
   const terserOptions = {
+    ecma: 2020,
+    compress: {
+      passes: 2
+    },
     output: {
       preamble: banner
     }
-  };
-
-  const typescriptOptions = {
-    newLine: 'lf',
-    sourceMap: true,
-    strict: true,
-    target: 'ES2017'
   };
 
   config.push(
@@ -64,14 +64,22 @@ if (process.env.build === 'umd') {
         file: `./dist/umd/${meta.name}.legacy.js`,
         format: 'umd',
         name: meta.name,
-        // NOTE: break sourcemap
-        // https://github.com/rollup/rollup/wiki/Troubleshooting#sourcemap-is-likely-to-be-incorrect
         sourcemap: true
       },
       plugins: [
         nodeResolve(),
         commonjs(),
-        typescript({ ...typescriptOptions, target: 'ES5' })
+        ts({
+          tsconfig(resolvedConfig) {
+            return {
+              ...resolvedConfig,
+              declaration: false,
+              outDir: './dist/umd',
+              sourceMap: false,
+              target: 'ES5'
+            };
+          }
+        })
       ]
     },
     {
@@ -86,8 +94,21 @@ if (process.env.build === 'umd') {
       plugins: [
         nodeResolve(),
         commonjs(),
-        typescript({ ...typescriptOptions, sourceMap: false, target: 'ES5' }),
-        terser(terserOptions)
+        ts({
+          tsconfig(resolvedConfig) {
+            return {
+              ...resolvedConfig,
+              declaration: false,
+              outDir: './dist/umd',
+              sourceMap: false,
+              target: 'ES5'
+            };
+          }
+        }),
+        terser({
+          ...terserOptions,
+          ecma: 5
+        })
       ]
     },
     {
@@ -99,7 +120,21 @@ if (process.env.build === 'umd') {
         name: meta.name,
         sourcemap: true
       },
-      plugins: [nodeResolve(), commonjs(), typescript(typescriptOptions)]
+      plugins: [
+        nodeResolve(),
+        commonjs(),
+        ts({
+          tsconfig(resolvedConfig) {
+            return {
+              ...resolvedConfig,
+              declaration: false,
+              module: 'ESNext',
+              outDir: './dist/umd',
+              sourceMap: false
+            };
+          }
+        })
+      ]
     },
     {
       input: './index.ts',
@@ -113,7 +148,17 @@ if (process.env.build === 'umd') {
       plugins: [
         nodeResolve(),
         commonjs(),
-        typescript({ ...typescriptOptions, sourceMap: false }),
+        ts({
+          tsconfig(resolvedConfig) {
+            return {
+              ...resolvedConfig,
+              declaration: false,
+              module: 'ESNext',
+              outDir: './dist/umd',
+              sourceMap: false
+            };
+          }
+        }),
         terser(terserOptions)
       ]
     }

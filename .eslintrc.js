@@ -14,7 +14,7 @@ module.exports = {
         'plugin:node/recommended-module',
         'prettier'
       ],
-      files: ['index.ts', 'src/**/*.ts'],
+      files: ['index.ts', 'index_.ts', 'src/**/*.ts'],
       parser: '@typescript-eslint/parser',
       plugins: ['@typescript-eslint'],
       settings: {

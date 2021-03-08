@@ -11,6 +11,7 @@
     "target": "ESNext"
   },
   "files": [
-    "index.ts"
+    "index.ts",
+    "index_.ts"
   ]
 }

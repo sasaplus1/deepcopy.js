@@ -26,7 +26,7 @@
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-node": "^11.1.0",
     "espower-typescript": "^10.0.0",
-    "husky": "^4.2.5",
+    "husky": "^6.0.0",
     "karma": "^6.1.1",
     "karma-chrome-launcher": "^3.1.0",
     "karma-espower-preprocessor": "^1.2.0",

@@ -586,6 +586,18 @@ describe('deepcopy', function () {
         assert((result.get(3) || {}).b === 8);
         assert((result.get(3) || {}).c === 9);
       });
+
+      it('function in class', function () {
+        class Test {
+          fn() {
+            return this;
+          }
+        }
+
+        const origin = { inside: new Test() };
+        const result = deepcopy(origin);
+        assert(typeof result.inside.fn === 'function');
+      });
     });
   });
 

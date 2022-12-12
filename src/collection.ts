@@ -55,7 +55,13 @@ export function getKeys(
       return ([] as Array<string | symbol>).concat(
         // NOTE: Object.getOwnPropertyNames can get all own keys.
         Object.keys(collection as Record<string, unknown>),
-        Object.getOwnPropertySymbols(collection as Record<symbol, unknown>)
+        Object.getOwnPropertySymbols(collection as Record<symbol, unknown>),
+        (collection as any).__proto__.constructor ===
+          Object.prototype.constructor
+          ? []
+          : Object.getOwnPropertyNames(
+              Object.getPrototypeOf(collection)
+            ).filter((key) => key !== 'constructor')
       );
     case typeMap:
     case typeSet:

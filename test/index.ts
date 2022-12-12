@@ -598,6 +598,12 @@ describe('deepcopy', function () {
         const result = deepcopy(origin);
         assert(typeof result.inside.fn === 'function');
       });
+
+      it('function in Object', function () {
+        const origin = { fn: () => console.log('function') };
+        const result = deepcopy(origin);
+        assert(typeof result.fn === 'function');
+      });
     });
   });
 

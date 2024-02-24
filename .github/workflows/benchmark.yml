@@ -31,7 +31,7 @@ jobs:
       - run: yarn run --silent benchmark | tee node-${{ matrix.node }}.txt
         env:
           ENVIRONMENT: node-${{ matrix.node }}
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: node-${{ matrix.node }}.txt
           path: node-${{ matrix.node }}.txt

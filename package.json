@@ -24,7 +24,7 @@
     "benchmark": "^2.1.4",
     "eslint": "^7.21.0",
     "eslint-config-prettier": "^8.1.0",
-    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-n": "^14.0.0",
     "espower-typescript": "^10.0.0",
     "husky": "^4.2.5",
     "karma": "^6.1.1",

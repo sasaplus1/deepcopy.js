@@ -7,6 +7,10 @@
 
 deep copy data
 
+> [!CAUTION]
+> **This package is no longer maintained.**
+> For most deep cloning needs, consider using the native [structuredClone()](https://developer.mozilla.org/en-US/docs/Web/API/Window/structuredClone) function, which is now available in modern JavaScript environments.
+
 ## Installation
 
 ### npm
